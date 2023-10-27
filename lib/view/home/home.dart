@@ -13,7 +13,6 @@ class _HomePageState extends State<HomePage> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 95, 102, 229),
             title: const Text('Home Page'),
             bottom: const TabBar(tabs: [
               Tab(text: 'Livros'),
