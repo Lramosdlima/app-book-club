@@ -1,3 +1,7 @@
+import 'package:bookclub/view/home/authors.dart';
+import 'package:bookclub/view/home/favoriteBooks.dart';
+import 'package:bookclub/view/home/gender.dart';
+import 'package:bookclub/view/home/listBooks.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,30 +24,12 @@ class _HomePageState extends State<HomePage> {
               Tab(text: 'Autores'),
               Tab(text: 'Gênero'),
             ])),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
-            Center(
-              child: Text('Bem vindo ao aplicativo Book Club!',
-                  style: TextStyle(fontSize: 20)),
-            ),
-            Center(
-              child: Text(
-                "Lista de Favoritados",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Center(
-              child: Text(
-                "Lista de Autores",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Center(
-              child: Text(
-                "Lista de Gênero",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
+            BookGrid(),
+            FavoriteBook(),
+            AuthorList(),
+            GenderList()
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
