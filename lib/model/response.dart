@@ -6,12 +6,12 @@ class ApiResponse {
 
   ApiResponse({this.status, this.error, this.data, this.codehttp});
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+  factory ApiResponse.fromMap(Map<String, dynamic> map) {
     return ApiResponse(
-      status: json["status"] as bool,
-      error: json["error"],
-      data: json["data"] as dynamic,
-      codehttp: json["codehttp"] as int,
+      status: map["status"] as bool,
+      error: map["error"],
+      data: map["data"] as dynamic,
+      codehttp: map["codehttp"] as int,
     );
   }
 }

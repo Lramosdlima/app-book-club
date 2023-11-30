@@ -6,27 +6,34 @@ class BookRepository {
   Future<ApiResponse> getBooks() async {
     ApiResponse response = ApiResponse();
     List books = [];
+    try {
+      final request = HttpHelper.get('/book/all/complete');
 
-    final request = HttpHelper.get('/book/all/complete');
+      await request.then((result) {
+        var objects = result.data["data"];
 
-    await request.then((result) {
-      var objects = result.data;
+        for (var book in objects) {
+          var bookObject = Book.fromMap(book);
+          books.add(bookObject);
+        }
 
-      for (var book in objects) {
-        var bookObject = Book.fromJson(book);
-        books.add(bookObject);
-      }
+        response.status = result.data["status"];
+        if (response.status == true) {
+          response.data = books;
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        // ignore: avoid_print
+        print(e);
+      });
 
-      response.status = result.data["status"];
-      response.data = books;
-      response.error = result.data["error"];
-    }).catchError((e) {
-      response.status = false;
-      response.error = HttpHelper.getError(e);
-      // ignore: avoid_print
-      print(e);
-    });
-
-    return response;
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
   }
 }

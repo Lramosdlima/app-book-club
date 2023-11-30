@@ -13,13 +13,13 @@ class Book {
     this.imageUrl,
   });
 
-  factory Book.fromJson(Map<String, dynamic> json) {
+  factory Book.fromMap(Map<String, dynamic> map) {
     return Book(
-      id: json["id"] as int?,
-      title: json["title"] as String,
-      synopsis: json["synopsis"] as String,
-      genre: json["genre"] as String?,
-      imageUrl: json["imageUrl"] as String?,
+      id: map["id"] as int?,
+      title: map["title"] as String,
+      synopsis: map["synopsis"] as String,
+      genre: map["genre"] as String?,
+      imageUrl: map["imageUrl"] as String?,
     );
   }
 }

@@ -31,7 +31,7 @@ class HttpHelper {
   }
 
   static getApiBaseUrl() async {
-    return 'http://localhost:3000';
+    return 'http://localhost:8000';
   }
 
   static Future<Response> get(String endpoint,
@@ -58,7 +58,7 @@ class HttpHelper {
     return instance!.delete(url);
   }
 
-  static String? getError(DioError e) {
+  static String? getError(dynamic e) {
     if (e.response != null && e.response?.data != null) {
       if (e.response?.data.runtimeType == String) {
         return e.response?.data.toString();
