@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TColor {
-  static String fontFamily = 'Montserrat';
-  static String secondaryFontFamily = 'Pixellari';
+  static String fontFamily = 'Roboto';
+  static String secondaryFontFamily = 'Montserrat';
   static Color get primary => const Color(0xFF6C7ACC);
   static Color get secondary => const Color(0xFF3749AF);
   static Color get primaryLight => const Color(0xFF6670AA);

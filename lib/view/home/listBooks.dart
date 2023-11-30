@@ -59,6 +59,7 @@ class _BookGridState extends State<BookGrid> {
           const SizedBox(height: 10),
           Text(
             book.title ?? '',
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],

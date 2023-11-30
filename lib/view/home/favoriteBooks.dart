@@ -56,15 +56,17 @@ class FavoriteBook extends StatelessWidget {
           const SizedBox(height: 10),
           Image.network(
             book.imageUrl,
-            height: 220,
+            height: 150,
           ),
           const SizedBox(height: 10),
           Text(
             book.title,
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           Text(
             book.author,
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 12),
           ),
         ],

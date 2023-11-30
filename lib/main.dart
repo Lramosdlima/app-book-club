@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: TColor.primary,
-        fontFamily: 'Roboto',
+        fontFamily: TColor.fontFamily,
       ),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
