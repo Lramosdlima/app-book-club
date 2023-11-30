@@ -1,3 +1,4 @@
+import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
 import 'package:bookclub/view/login/signup.dart';
 import 'package:bookclub/view/login/login.dart';
@@ -37,47 +38,21 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.25),
-                MaterialButton(
+                AppButton(
+                    text: "Entrar",
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
-                    },
-                    textColor: TColor.primarytext,
-                    color: TColor.primary,
-                    minWidth: double.maxFinite,
-                    height: 50,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                      "Entrar",
-                      style: TextStyle(
-                        color: TColor.primarytext,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                      ),
-                    )),
+                    }),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.10),
-                MaterialButton(
+                AppButton(
+                    text: "Cadastrar",
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SignUpPage()));
-                    },
-                    textColor: TColor.primarytext,
-                    color: TColor.primary,
-                    minWidth: double.maxFinite,
-                    height: 50,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                      "Cadastrar",
-                      style: TextStyle(
-                        color: TColor.primarytext,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                      ),
-                    )),
+                    }),
               ],
             ),
           ),

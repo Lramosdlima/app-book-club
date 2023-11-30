@@ -1,3 +1,4 @@
+import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/view/home/home.dart';
@@ -54,7 +55,15 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icons.password_outlined,
                 isPassword: true),
             const SizedBox(height: 50),
-            _loginBtn(),
+            AppButton(
+              text: "Entrar",
+              backgroundColor: Colors.white,
+              textColor: TColor.primary,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
             const SizedBox(height: 20),
             _extraText(),
           ],
@@ -69,28 +78,6 @@ class _LoginPageState extends State<LoginPage> {
           border: Border.all(color: Colors.white, width: 2),
           shape: BoxShape.circle),
       child: const Icon(Icons.person, color: Colors.white, size: 120),
-    );
-  }
-
-  Widget _loginBtn() {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-      },
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.blue,
-        backgroundColor: Colors.white,
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
-      child: const SizedBox(
-          width: double.infinity,
-          child: Text(
-            "Entrar",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20),
-          )),
     );
   }
 

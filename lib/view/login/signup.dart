@@ -1,5 +1,7 @@
+import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/view/home/home.dart';
+import 'package:bookclub/view/login/login.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -63,20 +65,12 @@ class SignUpPage extends StatelessWidget {
             hintText: "Confirmar senha",
             icon: Icons.password_outlined),
         const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
-          },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-          child: const Text(
-            "Criar",
-            style: TextStyle(fontSize: 20),
-          ),
-        )
+        AppButton(
+            text: "Criar conta",
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            }),
       ],
     );
   }
@@ -86,7 +80,12 @@ class SignUpPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Já tem uma conta?"),
-        TextButton(onPressed: () {}, child: const Text("Login"))
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+            child: const Text("Login"))
       ],
     );
   }
