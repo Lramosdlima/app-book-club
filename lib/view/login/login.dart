@@ -1,4 +1,5 @@
 import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
         colors: [
-          Colors.grey,
+          TColor.primaryLight,
           TColor.primary,
         ],
       )),
@@ -41,9 +42,17 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             _icon(),
             const SizedBox(height: 50),
-            _inputField("Usuário", usernameController),
+            AppTextField(
+              controller: usernameController,
+              hintText: "Usuário",
+              icon: Icons.person,
+            ),
             const SizedBox(height: 20),
-            _inputField("Senha", passwordController, isPassword: true),
+            AppTextField(
+                controller: passwordController,
+                hintText: "Senha",
+                icon: Icons.password_outlined,
+                isPassword: true),
             const SizedBox(height: 50),
             _loginBtn(),
             const SizedBox(height: 20),
@@ -63,25 +72,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _inputField(String hintText, TextEditingController controller,
-      {isPassword = false}) {
-    var border = OutlineInputBorder(
-        borderRadius: BorderRadius.circular(18),
-        borderSide: const BorderSide(color: Colors.white));
-
-    return TextField(
-      style: const TextStyle(color: Colors.white),
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white),
-        enabledBorder: border,
-        focusedBorder: border,
-      ),
-      obscureText: isPassword,
-    );
-  }
-
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
@@ -89,9 +79,9 @@ class _LoginPageState extends State<LoginPage> {
             context, MaterialPageRoute(builder: (context) => HomePage()));
       },
       style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         shape: const StadiumBorder(),
-        primary: Colors.white,
-        onPrimary: Colors.blue,
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       child: const SizedBox(

@@ -1,8 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:bookclub/common/text_field.dart';
+import 'package:bookclub/view/home/home.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
+  SignUpPage({super.key});
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,73 +44,39 @@ class SignUpPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextField(
-          decoration: InputDecoration(
+        AppTextField(
+            controller: usernameController,
             hintText: "Nome de usuário",
-            fillColor: Theme.of(context).primaryColor.withOpacity(0.1),
-            filled: true,
-            prefixIcon: Icon(Icons.person),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          decoration: InputDecoration(
-            hintText: "E-mail",
-            fillColor: Theme.of(context).primaryColor.withOpacity(0.1),
-            filled: true,
-            prefixIcon: Icon(Icons.email_outlined),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          decoration: InputDecoration(
+            icon: Icons.person),
+        SizedBox(height: 10),
+        AppTextField(
+            controller: emailController,
+            hintText: 'E-mail',
+            icon: Icons.email_outlined),
+        SizedBox(height: 10),
+        AppTextField(
+            controller: passwordController,
             hintText: "Senha",
-            fillColor: Theme.of(context).primaryColor.withOpacity(0.1),
-            filled: true,
-            prefixIcon: Icon(Icons.password_outlined),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-          ),
-          obscureText: true,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          decoration: InputDecoration(
+            icon: Icons.password_outlined,
+            isPassword: true),
+        SizedBox(height: 10),
+        AppTextField(
+            controller: confirmPasswordController,
             hintText: "Confirmar senha",
-            fillColor: Theme.of(context).primaryColor.withOpacity(0.1),
-            filled: true,
-            prefixIcon: Icon(Icons.password_outlined),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-          ),
-          obscureText: true,
-        ),
-        SizedBox(
-          height: 10,
-        ),
+            icon: Icons.password_outlined),
+        SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            "Criar",
-            style: TextStyle(fontSize: 20),
-          ),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
           style: ElevatedButton.styleFrom(
             shape: StadiumBorder(),
             padding: EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: Text(
+            "Criar",
+            style: TextStyle(fontSize: 20),
           ),
         )
       ],
