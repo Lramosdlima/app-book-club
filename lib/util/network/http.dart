@@ -64,8 +64,8 @@ class HttpHelper {
         return e.response?.data.toString();
       }
 
-      if (e.response?.data["message"] != null) {
-        return e.response?.data["message"];
+      if (e.response?.data["data"] != null) {
+        return e.response?.data["data"];
       }
       if (e.response?.data["error"] != null) {
         return e.response?.data["error"];

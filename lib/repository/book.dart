@@ -21,7 +21,8 @@ class BookRepository {
       response.data = books;
       response.error = result.data["error"];
     }).catchError((e) {
-      response = ApiResponse.fromJson(e);
+      response.status = false;
+      response.error = HttpHelper.getError(e);
       // ignore: avoid_print
       print(e);
     });
