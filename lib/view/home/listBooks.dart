@@ -1,3 +1,4 @@
+import 'package:bookclub/common/emptyPage.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
@@ -24,19 +25,23 @@ class _BookGridState extends State<BookGrid> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading
-          ? Loader().pageLoading()
-          : GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: books.length,
-              itemBuilder: (BuildContext context, int index) {
-                return buildBookCard(books[index]);
-              },
-            ),
+      body: _isLoading ? Loader().pageLoading() : _buildList(),
     );
+  }
+
+  Widget _buildList() {
+    return books.isNotEmpty
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.7,
+            ),
+            itemCount: books.length,
+            itemBuilder: (BuildContext context, int index) {
+              return buildBookCard(books[index]);
+            },
+          )
+        : const EmptyPage(text: "Livros não encontrados!");
   }
 
   Widget buildBookCard(Book book) {
