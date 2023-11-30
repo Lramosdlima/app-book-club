@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,7 @@ class SignUpPage extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       body: Container(
-        margin: EdgeInsets.all(24),
+        margin: const EdgeInsets.all(24),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           _header(context),
@@ -29,7 +27,7 @@ class SignUpPage extends StatelessWidget {
   }
 
   _header(context) {
-    return Column(
+    return const Column(
       children: [
         Text(
           "Criar conta",
@@ -48,33 +46,33 @@ class SignUpPage extends StatelessWidget {
             controller: usernameController,
             hintText: "Nome de usuário",
             icon: Icons.person),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         AppTextField(
             controller: emailController,
             hintText: 'E-mail',
             icon: Icons.email_outlined),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         AppTextField(
             controller: passwordController,
             hintText: "Senha",
             icon: Icons.password_outlined,
             isPassword: true),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         AppTextField(
             controller: confirmPasswordController,
             hintText: "Confirmar senha",
             icon: Icons.password_outlined),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage()));
           },
           style: ElevatedButton.styleFrom(
-            shape: StadiumBorder(),
-            padding: EdgeInsets.symmetric(vertical: 16),
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 16),
           ),
-          child: Text(
+          child: const Text(
             "Criar",
             style: TextStyle(fontSize: 20),
           ),
@@ -87,8 +85,8 @@ class SignUpPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Já tem uma conta?"),
-        TextButton(onPressed: () {}, child: Text("Login"))
+        const Text("Já tem uma conta?"),
+        TextButton(onPressed: () {}, child: const Text("Login"))
       ],
     );
   }

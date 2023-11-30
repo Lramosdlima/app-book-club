@@ -1,3 +1,4 @@
+import 'package:bookclub/common/color_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
@@ -19,11 +20,11 @@ class AppTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Colors.white));
     return TextField(
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: TColor.primarytext),
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: TColor.primarytext),
         enabledBorder: border,
         focusedBorder: border,
         fillColor: Theme.of(context).primaryColor.withOpacity(0.1),

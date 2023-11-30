@@ -28,10 +28,10 @@ class _WelcomePageState extends State<WelcomePage> {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.width * 0.1),
-                const Text(
+                Text(
                   "Bem vindo ao app\nBook Club!",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: TColor.primarytext,
                     fontWeight: FontWeight.w600,
                     fontSize: 30,
                   ),
@@ -42,16 +42,16 @@ class _WelcomePageState extends State<WelcomePage> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     },
-                    textColor: Colors.white,
+                    textColor: TColor.primarytext,
                     color: TColor.primary,
                     minWidth: double.maxFinite,
                     height: 50,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    child: const Text(
+                    child: Text(
                       "Entrar",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: TColor.primarytext,
                         fontWeight: FontWeight.w500,
                         fontSize: 17,
                       ),
@@ -64,16 +64,16 @@ class _WelcomePageState extends State<WelcomePage> {
                           MaterialPageRoute(
                               builder: (context) => SignUpPage()));
                     },
-                    textColor: Colors.white,
+                    textColor: TColor.primarytext,
                     color: TColor.primary,
                     minWidth: double.maxFinite,
                     height: 50,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    child: const Text(
+                    child: Text(
                       "Cadastrar",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: TColor.primarytext,
                         fontWeight: FontWeight.w500,
                         fontSize: 17,
                       ),

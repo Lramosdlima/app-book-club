@@ -95,10 +95,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _extraText() {
-    return const Text(
+    return Text(
       "Não consegue acessar sua conta?",
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16, color: Colors.white),
+      style: TextStyle(fontSize: 16, color: TColor.primarytext),
     );
   }
 }
