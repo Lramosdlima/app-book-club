@@ -1,3 +1,5 @@
+import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/view/home/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,13 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           gradient: LinearGradient(
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
         colors: [
           Colors.grey,
-          Colors.black,
+          TColor.primary,
         ],
       )),
       child: Scaffold(
@@ -83,9 +85,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginBtn() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Usuário : " + usernameController.text);
-        debugPrint("Senha : " + passwordController.text);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
       },
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        primary: Colors.white,
+        onPrimary: Colors.blue,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
       child: const SizedBox(
           width: double.infinity,
           child: Text(
@@ -93,12 +101,6 @@ class _LoginPageState extends State<LoginPage> {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20),
           )),
-      style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        primary: Colors.white,
-        onPrimary: Colors.blue,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
     );
   }
 
