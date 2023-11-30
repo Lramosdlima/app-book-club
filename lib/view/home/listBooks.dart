@@ -50,19 +50,24 @@ class _BookGridState extends State<BookGrid> {
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Image.network(
-            book.imageUrl ?? urlDefault,
-            height: 220,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            book.title ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/book', arguments: book);
+        },
+        child: Column(
+          children: <Widget>[
+            Image.network(
+              book.imageUrl ?? urlDefault,
+              height: 220,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              book.title ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }
