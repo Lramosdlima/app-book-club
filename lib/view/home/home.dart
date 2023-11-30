@@ -17,19 +17,46 @@ class _HomePageState extends State<HomePage> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-            title: const Text('Home Page'),
-            bottom: const TabBar(tabs: [
-              Tab(text: 'Livros'),
-              Tab(text: 'Favoritos'),
-              Tab(text: 'Autores'),
-              Tab(text: 'Gênero'),
-            ])),
+          title: const Text('Home Page'),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(100.0), // Ajuste a altura conforme necessário
+            child: Column(
+              children: [
+                SizedBox(height: 20), // Espaço adicional entre a AppBar e a barra de pesquisa
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Pesquisar...',
+                      filled: true,
+                      fillColor: Colors.black,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20), // Espaço adicional entre a barra de pesquisa e a TabBar
+                const TabBar(
+                  tabs: [
+                    Tab(text: 'Livros'),
+                    Tab(text: 'Favoritos'),
+                    Tab(text: 'Autores'),
+                    Tab(text: 'Gênero'),
+                  ],
+                  
+                ),
+              ],
+            ),
+          ),
+        ),
+        
         body: TabBarView(
           children: <Widget>[
             BookGrid(),
             FavoriteBook(),
             AuthorList(),
-            GenderList()
+            GenderList(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
