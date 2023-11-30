@@ -1,5 +1,6 @@
 import 'package:bookclub/common/color_extension.dart';
-import 'package:bookclub/view/home/home.dart';
+import 'package:bookclub/view/login/signup.dart';
+import 'package:bookclub/view/login/login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -39,7 +40,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 MaterialButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => LoginPage()));
                     },
                     textColor: Colors.white,
                     color: TColor.primary,
@@ -57,7 +58,12 @@ class _WelcomePageState extends State<WelcomePage> {
                     )),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.10),
                 MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpPage()));
+                    },
                     textColor: Colors.white,
                     color: TColor.primary,
                     minWidth: double.maxFinite,
