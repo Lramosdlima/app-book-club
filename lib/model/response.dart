@@ -1,15 +1,17 @@
 class ApiResponse {
   bool? status;
-  String? message;
+  String? error;
   dynamic data;
+  int? codehttp;
 
-  ApiResponse({this.status, this.message, this.data});
+  ApiResponse({this.status, this.error, this.data, this.codehttp});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
       status: json["status"] as bool,
-      message: json["error"],
+      error: json["error"],
       data: json["data"] as dynamic,
+      codehttp: json["codehttp"] as int,
     );
   }
 }

@@ -7,21 +7,21 @@ class BookRepository {
     ApiResponse response = ApiResponse();
     List books = [];
 
-    final request = HttpHelper.get('/book/all');
+    final request = HttpHelper.get('/book/all/complete');
 
     await request.then((result) {
-      var objects = result.data["books"];
+      var objects = result.data;
 
       for (var book in objects) {
         var bookObject = Book.fromJson(book);
         books.add(bookObject);
       }
 
-      response.status = true;
+      response.status = result.data["status"];
       response.data = books;
-      response.message = result.data["error"];
+      response.error = result.data["error"];
     }).catchError((e) {
-      response = ApiResponse.fromJson(e.response.data);
+      response = ApiResponse.fromJson(e);
       // ignore: avoid_print
       print(e);
     });

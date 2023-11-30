@@ -73,8 +73,7 @@ class HttpHelper {
     }
 
     if (e.error != null) {
-      // return e.error;
-      return "Arrumar isso aqui";
+      return e.error.toString();
     } else {
       return "Erro desconhecido";
     }

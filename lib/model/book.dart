@@ -2,13 +2,15 @@ class Book {
   final int? id;
   final String? title;
   final String? synopsis;
-  final int? genre_id;
+  final String? genre;
+  final String? imageUrl;
 
   Book({
     this.id,
     this.title,
     this.synopsis,
-    this.genre_id,
+    this.genre,
+    this.imageUrl,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -16,7 +18,8 @@ class Book {
       id: json["id"] as int?,
       title: json["title"] as String,
       synopsis: json["synopsis"] as String,
-      genre_id: json["genre_id"] as int?,
+      genre: json["genre"] as String?,
+      imageUrl: json["imageUrl"] as String?,
     );
   }
 }
