@@ -1,5 +1,6 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
+import 'package:bookclub/model/book.dart';
 import 'package:flutter/material.dart';
 
 class EditBookPage extends StatefulWidget {
@@ -10,6 +11,8 @@ class EditBookPage extends StatefulWidget {
 }
 
 class _EditBookPageState extends State<EditBookPage> {
+  final Map<String, String> _bookData = {};
+
   TextEditingController titleController = TextEditingController();
   TextEditingController genreController = TextEditingController();
   TextEditingController synopsisController = TextEditingController();
@@ -21,15 +24,19 @@ class _EditBookPageState extends State<EditBookPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Book? book = ModalRoute.of(context)!.settings.arguments as Book?;
+
+    _loadBookData(book);
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Edit Book Page')),
+        appBar: AppBar(title: const Text('Editar livro')),
         body: Container(
           margin: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _header(context),
+              _header(),
               _body(),
             ],
           ),
@@ -38,7 +45,7 @@ class _EditBookPageState extends State<EditBookPage> {
     );
   }
 
-  Widget _header(context) {
+  Widget _header() {
     return const Column(
       children: [
         Text(
@@ -56,28 +63,53 @@ class _EditBookPageState extends State<EditBookPage> {
         AppTextField(
           controller: titleController,
           hintText: "Nome do livro",
+          // initialText: _bookData['title'] ?? '',
           icon: Icons.book_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: genreController,
           hintText: 'Gênero',
+          // initialText: _bookData['genre'] ?? '',
           icon: Icons.type_specimen_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: synopsisController,
           hintText: 'Synopsis',
+          // initialText: _bookData['synopsis'] ?? '',
           icon: Icons.border_color_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: imageController,
           hintText: 'Url da Imagem',
+          // initialText: _bookData['imageUrl'] ?? '',
           icon: Icons.image_outlined,
         ),
         const SizedBox(height: 10),
-        DropdownButton<String>(
+        _dropDownButton(),
+        const SizedBox(height: 10),
+        AppButton(
+          text: "Editar Livro",
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
+
+  _dropDownButton() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
           value: selectedAuthor,
           onChanged: (String? newValue) {
             setState(() {
@@ -91,14 +123,21 @@ class _EditBookPageState extends State<EditBookPage> {
             );
           }).toList(),
         ),
-        const SizedBox(height: 10),
-        AppButton(
-          text: "Editar Livro",
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ],
+      ),
     );
+  }
+
+  void _loadBookData(Book? book) {
+    if (book != null) {
+      _bookData['id'] = book.id.toString();
+      _bookData['title'] = book.title.toString();
+      _bookData['synopsis'] =
+          book.synopsis != null ? book.synopsis.toString() : '';
+      _bookData['genre'] = book.genre != null ? book.genre.toString() : '';
+      _bookData['authors'] =
+          book.authors != null ? book.authors.toString() : '';
+      _bookData['imageUrl'] =
+          book.imageUrl != null ? book.imageUrl.toString() : '';
+    }
   }
 }

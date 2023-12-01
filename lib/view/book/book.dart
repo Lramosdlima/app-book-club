@@ -34,7 +34,9 @@ class _BookPageState extends State<BookPage> {
           ),
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/book/form', arguments: book);
+            },
           ),
         ],
       ),
@@ -69,7 +71,7 @@ class _BookPageState extends State<BookPage> {
       return Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 2),
-            shape: BoxShape.circle),
+            shape: BoxShape.rectangle),
         child: Image.network(
           imageUrl,
           width: MediaQuery.of(context).size.width * 0.5,
@@ -80,7 +82,7 @@ class _BookPageState extends State<BookPage> {
       return Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 2),
-              shape: BoxShape.circle),
+              shape: BoxShape.rectangle),
           child: Image.asset(
             'assets/img/bookDefault.png',
             height: 220,
