@@ -59,18 +59,33 @@ class _BookPageState extends State<BookPage> {
         const SizedBox(height: 10),
         Text(_bookData['synopsis'] ?? ''),
         const SizedBox(height: 10),
-        _bookData['imageUrl'] != null
-            ? Image.network(
-                _bookData['imageUrl']!,
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.width * 0.5,
-              )
-            : Image.asset(
-                'assets/img/bookDefault.png',
-                height: 220,
-              ),
+        _image(_bookData['imageUrl']),
       ],
     );
+  }
+
+  _image(String? imageUrl) {
+    if (imageUrl != null) {
+      return Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.white, width: 2),
+            shape: BoxShape.circle),
+        child: Image.network(
+          imageUrl,
+          width: MediaQuery.of(context).size.width * 0.5,
+          height: MediaQuery.of(context).size.width * 0.5,
+        ),
+      );
+    } else {
+      return Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 2),
+              shape: BoxShape.circle),
+          child: Image.asset(
+            'assets/img/bookDefault.png',
+            height: 220,
+          ));
+    }
   }
 
   _body() {
