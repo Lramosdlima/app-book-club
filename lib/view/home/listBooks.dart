@@ -55,16 +55,34 @@ class _BookGridState extends State<BookGrid> {
           Navigator.pushNamed(context, '/book', arguments: book);
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network(
-              book.imageUrl ?? urlDefault,
-              height: 220,
-            ),
+            book.imageUrl != null
+                ? Image.network(
+                    book.imageUrl ?? urlDefault,
+                    height: 220,
+                  )
+                : Image.asset(
+                    'assets/img/bookDefault.png',
+                    height: 220,
+                  ),
             const SizedBox(height: 10),
             Text(
               book.title ?? '',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              book.authors?[0] ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Gênero: ${book.genre ?? ''}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14),
             ),
           ],
         ),
