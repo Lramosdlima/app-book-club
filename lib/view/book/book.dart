@@ -1,19 +1,43 @@
 import 'package:bookclub/common/button.dart';
+import 'package:bookclub/common/text.dart';
+import 'package:bookclub/model/book.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
-  const BookPage({super.key});
+  BookPage({super.key});
 
   @override
   State<BookPage> createState() => _BookPageState();
 }
 
 class _BookPageState extends State<BookPage> {
+  final Map<String, String> _bookData = {};
+
   @override
   Widget build(BuildContext context) {
+    final Book? book = ModalRoute.of(context)!.settings.arguments as Book?;
+
+    _loadBookData(book);
+
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(title: const Text('Book Page')),
+      appBar: AppBar(
+        title: Text("Livro: ${_bookData['title'] ?? ''}"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite_border),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Container(
         margin: const EdgeInsets.all(24),
         child:
@@ -26,13 +50,25 @@ class _BookPageState extends State<BookPage> {
   }
 
   _header(context) {
-    return const Column(
+    return Column(
       children: [
-        Text(
-          "Livro",
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        AppText(
+          text: _bookData['title'] ?? 'Livro',
+          isTitle: true,
         ),
-        Text("Descrição do livro"),
+        const SizedBox(height: 10),
+        Text(_bookData['synopsis'] ?? ''),
+        const SizedBox(height: 10),
+        _bookData['imageUrl'] != null
+            ? Image.network(
+                _bookData['imageUrl']!,
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.width * 0.5,
+              )
+            : Image.asset(
+                'assets/img/bookDefault.png',
+                height: 220,
+              ),
       ],
     );
   }
@@ -40,22 +76,35 @@ class _BookPageState extends State<BookPage> {
   _body() {
     return Column(children: [
       _buttonCommunity(),
-      _buttonFavorite(),
+      const SizedBox(height: 15),
       _buttonRead(),
-      _buttonEdit(),
+      const SizedBox(height: 15),
+      _buttonQuiz(),
+      const SizedBox(height: 15),
+      _buttonChallenges(),
     ]);
   }
 
   _buttonCommunity() {
     return AppButton(
       text: "Comunidade",
+      icon: const Icon(Icons.people, color: Colors.white),
       onPressed: () {},
     );
   }
 
-  _buttonFavorite() {
+  _buttonQuiz() {
     return AppButton(
-      text: "Favorito",
+      text: "Quiz",
+      icon: const Icon(Icons.quiz, color: Colors.white),
+      onPressed: () {},
+    );
+  }
+
+  _buttonChallenges() {
+    return AppButton(
+      text: "Desafios",
+      icon: const Icon(Icons.diamond, color: Colors.white),
       onPressed: () {},
     );
   }
@@ -63,14 +112,22 @@ class _BookPageState extends State<BookPage> {
   _buttonRead() {
     return AppButton(
       text: "Ler",
+      icon: const Icon(Icons.auto_stories, color: Colors.white),
       onPressed: () {},
     );
   }
 
-  _buttonEdit() {
-    return AppButton(
-      text: "Editar",
-      onPressed: () {},
-    );
+  void _loadBookData(Book? book) {
+    if (book != null) {
+      _bookData['id'] = book.id.toString();
+      _bookData['title'] = book.title.toString();
+      _bookData['synopsis'] =
+          book.synopsis != null ? book.synopsis.toString() : '';
+      _bookData['genre'] = book.genre != null ? book.genre.toString() : '';
+      _bookData['authors'] =
+          book.authors != null ? book.authors.toString() : '';
+      _bookData['imageUrl'] =
+          book.imageUrl != null ? book.imageUrl.toString() : '';
+    }
   }
 }
