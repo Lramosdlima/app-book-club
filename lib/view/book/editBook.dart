@@ -19,8 +19,8 @@ class _EditBookPageState extends State<EditBookPage> {
   TextEditingController imageController = TextEditingController();
 
   // Lista de autores para o DropdownButton
-  List<String> authors = ['Autor 1', 'Autor 2', 'Autor 3', 'Outro Autor'];
-  String selectedAuthor = 'Autor 1';
+  List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
+  String selectedAuthor = 'Autor';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _EditBookPageState extends State<EditBookPage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Editar livro')),
+        appBar: AppBar(title: const Text('Painel do livro')),
         body: Container(
           margin: const EdgeInsets.all(24),
           child: Column(
@@ -49,7 +49,7 @@ class _EditBookPageState extends State<EditBookPage> {
     return const Column(
       children: [
         Text(
-          "Edite o livro",
+          "Painel do Livro",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
         Text("Coloque as informações para começar"),
@@ -76,7 +76,7 @@ class _EditBookPageState extends State<EditBookPage> {
         const SizedBox(height: 10),
         AppTextField(
           controller: synopsisController,
-          hintText: 'Synopsis',
+          hintText: 'Sinopse',
           // initialText: _bookData['synopsis'] ?? '',
           icon: Icons.border_color_outlined,
         ),
@@ -91,7 +91,7 @@ class _EditBookPageState extends State<EditBookPage> {
         _dropDownButton(),
         const SizedBox(height: 10),
         AppButton(
-          text: "Editar Livro",
+          text: "Salvar",
           onPressed: () {
             Navigator.pop(context);
           },

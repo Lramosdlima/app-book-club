@@ -4,8 +4,10 @@ class Challenge {
   final String title;
   final String subtitle;
   final String imageUrl;
+  final bool isCompleted;
 
-  Challenge(this.title, this.subtitle, this.imageUrl);
+  Challenge(this.title, this.subtitle, this.imageUrl,
+      [this.isCompleted = false]);
 }
 
 class ChallengeList extends StatelessWidget {
@@ -21,7 +23,8 @@ class ChallengeList extends StatelessWidget {
     Challenge(
         "Leitura às Cegas",
         "Peça a um amigo ou familiar para escolher um livro para você sem revelar o título ou autor. Inicie a leitura sem saber nada sobre a história e permita-se ser surpreendido pela trama, descobrindo cada detalhe conforme avança nas páginas.",
-        "https://example.com/senhor_aneis.jpg"),
+        "https://example.com/senhor_aneis.jpg",
+        true),
     Challenge(
         "Livro e Filme: Uma Dupla Perspectiva",
         "Escolha um livro que tenha uma adaptação cinematográfica e experimente consumir ambos. Compare e contraste as duas versões, analisando como a história é representada em diferentes mídias.",
@@ -33,7 +36,8 @@ class ChallengeList extends StatelessWidget {
     Challenge(
         "Aventura em Família",
         "Escolha um livro que você leu quando era criança e releia-o agora, décadas depois. Compare sua experiência de leitura e reflita sobre como a história e os personagens ressoam em você de maneira diferente.",
-        "https://example.com/pequeno_principe.jpg"),
+        "https://example.com/pequeno_principe.jpg",
+        true),
     Challenge(
       "Caminhando com os Clássicos",
       "Escolha um livro clássico que você sempre quis ler e mergulhe na história. Explore o contexto histórico e cultural em que a obra foi escrita e reflita sobre como ela se relaciona com o mundo atual.",
@@ -52,10 +56,24 @@ class ChallengeList extends StatelessWidget {
       body: ListView.builder(
         itemCount: challenge.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(challenge[index].title),
-            subtitle: Text(challenge[index].subtitle),
-            leading: const Icon(Icons.book),
+          return Column(
+            children: [
+              const SizedBox(height: 15),
+              ListTile(
+                tileColor: challenge[index].isCompleted == true
+                    ? const Color.fromARGB(45, 255, 193, 7)
+                    : null,
+                title: Text(challenge[index].title),
+                subtitle: Text(challenge[index].subtitle),
+                leading: Icon(
+                  Icons.diamond,
+                  color: challenge[index].isCompleted == true
+                      ? Colors.amber
+                      : Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 15),
+            ],
           );
         },
       ),
