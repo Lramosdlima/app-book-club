@@ -36,4 +36,66 @@ class BookRepository {
       return response;
     }
   }
+
+  Future<ApiResponse> getBookById(int id) async {
+    ApiResponse response = ApiResponse();
+    try {
+      final request = HttpHelper.get('/book/$id');
+
+      await request.then((result) {
+        var book = Book.fromMap(result.data["data"]);
+
+        response.status = result.data["status"];
+        if (response.status == true) {
+          response.data = book;
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        // ignore: avoid_print
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
+  Future<ApiResponse> getFavoritesBooks() async {
+    ApiResponse response = ApiResponse();
+    List books = [];
+    try {
+      final request = HttpHelper.get('/book/favorites');
+
+      await request.then((result) {
+        var objects = result.data["data"];
+
+        for (var book in objects) {
+          var bookObject = Book.fromMap(book);
+          books.add(bookObject);
+        }
+
+        response.status = result.data["status"];
+        if (response.status == true) {
+          response.data = books;
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        // ignore: avoid_print
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
 }
