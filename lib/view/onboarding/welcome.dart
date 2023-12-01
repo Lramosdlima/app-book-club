@@ -57,6 +57,17 @@ class _WelcomePageState extends State<WelcomePage> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     }),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.15),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    },
+                    child: Text(
+                      "Acessar sem login",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16, color: TColor.primaryTextWhite),
+                    )),
               ],
             ),
           ),
