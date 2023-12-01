@@ -1,14 +1,27 @@
 import 'package:bookclub/common/button.dart';
+import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/text_field.dart';
+import 'package:bookclub/common/validator.dart';
+import 'package:bookclub/repository/auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final GlobalKey<FormState> _key = GlobalKey();
+  Loader loader = Loader();
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +29,22 @@ class SignUpPage extends StatelessWidget {
         child: Scaffold(
       body: Container(
         margin: const EdgeInsets.all(24),
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          _header(context),
-          _inputFields(context),
-          _loginInfo(context),
-        ]),
+        child: Form(
+          key: _key,
+          autovalidateMode: AutovalidateMode.disabled,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _header(),
+                _inputFields(),
+                _loginInfo(),
+              ]),
+        ),
       ),
     ));
   }
 
-  _header(context) {
+  _header() {
     return const Column(
       children: [
         Text(
@@ -38,51 +56,100 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  _inputFields(context) {
+  _inputFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        AppTextField(
-            controller: usernameController,
+        TextFormField(
+          controller: _usernameController,
+          validator: Validator().validateName,
+          decoration: const InputDecoration(
             hintText: "Nome de usuário",
-            icon: Icons.person),
+            labelText: "Nome de usuário",
+            icon: Icon(Icons.person),
+          ),
+        ),
         const SizedBox(height: 10),
-        AppTextField(
-            controller: emailController,
-            hintText: 'E-mail',
-            icon: Icons.email_outlined),
+        TextFormField(
+          controller: _emailController,
+          validator: Validator().validateEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            hintText: "Usuário",
+            labelText: "Usuário",
+            icon: Icon(Icons.email_outlined),
+          ),
+        ),
         const SizedBox(height: 10),
-        AppTextField(
-            controller: passwordController,
+        TextFormField(
+          controller: _passwordController,
+          validator: Validator().validatePassword,
+          obscureText: true,
+          decoration: const InputDecoration(
             hintText: "Senha",
-            icon: Icons.password_outlined,
-            isPassword: true),
+            labelText: "Senha",
+            icon: Icon(Icons.lock),
+          ),
+        ),
         const SizedBox(height: 10),
-        AppTextField(
-            controller: confirmPasswordController,
+        TextFormField(
+          controller: _confirmPasswordController,
+          validator: Validator().validatePassword,
+          obscureText: true,
+          decoration: const InputDecoration(
             hintText: "Confirmar senha",
-            icon: Icons.password_outlined),
+            labelText: "Confirmar senha",
+            icon: Icon(Icons.lock),
+          ),
+        ),
         const SizedBox(height: 30),
-        AppButton(
-            text: "Criar conta",
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/home');
-            }),
+        AppButton(text: "Criar conta", onPressed: _register),
       ],
     );
   }
 
-  _loginInfo(context) {
+  _loginInfo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Já tem uma conta?"),
-        TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            child: const Text("Login"))
+        TextButton(onPressed: _goToLogin, child: const Text("Login"))
       ],
     );
+  }
+
+  _register() async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      // ignore: use_build_context_synchronously
+      var modal = Modal(
+              title: "Ops...",
+              message: "As senhas não conferem, por favor tente novamente.")
+          .setAlert(context);
+      modal.show(context);
+      return;
+    }
+
+    if (_key.currentState?.validate() != null) {
+      _key.currentState?.save();
+      loader.show(context);
+
+      final response = await AuthRepository().register(_usernameController.text,
+          _emailController.text, _passwordController.text);
+
+      loader.hide();
+
+      if (response.status == true) {
+        _goToLogin();
+      } else {
+        // ignore: use_build_context_synchronously
+        var modal =
+            Modal(title: "Ops...", message: response.error).setAlert(context);
+        modal.show(context);
+      }
+    }
+  }
+
+  _goToLogin() {
+    Navigator.pushNamed(context, '/login');
   }
 }
