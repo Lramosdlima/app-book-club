@@ -4,6 +4,7 @@ import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -99,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _extraText() {
     return TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/signup');
+          Navigator.pushNamed(context, AppRoutes.SIGNUP);
         },
         child: Text(
           "Não consegue acessar sua conta?",
@@ -130,6 +131,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _goToHome() {
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, AppRoutes.HOME);
   }
 }

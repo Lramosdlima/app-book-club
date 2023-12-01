@@ -1,5 +1,6 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -49,18 +50,18 @@ class _WelcomePageState extends State<WelcomePage> {
                 AppButton(
                     text: "Entrar",
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, AppRoutes.LOGIN);
                     }),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.10),
                 AppButton(
                     text: "Cadastrar",
                     onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
+                      Navigator.pushNamed(context, AppRoutes.SIGNUP);
                     }),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.15),
                 TextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushReplacementNamed(context, AppRoutes.HOME);
                     },
                     child: Text(
                       "Acessar sem login",

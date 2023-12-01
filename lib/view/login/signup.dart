@@ -4,6 +4,7 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -150,6 +151,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _goToLogin() {
-    Navigator.pushNamed(context, '/login');
+    Navigator.pushNamed(context, AppRoutes.LOGIN);
   }
 }

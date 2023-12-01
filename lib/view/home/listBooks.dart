@@ -2,6 +2,7 @@ import 'package:bookclub/common/emptyPage.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class BookGrid extends StatefulWidget {
@@ -52,7 +53,7 @@ class _BookGridState extends State<BookGrid> {
       margin: const EdgeInsets.all(10),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/book', arguments: book);
+          Navigator.pushNamed(context, AppRoutes.BOOK, arguments: book);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

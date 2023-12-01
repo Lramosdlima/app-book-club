@@ -1,6 +1,7 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/book.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
@@ -35,7 +36,8 @@ class _BookPageState extends State<BookPage> {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              Navigator.pushNamed(context, '/book/form', arguments: book);
+              Navigator.pushNamed(context, AppRoutes.BOOK_FORM,
+                  arguments: book);
             },
           ),
         ],

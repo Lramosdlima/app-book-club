@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:bookclub/view/home/challenges.dart';
+
 class AppRoutes {
   static const ONBOARDING = '/';
   static const WELCOME = '/welcome';
@@ -14,4 +16,5 @@ class AppRoutes {
   static const BOOK_FORM = '/book/form';
   static const FAVORITE_BOOK = '/book/favorite';
   static const EXPLORE = '/explore';
+  static const CHALLENGE_FORM = '/challenge/form';
 }
