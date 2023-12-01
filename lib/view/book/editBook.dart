@@ -18,9 +18,18 @@ class _EditBookPageState extends State<EditBookPage> {
   TextEditingController synopsisController = TextEditingController();
   TextEditingController imageController = TextEditingController();
 
-  // Lista de autores para o DropdownButton
   List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
   String selectedAuthor = 'Autor';
+  List<String> genres = [
+    'Ação',
+    'Terror',
+    'Aventura',
+    'Comédia',
+    'Ficção Científica',
+    'Drama',
+    'Outro'
+  ];
+  String selectedGenre = 'Ação';
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +40,18 @@ class _EditBookPageState extends State<EditBookPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text('Painel do livro')),
-        body: Container(
-          margin: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _header(),
-              _body(),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            margin: const EdgeInsets.only(left: 30, right: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _header(),
+                _body(),
+              ],
+            ),
           ),
         ),
       ),
@@ -68,13 +81,6 @@ class _EditBookPageState extends State<EditBookPage> {
         ),
         const SizedBox(height: 10),
         AppTextField(
-          controller: genreController,
-          hintText: 'Gênero',
-          // initialText: _bookData['genre'] ?? '',
-          icon: Icons.type_specimen_outlined,
-        ),
-        const SizedBox(height: 10),
-        AppTextField(
           controller: synopsisController,
           hintText: 'Sinopse',
           // initialText: _bookData['synopsis'] ?? '',
@@ -88,7 +94,9 @@ class _EditBookPageState extends State<EditBookPage> {
           icon: Icons.image_outlined,
         ),
         const SizedBox(height: 10),
-        _dropDownButton(),
+        _dropDownButtonGenre(),
+        const SizedBox(height: 10),
+        _dropDownButtonAuthor(),
         const SizedBox(height: 10),
         AppButton(
           text: "Salvar",
@@ -100,9 +108,36 @@ class _EditBookPageState extends State<EditBookPage> {
     );
   }
 
-  _dropDownButton() {
+  Widget _dropDownButtonGenre() {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selectedGenre,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedGenre = newValue!;
+            });
+          },
+          items: genres.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  _dropDownButtonAuthor() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1),
