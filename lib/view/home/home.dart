@@ -1,11 +1,13 @@
 import 'package:bookclub/routes/app_routes.dart';
-import 'package:bookclub/view/home/authors.dart';
+import 'package:bookclub/view/home/challenges.dart';
 import 'package:bookclub/view/home/favoriteBooks.dart';
 import 'package:bookclub/view/home/gender.dart';
 import 'package:bookclub/view/home/listBooks.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   final int _selectedIndex = 0;
   static const List<String> _routesOptions = <String>[
     AppRoutes.HOME,
-    AppRoutes.BOOK,
+    AppRoutes.EXPLORE,
     AppRoutes.PROFILE,
   ];
 
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Book Club'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(100.0),
@@ -56,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                   tabs: [
                     Tab(text: 'Livros'),
                     Tab(text: 'Favoritos'),
-                    Tab(text: 'Autores'),
+                    Tab(text: 'Desafios'),
                     Tab(text: 'Gênero'),
                   ],
                 ),
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             BookGrid(),
             FavoriteBook(),
-            AuthorList(),
+            ChallengeList(),
             GenderList(),
           ],
         ),

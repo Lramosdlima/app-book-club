@@ -12,7 +12,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final int _selectedIndex = 2;
   static const List<String> _routesOptions = <String>[
     AppRoutes.HOME,
-    AppRoutes.BOOK,
+    AppRoutes.EXPLORE,
     AppRoutes.PROFILE,
   ];
 
@@ -25,7 +25,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Perfil')),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Perfil'),
+      ),
       body: ListView(
         children: const [
           ListTile(

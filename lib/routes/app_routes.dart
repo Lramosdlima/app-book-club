@@ -9,7 +9,9 @@ class AppRoutes {
   static const SIGNUP = '/signup';
   static const AUTHOR = '/author';
   static const AUTHOR_FORM = '/author-form';
-  static const PROFILE = '/profile';
+  static const PROFILE = '/home/profile';
   static const BOOK = '/book';
-  static const BOOK_FORM = '/book-form';
+  static const BOOK_FORM = '/book/form';
+  static const FAVORITE_BOOK = '/book/favorite';
+  static const EXPLORE = '/explore';
 }
