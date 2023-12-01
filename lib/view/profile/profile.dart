@@ -56,10 +56,6 @@ class _ProfilePageState extends State<ProfilePage> {
             title: Text('Birth Date'),
             subtitle: Text('01/01/2000'),
           ),
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text('Favorite Book'),
-          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

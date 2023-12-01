@@ -42,114 +42,127 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(children: [
-          PageView.builder(
-              controller: controller,
-              itemCount: pageArr.length,
-              itemBuilder: (context, index) {
-                var pObj = pageArr[index] as Map? ?? {};
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.05),
-                      Text(
-                        pObj["title"].toString(),
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: TColor.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            TColor.primaryLight,
+            TColor.secondary,
+          ],
+        )),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Stack(children: [
+              PageView.builder(
+                  controller: controller,
+                  itemCount: pageArr.length,
+                  itemBuilder: (context, index) {
+                    var pObj = pageArr[index] as Map? ?? {};
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.05),
+                          Text(
+                            pObj["title"].toString(),
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: TColor.primaryTextWhite,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.05),
+                          Text(
+                            pObj["sub_title"].toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: TColor.primaryTextWhite,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.05),
+                          Image.asset(
+                            pObj["img"].toString(),
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            fit: BoxFit.fitWidth,
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.1),
+                        ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.05),
-                      Text(
-                        pObj["sub_title"].toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: TColor.primary,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.width * 0.1),
-                      Image.asset(
-                        pObj["img"].toString(),
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.width * 0.8,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ],
-                  ),
-                );
-              }),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.WELCOME);
-                        },
-                        child: Text(
-                          "Pular",
-                          style: TextStyle(
-                              color: TColor.primary,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500),
-                        )),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: pageArr.map((pObj) {
-                        var index = pageArr.indexOf(pObj);
+                    );
+                  }),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, AppRoutes.WELCOME);
+                            },
+                            child: Text(
+                              "Pular",
+                              style: TextStyle(
+                                  color: TColor.primaryTextWhite,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: pageArr.map((pObj) {
+                            var index = pageArr.indexOf(pObj);
 
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                              color: page == index
-                                  ? TColor.primary
-                                  : TColor.primaryLight,
-                              borderRadius: BorderRadius.circular(5)),
-                        );
-                      }).toList(),
+                            return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                  color: page == index
+                                      ? TColor.primary
+                                      : TColor.primaryLight,
+                                  borderRadius: BorderRadius.circular(5)),
+                            );
+                          }).toList(),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              if (page < 1) {
+                                page = page + 1;
+                                controller?.jumpToPage(page);
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, AppRoutes.WELCOME);
+                              }
+                            },
+                            child: Text(
+                              "Próximo",
+                              style: TextStyle(
+                                  color: TColor.primaryTextWhite,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500),
+                            )),
+                      ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          if (page < 1) {
-                            page = page + 1;
-                            controller?.jumpToPage(page);
-                          } else {
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.WELCOME);
-                          }
-                        },
-                        child: Text(
-                          "Próximo",
-                          style: TextStyle(
-                              color: TColor.primary,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ],
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.1),
-            ],
-          )
-        ]),
-      ),
-    );
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                ],
+              )
+            ]),
+          ),
+        ));
   }
 }

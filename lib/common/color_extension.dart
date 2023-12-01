@@ -7,7 +7,7 @@ class TColor {
   static Color get secondary => const Color(0xFF3749AF);
   static Color get primaryLight => const Color(0xFF6670AA);
   static Color get primaryText => const Color(0xFF212121);
-  static Color get primaryTextWhite => Color(0xFFFFFFFF);
+  static Color get primaryTextWhite => const Color(0xFFFFFFFF);
   static Color get subTitle => const Color(0xFF212121).withOpacity(0.4);
   static Color get secondaryText => const Color(0xFF9E9E9E);
 

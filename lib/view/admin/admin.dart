@@ -31,17 +31,9 @@ class _AdminPageState extends State<AdminPage> {
         length: 1,
         child: Scaffold(
           appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text("Painel Administrador"),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50.0),
-                child: Column(
-                  children: [
-                    _searchBar(),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              )),
+            automaticallyImplyLeading: false,
+            title: const Text("Painel Administrador"),
+          ),
           body: _body(context),
           bottomNavigationBar: BottomNavigationBar(
             items: const [
@@ -82,7 +74,7 @@ _body(context) {
           ),
           const SizedBox(height: 20),
           AppButton(
-            text: "Criar Livro",
+            text: "Painel Livro",
             icon: const Icon(Icons.menu_book, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
@@ -90,7 +82,7 @@ _body(context) {
           ),
           const SizedBox(height: 15),
           AppButton(
-            text: "Criar Desafio",
+            text: "Painel Desafio",
             icon: const Icon(Icons.diamond, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.ADMIN);
@@ -98,7 +90,7 @@ _body(context) {
           ),
           const SizedBox(height: 15),
           AppButton(
-            text: "Criar QUIZ",
+            text: "Painel QUIZ",
             icon: const Icon(Icons.quiz, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.ADMIN);
@@ -106,8 +98,24 @@ _body(context) {
           ),
           const SizedBox(height: 15),
           AppButton(
-            text: "Criar Comunidade",
+            text: "Painel Comunidade",
             icon: const Icon(Icons.people, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          const SizedBox(height: 15),
+          AppButton(
+            text: "Painel Evento",
+            icon: const Icon(Icons.event, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          const SizedBox(height: 15),
+          AppButton(
+            text: "Painel Chat",
+            icon: const Icon(Icons.chat, color: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.ADMIN);
             },

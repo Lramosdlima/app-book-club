@@ -24,7 +24,7 @@ class _WelcomePageState extends State<WelcomePage> {
         SafeArea(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(left: 150, right: 150, top: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,19 +46,21 @@ class _WelcomePageState extends State<WelcomePage> {
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.width * 0.30),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                _icon(),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.11),
                 AppButton(
                     text: "Entrar",
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.LOGIN);
                     }),
-                SizedBox(height: MediaQuery.of(context).size.width * 0.10),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.06),
                 AppButton(
                     text: "Cadastrar",
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.SIGNUP);
                     }),
-                SizedBox(height: MediaQuery.of(context).size.width * 0.15),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.08),
                 TextButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, AppRoutes.HOME);
@@ -74,6 +76,17 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         )
       ]),
+    );
+  }
+
+  Widget _icon() {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 4),
+          shape: BoxShape.circle),
+      child: const Icon(Icons.auto_stories, color: Colors.white, size: 120),
     );
   }
 }

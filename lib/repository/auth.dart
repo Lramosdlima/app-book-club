@@ -1,5 +1,4 @@
 import 'package:bookclub/model/response.dart';
-import 'package:bookclub/model/user.dart';
 import 'package:bookclub/util/network/http.dart';
 
 class AuthRepository {
@@ -29,6 +28,7 @@ class AuthRepository {
 
       return response;
     } catch (error) {
+      // ignore: avoid_print
       print(error);
       return response;
     }
@@ -62,6 +62,7 @@ class AuthRepository {
 
       return response;
     } catch (error) {
+      // ignore: avoid_print
       print(error);
       return response;
     }
