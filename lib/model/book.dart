@@ -4,6 +4,7 @@ class Book {
   final String? synopsis;
   final String? genre;
   final String? imageUrl;
+  final List<dynamic>? authors;
 
   Book({
     this.id,
@@ -11,6 +12,7 @@ class Book {
     this.synopsis,
     this.genre,
     this.imageUrl,
+    this.authors,
   });
 
   factory Book.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class Book {
       synopsis: map["synopsis"] as String,
       genre: map["genre"] as String?,
       imageUrl: map["imageUrl"] as String?,
+      authors: map["authors"] as List<dynamic>?,
     );
   }
 }
