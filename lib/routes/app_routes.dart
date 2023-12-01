@@ -15,6 +15,6 @@ class AppRoutes {
   static const BOOK = '/book';
   static const BOOK_FORM = '/book/form';
   static const FAVORITE_BOOK = '/book/favorite';
-  static const EXPLORE = '/explore';
+  static const ADMIN = '/admin';
   static const CHALLENGE_FORM = '/challenge/form';
 }

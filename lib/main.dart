@@ -2,7 +2,7 @@ import 'package:bookclub/common/color_extension.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/view/book/book.dart';
 import 'package:bookclub/view/book/editBook.dart';
-import 'package:bookclub/view/explore/explore.dart';
+import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/home/favoriteBooks.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/login/login.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.BOOK: (_) => BookPage(),
         AppRoutes.BOOK_FORM: (_) => EditBookPage(),
         AppRoutes.FAVORITE_BOOK: (_) => FavoriteBook(),
-        AppRoutes.EXPLORE: (_) => const ExplorePage(),
+        AppRoutes.ADMIN: (_) => const AdminPage(),
       },
       debugShowCheckedModeBanner: false,
     );

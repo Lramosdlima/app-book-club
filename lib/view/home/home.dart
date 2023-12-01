@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   final int _selectedIndex = 0;
   static const List<String> _routesOptions = <String>[
     AppRoutes.HOME,
-    AppRoutes.EXPLORE,
+    AppRoutes.ADMIN,
     AppRoutes.PROFILE,
   ];
 
@@ -40,27 +40,14 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 const SizedBox(height: 8),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      icon: (const Icon(Icons.search)),
-                      hintText: 'Pesquisar...',
-                      filled: true,
-                      fillColor: Colors.black,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                    ),
-                  ),
-                ),
+                _searchBar(),
                 const SizedBox(height: 8),
                 const TabBar(
                   tabs: [
                     Tab(text: 'Livros'),
                     Tab(text: 'Favoritos'),
                     Tab(text: 'Desafios'),
-                    Tab(text: 'Gênero'),
+                    Tab(text: 'Gêneros'),
                   ],
                 ),
               ],
@@ -79,15 +66,15 @@ class _HomePageState extends State<HomePage> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
-              label: 'Books',
+              label: 'Livros',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
+              icon: Icon(Icons.admin_panel_settings),
+              label: 'Administrar',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Perfil',
             ),
           ],
           currentIndex: _selectedIndex,
@@ -96,4 +83,26 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+_searchBar() {
+  return Container(
+    height: 40,
+    width: 300,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: const TextField(
+      decoration: InputDecoration(
+        hintText: "Pesquisar",
+        hintStyle: TextStyle(color: Colors.grey),
+        border: InputBorder.none,
+        prefixIcon: Icon(
+          Icons.search,
+          color: Colors.grey,
+        ),
+      ),
+    ),
+  );
 }

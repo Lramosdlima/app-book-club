@@ -12,7 +12,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final int _selectedIndex = 2;
   static const List<String> _routesOptions = <String>[
     AppRoutes.HOME,
-    AppRoutes.EXPLORE,
+    AppRoutes.ADMIN,
     AppRoutes.PROFILE,
   ];
 
@@ -66,15 +66,15 @@ class _ProfilePageState extends State<ProfilePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
-            label: 'Books',
+            label: 'Livros',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.admin_panel_settings),
+            label: 'Administrar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Perfil',
           ),
         ],
         currentIndex: _selectedIndex,
