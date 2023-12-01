@@ -1,5 +1,4 @@
 import 'package:bookclub/common/color_extension.dart';
-import 'package:bookclub/view/onboarding/welcome.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -29,7 +28,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     controller?.addListener(() {
@@ -98,10 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const WelcomePage()));
+                          Navigator.pushReplacementNamed(context, '/welcome');
                         },
                         child: Text(
                           "Pular",
@@ -134,10 +129,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             page = page + 1;
                             controller?.jumpToPage(page);
                           } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const WelcomePage()));
+                            Navigator.pushReplacementNamed(context, '/welcome');
                           }
                         },
                         child: Text(

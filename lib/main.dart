@@ -1,5 +1,12 @@
 import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/routes/app_routes.dart';
+import 'package:bookclub/view/book/book.dart';
+import 'package:bookclub/view/home/home.dart';
+import 'package:bookclub/view/login/login.dart';
+import 'package:bookclub/view/login/signup.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
+import 'package:bookclub/view/onboarding/welcome.dart';
+import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,7 +30,15 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       title: 'Book Club',
-      home: const OnboardingPage(),
+      routes: {
+        AppRoutes.ONBOARDING: (_) => const OnboardingPage(),
+        AppRoutes.WELCOME: (_) => const WelcomePage(),
+        AppRoutes.LOGIN: (_) => const LoginPage(),
+        AppRoutes.SIGNUP: (_) => SignUpPage(),
+        AppRoutes.HOME: (_) => HomePage(),
+        AppRoutes.PROFILE: (_) => const ProfilePage(),
+        AppRoutes.BOOK: (_) => BookPage(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,7 +1,5 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
-import 'package:bookclub/view/home/home.dart';
-import 'package:bookclub/view/login/login.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -64,12 +62,11 @@ class SignUpPage extends StatelessWidget {
             controller: confirmPasswordController,
             hintText: "Confirmar senha",
             icon: Icons.password_outlined),
-        const SizedBox(height: 10),
+        const SizedBox(height: 30),
         AppButton(
             text: "Criar conta",
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pushReplacementNamed(context, '/home');
             }),
       ],
     );
@@ -82,8 +79,7 @@ class SignUpPage extends StatelessWidget {
         const Text("Já tem uma conta?"),
         TextButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.pushNamed(context, '/login');
             },
             child: const Text("Login"))
       ],

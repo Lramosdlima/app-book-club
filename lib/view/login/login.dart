@@ -1,7 +1,6 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
 import 'package:bookclub/common/text_field.dart';
-import 'package:bookclub/view/home/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,8 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: Colors.white,
               textColor: TColor.primary,
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.pushReplacementNamed(context, '/home');
               },
             ),
             const SizedBox(height: 20),
@@ -82,10 +80,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _extraText() {
-    return Text(
-      "Não consegue acessar sua conta?",
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 16, color: TColor.primarytext),
-    );
+    return TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/signup');
+        },
+        child: Text(
+          "Não consegue acessar sua conta?",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16, color: TColor.primaryTextWhite),
+        ));
   }
 }

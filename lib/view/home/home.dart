@@ -1,3 +1,4 @@
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/view/home/authors.dart';
 import 'package:bookclub/view/home/favoriteBooks.dart';
 import 'package:bookclub/view/home/gender.dart';
@@ -10,6 +11,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final int _selectedIndex = 0;
+  static const List<String> _routesOptions = <String>[
+    AppRoutes.HOME,
+    AppRoutes.BOOK,
+    AppRoutes.PROFILE,
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      Navigator.of(context).pushReplacementNamed(_routesOptions[index]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -17,16 +31,17 @@ class _HomePageState extends State<HomePage> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home Page'),
+          title: const Text('Book Club'),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(100.0), // Ajuste a altura conforme necessário
+            preferredSize: const Size.fromHeight(100.0),
             child: Column(
               children: [
-                SizedBox(height: 20), // Espaço adicional entre a AppBar e a barra de pesquisa
+                const SizedBox(height: 8),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextField(
                     decoration: InputDecoration(
+                      icon: (const Icon(Icons.search)),
                       hintText: 'Pesquisar...',
                       filled: true,
                       fillColor: Colors.black,
@@ -36,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20), // Espaço adicional entre a barra de pesquisa e a TabBar
+                const SizedBox(height: 8),
                 const TabBar(
                   tabs: [
                     Tab(text: 'Livros'),
@@ -44,13 +59,11 @@ class _HomePageState extends State<HomePage> {
                     Tab(text: 'Autores'),
                     Tab(text: 'Gênero'),
                   ],
-                  
                 ),
               ],
             ),
           ),
         ),
-        
         body: TabBarView(
           children: <Widget>[
             BookGrid(),
@@ -74,6 +87,8 @@ class _HomePageState extends State<HomePage> {
               label: 'Profile',
             ),
           ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
       ),
     );

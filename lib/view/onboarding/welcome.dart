@@ -1,7 +1,5 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/color_extension.dart';
-import 'package:bookclub/view/login/signup.dart';
-import 'package:bookclub/view/login/login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -27,31 +25,37 @@ class _WelcomePageState extends State<WelcomePage> {
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.width * 0.1),
                 Text(
-                  "Bem vindo ao app\nBook Club!",
+                  "Bem vindo ao app",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: TColor.primarytext,
+                    color: TColor.primaryTextWhite,
                     fontWeight: FontWeight.w600,
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.width * 0.25),
+                Text(
+                  "Book Club!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: TColor.primaryTextWhite,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 30,
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.width * 0.30),
                 AppButton(
                     text: "Entrar",
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.pushNamed(context, '/login');
                     }),
                 SizedBox(height: MediaQuery.of(context).size.width * 0.10),
                 AppButton(
                     text: "Cadastrar",
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpPage()));
+                      Navigator.pushNamed(context, '/signup');
                     }),
               ],
             ),

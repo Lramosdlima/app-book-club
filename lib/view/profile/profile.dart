@@ -1,7 +1,26 @@
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final int _selectedIndex = 2;
+  static const List<String> _routesOptions = <String>[
+    AppRoutes.HOME,
+    AppRoutes.BOOK,
+    AppRoutes.PROFILE,
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      Navigator.of(context).pushReplacementNamed(_routesOptions[index]);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +60,22 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.book),
+            label: 'Books',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Book',
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
