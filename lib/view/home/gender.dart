@@ -25,6 +25,8 @@ class GenderList extends StatelessWidget {
     Gender("Drama", "Livros emocionantes e envolventes.", Icons.theater_comedy),
   ];
 
+  GenderList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

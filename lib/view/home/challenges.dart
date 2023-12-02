@@ -50,6 +50,8 @@ class ChallengeList extends StatelessWidget {
     ),
   ];
 
+  ChallengeList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
