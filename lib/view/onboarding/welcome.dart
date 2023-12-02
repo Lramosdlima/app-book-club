@@ -48,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                  _icon(),
+                  _logo(),
                   SizedBox(height: MediaQuery.of(context).size.width * 0.11),
                   AppButton(
                       text: "Entrar",
@@ -81,7 +81,7 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _icon() {
+  Widget _logo() {
     return Container(
       width: 200,
       height: 200,
