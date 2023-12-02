@@ -1,16 +1,21 @@
-# bookclub
+<h1 align="center">
+    <a href="#" alt="Api Book Club 📚"> App Book Club </a>
+</h1>
 
-A new Flutter project.
+<h3 align="center">
+    Aplicativo responsável pela interface de usuário do projeto Book Club.
+</h3>
 
-## Getting Started
+<p align="center">
+  Feito por Leonardo R., Felipe R. e Rafael C.
+</p>
 
-This project is a starting point for a Flutter application.
+# Sobre
 
-A few resources to get you started if this is your first Flutter project:
+Esse aplicativo é um projeto de graduação de Análise e Desenvolvimento de Sistemas para o Projeto Integrador. Ela foi desenvolvida com o intuito de praticar conhecimentos adquiridos no decorrer do curso.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🛠 Conhecimentos Aplicados
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter + Dart
+- dio: utilizado para fazer requisições para [API Book Club](https://github.com/Lramosdlima/api-book-club).
+- ndialog: utilizado para poder expor uma modal para os erros de requisição da API.
