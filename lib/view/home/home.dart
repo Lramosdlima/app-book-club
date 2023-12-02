@@ -31,12 +31,12 @@ class _HomePageState extends State<HomePage> {
       initialIndex: 0,
       length: 4,
       child: Scaffold(
-        body: _body(_currentIndex),
+        body: _body(),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Livros',
+              icon: Icon(Icons.home),
+              label: 'Principal',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.admin_panel_settings),
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _body(index) {
-    return _pageOptions[index];
+  _body() {
+    return _pageOptions[_currentIndex];
   }
 }
