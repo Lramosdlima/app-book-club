@@ -27,14 +27,17 @@ class _PrincipalPageState extends State<PrincipalPage> {
             const Text('Book Club'),
           ],
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(100.0),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
           child: Column(
             children: [
-              const SizedBox(height: 8),
-              _searchBar(),
-              const SizedBox(height: 8),
-              const TabBar(
+              TabBar(
                 tabs: [
                   Tab(text: 'Livros'),
                   Tab(text: 'Favoritos'),
