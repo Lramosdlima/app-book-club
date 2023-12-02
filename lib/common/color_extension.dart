@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class TColor {
   static String fontFamily = 'Roboto';
   static String secondaryFontFamily = 'Montserrat';
-  static Color get primary => const Color(0xFF6C7ACC);
-  static Color get secondary => const Color(0xFF3749AF);
-  static Color get primaryLight => const Color(0xFF6670AA);
+  static Color get primary => Color.fromARGB(255, 204, 170, 108);
+  static Color get secondary => Color.fromARGB(255, 175, 137, 55);
+  static Color get primaryLight => Color.fromARGB(255, 170, 143, 102);
   static Color get primaryText => const Color(0xFF212121);
   static Color get primaryTextWhite => const Color(0xFFFFFFFF);
   static Color get subTitle => const Color(0xFF212121).withOpacity(0.4);
