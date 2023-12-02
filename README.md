@@ -12,7 +12,7 @@
 
 # Sobre
 
-Esse aplicativo é um projeto de graduação de Análise e Desenvolvimento de Sistemas para o Projeto Integrador. Ela foi desenvolvida com o intuito de praticar conhecimentos adquiridos no decorrer do curso.
+Esse aplicativo é um projeto de graduação de Análise e Desenvolvimento de Sistemas para o Projeto Integrador. Ela foi desenvolvida com o intuito de praticar conhecimentos adquiridos no decorrer do curso. Esse aplicativo utiliza das funções fornecidas pela [API Book Club](https://github.com/Lramosdlima/api-book-club).
 
 ## 🛠 Conhecimentos Aplicados
 
