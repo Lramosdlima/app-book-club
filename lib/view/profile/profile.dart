@@ -9,25 +9,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final int _selectedIndex = 2;
-  static const List<String> _routesOptions = <String>[
-    AppRoutes.HOME,
-    AppRoutes.ADMIN,
-    AppRoutes.PROFILE,
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      Navigator.of(context).pushReplacementNamed(_routesOptions[index]);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Perfil'),
+        title: Row(
+          children: [
+            _icon(),
+            const SizedBox(width: 10),
+            const Text('Perfil'),
+          ],
+        ),
       ),
       body: ListView(
         children: const [
@@ -58,24 +51,10 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Livros',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.admin_panel_settings),
-            label: 'Administrar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
     );
+  }
+
+  Widget _icon() {
+    return const Icon(Icons.person, color: Colors.white, size: 30);
   }
 }
