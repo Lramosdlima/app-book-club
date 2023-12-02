@@ -29,72 +29,70 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   _body() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Center(
-          child: Column(
-            children: [
-              Text(
-                "Funcionalidades do Administrador",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: TColor.secondaryFontFamily,
-                    color: TColor.secondaryText),
-              ),
-              const SizedBox(height: 20),
-              AppButton(
-                text: "Painel Livro",
-                icon: const Icon(Icons.menu_book, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
-                },
-              ),
-              const SizedBox(height: 15),
-              AppButton(
-                text: "Painel Desafio",
-                icon: const Icon(Icons.diamond, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.ADMIN);
-                },
-              ),
-              const SizedBox(height: 15),
-              AppButton(
-                text: "Painel QUIZ",
-                icon: const Icon(Icons.quiz, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.ADMIN);
-                },
-              ),
-              const SizedBox(height: 15),
-              AppButton(
-                text: "Painel Comunidade",
-                icon: const Icon(Icons.people, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.ADMIN);
-                },
-              ),
-              const SizedBox(height: 15),
-              AppButton(
-                text: "Painel Evento",
-                icon: const Icon(Icons.event, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.ADMIN);
-                },
-              ),
-              const SizedBox(height: 15),
-              AppButton(
-                text: "Painel Chat",
-                icon: const Icon(Icons.chat, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.ADMIN);
-                },
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: ListView(
+        children: [
+          const SizedBox(height: 10),
+          Text(
+            "Dados",
+            style: TextStyle(
+              color: TColor.primaryTextWhite,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.menu_book),
+            title: const Text('Painel Livro'),
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.diamond),
+            title: const Text('Painel Desafio'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.quiz),
+            title: const Text('Painel QUIZ'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text('Painel Comunidade'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Painel Usuário'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.event),
+            title: const Text('Painel Evento'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.chat),
+            title: const Text('Painel Chat'),
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.ADMIN);
+            },
+          ),
+        ],
       ),
     );
   }
