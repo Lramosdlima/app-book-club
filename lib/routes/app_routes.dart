@@ -1,18 +1,20 @@
 // ignore_for_file: constant_identifier_names
 
 class AppRoutes {
+  // INICIAL ROUTES
   static const ONBOARDING = '/';
-  static const WELCOME = '/welcome';
+  static const WELCOME = '/auth';
   static const SPLASH = '/splash';
+  static const LOGIN = '/auth/login';
+  static const SIGNUP = '/auth/signup';
+  // HOME ROUTES
   static const HOME = '/home';
-  static const LOGIN = '/login';
-  static const SIGNUP = '/signup';
-  static const AUTHOR = '/author';
-  static const AUTHOR_FORM = '/author-form';
   static const PROFILE = '/home/profile';
+  static const ADMIN = '/home/admin';
+  // BOOK ROUTES
   static const BOOK = '/book';
-  static const BOOK_FORM = '/book/form';
   static const FAVORITE_BOOK = '/book/favorite';
-  static const ADMIN = '/admin';
+  static const BOOK_FORM = '/book/form';
+  // ADMIN ROUTES
   static const CHALLENGE_FORM = '/challenge/form';
 }

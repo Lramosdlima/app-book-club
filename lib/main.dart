@@ -5,10 +5,10 @@ import 'package:bookclub/view/book/edit_book.dart';
 import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/home/favorite_books.dart';
 import 'package:bookclub/view/home/home.dart';
-import 'package:bookclub/view/login/login.dart';
-import 'package:bookclub/view/login/signup.dart';
+import 'package:bookclub/view/auth/login.dart';
+import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
-import 'package:bookclub/view/onboarding/welcome.dart';
+import 'package:bookclub/view/auth/welcome.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
