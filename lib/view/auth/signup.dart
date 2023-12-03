@@ -1,6 +1,7 @@
 import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -23,30 +24,47 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  late bool _passwordVisible;
+  late bool _confirmPasswordVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = false;
+    _confirmPasswordVisible = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        margin: const EdgeInsets.all(24),
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          _header(),
-          _inputFields(),
-          _loginInfo(),
-        ]),
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          margin: const EdgeInsets.all(24),
+          child: Column(children: [
+            _header(),
+            const SizedBox(height: 30),
+            _inputFields(),
+            const SizedBox(height: 30),
+            _loginInfo(),
+          ]),
+        ),
       ),
     ));
   }
 
   _header() {
-    return const Column(
+    return Column(
       children: [
-        Text(
+        const Text(
           "Criar conta",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
-        Text("Coloque as informções para começar"),
+        const Text("Coloque as informções para começar"),
+        const SizedBox(height: 20),
+        _icon(),
       ],
     );
   }
@@ -62,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _usernameController,
             validator: Validator().validateName,
             decoration: const InputDecoration(
-              hintText: "Nome de usuário",
+              hintText: "Digite seu nome de usuário...",
               labelText: "Nome de usuário",
               icon: Icon(Icons.person),
             ),
@@ -73,8 +91,8 @@ class _SignUpPageState extends State<SignUpPage> {
             validator: Validator().validateEmail,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              hintText: "Usuário",
-              labelText: "Usuário",
+              hintText: "Digite seu email...",
+              labelText: "Email",
               icon: Icon(Icons.email_outlined),
             ),
           ),
@@ -82,28 +100,65 @@ class _SignUpPageState extends State<SignUpPage> {
           TextFormField(
             controller: _passwordController,
             validator: Validator().validatePassword,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Senha",
+            obscureText: !_passwordVisible,
+            decoration: InputDecoration(
+              hintText: "Digite sua senha...",
               labelText: "Senha",
-              icon: Icon(Icons.lock),
+              icon: const Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible == true
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: StyleManager.instance.primaryTextWhite,
+                  size: 20,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
             ),
           ),
           const SizedBox(height: 10),
           TextFormField(
             controller: _confirmPasswordController,
             validator: Validator().validatePassword,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Confirmar senha",
+            obscureText: !_confirmPasswordVisible,
+            decoration: InputDecoration(
+              hintText: "Digite novamente sua senha...",
               labelText: "Confirmar senha",
-              icon: Icon(Icons.lock),
+              icon: const Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible == true
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: StyleManager.instance.primaryTextWhite,
+                  size: 20,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
             ),
           ),
           const SizedBox(height: 30),
           AppButton(text: "Criar conta", onPressed: _register),
         ],
       ),
+    );
+  }
+
+  Widget _icon() {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 2),
+          shape: BoxShape.circle),
+      child: const Icon(Icons.person, color: Colors.white, size: 120),
     );
   }
 

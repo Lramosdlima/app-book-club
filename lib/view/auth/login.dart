@@ -1,7 +1,8 @@
 import 'package:bookclub/common/bottom_sheet.dart';
-import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/button.dart';
+import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -18,86 +19,166 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formkey = GlobalKey();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  late bool _passwordVisible;
   Loader loader = Loader();
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _page(),
+      body: Stack(children: [
+        Image.asset(
+          'assets/img/welcome.jpg',
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          fit: BoxFit.cover,
+        ),
+        SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Bem vindo ao app",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: StyleManager.instance.primaryTextWhite,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                      ),
+                    ),
+                    Text(
+                      "Book Club!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: StyleManager.instance.primaryTextWhite,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 28,
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                    _logo(),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.06),
+                    _form(),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.06),
+                    _signUpInfo(),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                    _withoutLogin(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
+      ]),
     );
   }
 
-  Widget _page() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: Form(
-          key: _formkey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _icon(),
-              const SizedBox(height: 50),
-              TextFormField(
-                controller: _usernameController,
-                validator: Validator().validateEmail,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: "Usuário",
-                  labelText: "Usuário",
-                  icon: Icon(Icons.person),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _passwordController,
-                validator: Validator().validatePassword,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: "Senha",
-                  labelText: "Senha",
-                  icon: Icon(Icons.lock),
-                ),
-              ),
-              const SizedBox(height: 50),
-              AppButton(
-                text: "Entrar",
-                onPressed: _login,
-              ),
-              const SizedBox(height: 20),
-              _extraText(),
-            ],
+  Widget _logo() {
+    return Container(
+      width: 180,
+      height: 180,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 4),
+          shape: BoxShape.circle),
+      child: const Icon(Icons.auto_stories, color: Colors.white, size: 110),
+    );
+  }
+
+  Widget _form() {
+    return Form(
+      key: _formkey,
+      autovalidateMode: AutovalidateMode.always,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextFormField(
+            controller: _usernameController,
+            validator: Validator().validateEmail,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              hintText: "Usuário",
+              labelText: "Usuário",
+              icon: Icon(Icons.person),
+            ),
           ),
-        ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _passwordController,
+            validator: Validator().validatePassword,
+            obscureText: !_passwordVisible,
+            decoration: InputDecoration(
+              hintText: "Senha",
+              labelText: "Senha",
+              icon: const Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible == true
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: StyleManager.instance.primaryTextWhite,
+                  size: 20,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 40),
+          AppButton(
+            text: "Entrar",
+            onPressed: _login,
+          )
+        ],
       ),
     );
   }
 
-  Widget _icon() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 2),
-          shape: BoxShape.circle),
-      child: const Icon(Icons.person, color: Colors.white, size: 120),
+  _signUpInfo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const AppText("Ainda não tem conta?"),
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.SIGNUP);
+          },
+          child: const Row(
+            children: [
+              Text("Criar nova conta"),
+              SizedBox(width: 6),
+              Icon(Icons.person, size: 16)
+            ],
+          ),
+        )
+      ],
     );
   }
 
-  Widget _extraText() {
+  _withoutLogin() {
+    var secondaryColor = StyleManager.instance.secondaryText;
     return TextButton(
-        onPressed: () {
-          AppBottomSheet(
-            title: "Não consegue acessar sua conta?",
-            message: "Entre em contato com o administrador do sistema.",
-            type: BottomSheetType.info,
-          ).show(context);
-        },
-        child: Text(
-          "Não consegue acessar sua conta?",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 16, color: StyleManager.instance.primaryTextWhite),
-        ));
+      onPressed: _goToHome,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Acessar sem login", style: TextStyle(color: secondaryColor)),
+          const SizedBox(width: 6),
+          Icon(Icons.arrow_forward_ios, size: 16, color: secondaryColor)
+        ],
+      ),
+    );
   }
 
   _login() async {

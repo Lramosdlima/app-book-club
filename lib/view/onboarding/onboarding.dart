@@ -87,8 +87,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.WELCOME);
+                        _goToLogin();
                       },
                       child: const AppText("Pular", type: TextType.normal)),
                   Row(
@@ -115,8 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         page = page + 1;
                         controller?.jumpToPage(page);
                       } else {
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.WELCOME);
+                        _goToLogin();
                       }
                     },
                     child: const AppText("Próximo", type: TextType.normal),
@@ -128,5 +126,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
         )
       ]),
     ));
+  }
+
+  _goToLogin() {
+    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 }
