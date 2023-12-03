@@ -46,7 +46,7 @@ class Validator {
   }
 
   String? validateField(String? value) {
-    if (/*value != null ||*/ value!.isEmpty) {
+    if (value!.isEmpty) {
       return "Campo obrigatório";
     }
     return null;
