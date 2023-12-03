@@ -48,7 +48,7 @@ class AppText extends StatelessWidget {
       textAlign: textAlign,
       style: TextStyle(
         fontSize: size,
-        color: StyleManager.instance.primaryTextWhite,
+        color: textColor ?? StyleManager.instance.primaryTextWhite,
         fontWeight: fontWeight,
       ),
     );
