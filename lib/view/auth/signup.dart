@@ -76,79 +76,91 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextFormField(
-            controller: _usernameController,
-            validator: Validator().validateName,
-            decoration: const InputDecoration(
-              hintText: "Digite seu nome de usuário...",
-              labelText: "Nome de usuário",
-              icon: Icon(Icons.person),
-            ),
-          ),
+          _nameFormField(),
           const SizedBox(height: 10),
-          TextFormField(
-            controller: _emailController,
-            validator: Validator().validateEmail,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: "Digite seu email...",
-              labelText: "Email",
-              icon: Icon(Icons.email_outlined),
-            ),
-          ),
+          _emailFormField(),
           const SizedBox(height: 10),
-          TextFormField(
-            controller: _passwordController,
-            validator: Validator().validatePassword,
-            obscureText: !_passwordVisible,
-            decoration: InputDecoration(
-              hintText: "Digite sua senha...",
-              labelText: "Senha",
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible == true
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: StyleManager.instance.primaryTextWhite,
-                  size: 20,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-              ),
-            ),
-          ),
+          _passwordFormField(),
           const SizedBox(height: 10),
-          TextFormField(
-            controller: _confirmPasswordController,
-            validator: Validator().validatePassword,
-            obscureText: !_confirmPasswordVisible,
-            decoration: InputDecoration(
-              hintText: "Digite novamente sua senha...",
-              labelText: "Confirmar senha",
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible == true
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: StyleManager.instance.primaryTextWhite,
-                  size: 20,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-              ),
-            ),
-          ),
+          _confirmPasswordFormField(),
           const SizedBox(height: 30),
           AppButton(text: "Criar conta", onPressed: _register),
         ],
+      ),
+    );
+  }
+
+  _nameFormField() {
+    return TextFormField(
+      controller: _usernameController,
+      validator: Validator().validateName,
+      decoration: const InputDecoration(
+        hintText: "Digite seu nome de usuário...",
+        labelText: "Nome de usuário",
+        icon: Icon(Icons.person),
+      ),
+    );
+  }
+
+  _emailFormField() {
+    return TextFormField(
+      controller: _emailController,
+      validator: Validator().validateEmail,
+      keyboardType: TextInputType.emailAddress,
+      decoration: const InputDecoration(
+        hintText: "Digite seu email...",
+        labelText: "Email",
+        icon: Icon(Icons.email_outlined),
+      ),
+    );
+  }
+
+  _passwordFormField() {
+    return TextFormField(
+      controller: _passwordController,
+      validator: Validator().validatePassword,
+      obscureText: !_passwordVisible,
+      decoration: InputDecoration(
+        hintText: "Digite sua senha...",
+        labelText: "Senha",
+        icon: const Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
+            color: StyleManager.instance.primaryTextWhite,
+            size: 20,
+          ),
+          onPressed: () {
+            setState(() {
+              _passwordVisible = !_passwordVisible;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  _confirmPasswordFormField() {
+    return TextFormField(
+      controller: _confirmPasswordController,
+      validator: Validator().validatePassword,
+      obscureText: !_confirmPasswordVisible,
+      decoration: InputDecoration(
+        hintText: "Digite novamente sua senha...",
+        labelText: "Confirmar senha",
+        icon: const Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
+            color: StyleManager.instance.primaryTextWhite,
+            size: 20,
+          ),
+          onPressed: () {
+            setState(() {
+              _passwordVisible = !_passwordVisible;
+            });
+          },
+        ),
       ),
     );
   }
