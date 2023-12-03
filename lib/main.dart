@@ -8,11 +8,31 @@ import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
-import 'package:bookclub/view/auth/welcome.dart';
+import 'package:bookclub/view/profile/edit_profile.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  //TODO: refresh token config
+
+  // Widget firstPage = const OnboardPage();
+  // var token = await StorageHelper.get('token');
+
+  // if (token != null) {
+  //   try {
+  //     var response = await AuthRepository().refreshToken();
+  //     if (response.status == true) {
+  //       // ignore: avoid_print
+  //       print('token refreshed');
+
+  //       await AuthRepository().getUserInfo();
+  //       firstPage = const HomePage();
+  //     }
+  //   } catch (e) {
+  //     StorageHelper.remove('token');
+  //   }
+  // }
+
   runApp(const MyApp());
 }
 
@@ -38,7 +58,6 @@ class MyApp extends StatelessWidget {
       routes: {
         // INICIAL ROUTES
         AppRoutes.ONBOARDING: (_) => const OnboardingPage(),
-        AppRoutes.WELCOME: (_) => const WelcomePage(),
         AppRoutes.LOGIN: (_) => const LoginPage(),
         AppRoutes.SIGNUP: (_) => const SignUpPage(),
         // HOME ROUTES
@@ -49,6 +68,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.BOOK: (_) => const BookPage(),
         AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
+        // PROFILE ROUTES
+        AppRoutes.EDIT_PROFILE: (_) => const EditProfilePage(),
       },
       debugShowCheckedModeBanner: false,
     );
