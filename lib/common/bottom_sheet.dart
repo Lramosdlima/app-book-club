@@ -43,22 +43,22 @@ class AppBottomSheet {
         builder: (ctx) {
           switch (type) {
             case BottomSheetType.success:
-              return success(context);
+              return _success(context);
             case BottomSheetType.error:
-              return error(context);
+              return _error(context);
             case BottomSheetType.info:
-              return info(context);
+              return _info(context);
             case BottomSheetType.warning:
-              return warning(context);
+              return _warning(context);
             case BottomSheetType.custom:
-              return custom(context);
+              return _custom(context);
             default:
               return Container();
           }
         });
   }
 
-  info(BuildContext context) {
+  _info(BuildContext context) {
     return SizedBox(
       height: height ?? MediaQuery.of(context).size.height * 0.6,
       child: Center(
@@ -103,7 +103,7 @@ class AppBottomSheet {
     );
   }
 
-  success(BuildContext context) {
+  _success(BuildContext context) {
     return SizedBox(
       height: height ?? MediaQuery.of(context).size.height * 0.5,
       child: Center(
@@ -144,7 +144,7 @@ class AppBottomSheet {
     );
   }
 
-  warning(BuildContext context) {
+  _warning(BuildContext context) {
     return SizedBox(
       height: height ?? MediaQuery.of(context).size.height * 0.6,
       child: Center(
@@ -189,7 +189,7 @@ class AppBottomSheet {
     );
   }
 
-  error(BuildContext context) {
+  _error(BuildContext context) {
     return SizedBox(
       height: height ?? MediaQuery.of(context).size.height * 0.5,
       child: Center(
@@ -233,7 +233,7 @@ class AppBottomSheet {
     );
   }
 
-  custom(BuildContext context) {
+  _custom(BuildContext context) {
     return SizedBox(
       height: height ?? MediaQuery.of(context).size.height * 0.5,
       child: content,
