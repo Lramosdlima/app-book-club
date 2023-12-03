@@ -19,22 +19,26 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-        onPressed: onPressed,
-        color: backgroundColor ?? StyleManager.instance.primary,
-        minWidth: double.maxFinite,
-        height: 50,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon ?? const SizedBox(),
-            icon != null ? const SizedBox(width: 20) : const SizedBox(),
-            AppText(
-                text: text,
-                textColor: textColor ?? StyleManager.instance.primaryText,
-                isTitle: true)
-          ],
-        ));
+    return SizedBox(
+      width: 200,
+      child: MaterialButton(
+          onPressed: onPressed,
+          color: backgroundColor ?? StyleManager.instance.primary,
+          minWidth: double.maxFinite,
+          height: 50,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon ?? const SizedBox(),
+              icon != null ? const SizedBox(width: 20) : const SizedBox(),
+              AppText(
+                  text: text,
+                  textColor: textColor ?? StyleManager.instance.primaryText,
+                  isTitle: true)
+            ],
+          )),
+    );
   }
 }
