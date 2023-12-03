@@ -6,11 +6,13 @@ enum TextType { title, subtitle, normal }
 class AppText extends StatelessWidget {
   final String text;
   final Color? textColor;
+  final double? size;
   final TextType? type;
 
   const AppText(
     this.text, {
     super.key,
+    this.size,
     this.textColor,
     this.type,
   });
@@ -23,7 +25,7 @@ class AppText extends StatelessWidget {
 
     switch (type) {
       case TextType.title:
-        size = 30;
+        size = 25;
         fontWeight = FontWeight.bold;
         textAlign = TextAlign.center;
         break;
@@ -47,7 +49,7 @@ class AppText extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-        fontSize: size,
+        fontSize: this.size ?? size,
         color: textColor ?? StyleManager.instance.primaryTextWhite,
         fontWeight: fontWeight,
       ),
