@@ -27,8 +27,9 @@ class _EditBookPageState extends State<EditBookPage> {
   _fillFields() {
     titleController.text = _bookData['title'] ?? '';
     genreController.text = _bookData['genre'] ?? '';
-    synopsisController.text = _bookData['genre'] ?? '';
+    synopsisController.text = _bookData['synopsis'] ?? '';
     imageController.text = _bookData['imageUrl'] ?? '';
+    selectedGenre = _bookData['genre'] ?? 'Ação';
   }
 
   List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
@@ -40,6 +41,7 @@ class _EditBookPageState extends State<EditBookPage> {
     'Comédia',
     'Ficção Científica',
     'Drama',
+    'Romance',
     'Outro'
   ];
   String selectedGenre = 'Ação';
