@@ -1,5 +1,10 @@
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/card.dart';
+import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/common/bottom_sheet.dart';
+import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -10,6 +15,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  UserStore userStore = UserStore();
+  Loader loader = Loader();
+  bool _notification = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,73 +28,66 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             _icon(),
             const SizedBox(width: 10),
-            const Text('Perfil'),
+            const AppText('Perfil'),
           ],
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: ListView(
-          children: [
-            const SizedBox(height: 10),
-            Text(
-              "Dados",
-              style: TextStyle(
-                color: StyleManager.instance.primaryTextWhite,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AppText(
+                userStore.user.id != null ? 'Meus dados' : 'Login',
+                type: TextType.subtitle,
               ),
-            ),
-            const Divider(),
-            const ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Nome'),
-              subtitle: Text('John Doe'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.email),
-              title: Text('Email'),
-              subtitle: Text('johndoe31@gmail.com'),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Configurações",
-              style: TextStyle(
-                color: StyleManager.instance.primaryTextWhite,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+              const Divider(),
+              AppCard(
+                title: userStore.user.id != null ? 'Meus dados' : 'Login',
+                icon: Icons.person,
+                onPressed: () {
+                  userStore.user.id != null ? _goToEditProfile() : _goToLogin();
+                },
               ),
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.lock),
-              title: const Text('Alterar Senha'),
-              onTap: () {
-                // Navigator.pushNamed(context, AppRoutes.CHANGE_PASSWORD);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Editar Perfil'),
-              onTap: () {
-                // Navigator.pushNamed(context, AppRoutes.EDIT_PROFILE);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('Excluir Conta'),
-              onTap: () {
-                // Navigator.pushNamed(context, AppRoutes.DELETE_ACCOUNT);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.exit_to_app),
-              title: const Text('Sair'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.WELCOME);
-              },
-            ),
-          ],
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.notifications),
+                title: const Text('Notificações'),
+                trailing: Switch(
+                  value: _notification,
+                  onChanged: (value) {
+                    setState(() {
+                      _notification = value;
+                    });
+                  },
+                ),
+              ),
+              AppCard(
+                title: 'Alterar Senha',
+                icon: Icons.lock,
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.CHANGE_PASSWORD);
+                },
+              ),
+              AppCard(
+                title: 'Editar Perfil',
+                icon: Icons.edit,
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.EDIT_PROFILE);
+                },
+              ),
+              AppCard(
+                title: 'Excluir Conta',
+                icon: Icons.delete,
+                onPressed: _confirmDeleteUserData,
+              ),
+              AppCard(
+                title: 'Sair',
+                icon: Icons.exit_to_app,
+                onPressed: _logOut,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -93,5 +95,57 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _icon() {
     return const Icon(Icons.person, color: Colors.white, size: 30);
+  }
+
+  _goToEditProfile() {
+    Navigator.pushNamed(context, AppRoutes.EDIT_PROFILE);
+  }
+
+  _goToLogin() {
+    Navigator.pushNamed(context, AppRoutes.LOGIN);
+  }
+
+  _logOut() {
+    // TODO: AuthRepository().logout();
+    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
+  }
+
+  _confirmDeleteUserData() async {
+    AlertDialog(
+      title: const AppText("Apagar conta"),
+      content: const AppText(
+          "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita."),
+      actions: [
+        TextButton(
+          child: const AppText("Cancelar"),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          child: const AppText("Sim, apagar"),
+          onPressed: () async {
+            Navigator.pop(context);
+            _deleteUserData();
+          },
+        ),
+      ],
+    );
+  }
+
+  _deleteUserData() async {
+    loader.show(context);
+    // TODO: final response = await AuthRepository().deleteUser();
+    loader.hide();
+
+    // TODO: if (response.status == true) {
+    AppBottomSheet(
+      title: "Conta apagada",
+      message: "Sua conta foi apagada com sucesso.",
+    ).show(context);
+    // } else {
+    //   // ignore: avoid_print
+    //   print(response);
+    // }
   }
 }
