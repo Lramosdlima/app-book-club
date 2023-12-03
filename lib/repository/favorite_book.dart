@@ -1,4 +1,6 @@
-import 'package:bookclub/model/favoriteBook.dart';
+// ignore_for_file: avoid_print
+
+import 'package:bookclub/model/favorite_book.dart';
 import 'package:bookclub/model/response.dart';
 import 'package:bookclub/util/network/http.dart';
 
@@ -27,7 +29,6 @@ class FavoriteBookRepository {
       }).catchError((e) {
         response.status = false;
         response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
         print(e);
       });
 
