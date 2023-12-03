@@ -1,3 +1,4 @@
+import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -34,68 +35,77 @@ class _AdminPageState extends State<AdminPage> {
       child: ListView(
         children: [
           const SizedBox(height: 10),
-          AppText(
-            "Livros",
-            type: TextType.title,
-            textColor: StyleManager.instance.primary,
+          Row(
+            children: [
+              Icon(Icons.book, color: StyleManager.instance.primary, size: 30),
+              const SizedBox(width: 15),
+              AppText(
+                "Livros",
+                type: TextType.title,
+                textColor: StyleManager.instance.primary,
+              ),
+            ],
           ),
           Divider(color: StyleManager.instance.primary),
-          ListTile(
-            leading: const Icon(Icons.menu_book),
-            title: const AppText('Painel Livro'),
-            onTap: () {
-              Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.diamond),
-            title: const AppText('Painel Desafio'),
-            onTap: () {
+          AppCard(
+              title: 'Painel Livro',
+              icon: Icons.menu_book,
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
+              }),
+          AppCard(
+            title: 'Painel Desafio',
+            icon: Icons.diamond,
+            onPressed: () {
               // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.quiz),
-            title: const AppText('Painel QUIZ'),
-            onTap: () {
+          AppCard(
+            title: 'Painel QUIZ',
+            icon: Icons.quiz,
+            onPressed: () {
               // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           const SizedBox(height: 10),
-          AppText(
-            "Usuários",
-            type: TextType.title,
-            textColor: StyleManager.instance.primary,
+          Row(
+            children: [
+              Icon(Icons.people,
+                  color: StyleManager.instance.primary, size: 30),
+              const SizedBox(width: 15),
+              AppText(
+                "Usuários",
+                type: TextType.title,
+                textColor: StyleManager.instance.primary,
+              ),
+            ],
           ),
           Divider(color: StyleManager.instance.primary),
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const AppText('Painel Usuário'),
-            onTap: () {
+          AppCard(
+            title: 'Painel Usuário',
+            icon: Icons.person,
+            onPressed: () {
               // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.people),
-            title: const AppText('Painel Comunidade'),
-            onTap: () {
-              // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.event),
-            title: const AppText('Painel Evento'),
-            onTap: () {
-              // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.chat),
-            title: const AppText('Painel Chat'),
-            onTap: () {
-              // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
-            },
-          ),
+          AppCard(
+              title: 'Painel Comunidade',
+              icon: Icons.people,
+              onPressed: () {
+                // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
+              }),
+          AppCard(
+              title: 'Painel Evento',
+              icon: Icons.event,
+              onPressed: () {
+                // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
+              }),
+          AppCard(
+              title: 'Painel Chat',
+              icon: Icons.chat,
+              onPressed: () {
+                // TODO: Navigator.pushNamed(context, AppRoutes.ADMIN);
+              }),
         ],
       ),
     );
