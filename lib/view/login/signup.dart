@@ -1,20 +1,20 @@
+import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
-import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final GlobalKey<FormState> _key = GlobalKey();
+  final GlobalKey<FormState> _formkey = GlobalKey();
   Loader loader = Loader();
 
   final TextEditingController _usernameController = TextEditingController();
@@ -29,17 +29,12 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Scaffold(
       body: Container(
         margin: const EdgeInsets.all(24),
-        child: Form(
-          key: _key,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _header(),
-                _inputFields(),
-                _loginInfo(),
-              ]),
-        ),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          _header(),
+          _inputFields(),
+          _loginInfo(),
+        ]),
       ),
     ));
   }
@@ -57,54 +52,58 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _inputFields() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextFormField(
-          controller: _usernameController,
-          validator: Validator().validateName,
-          decoration: const InputDecoration(
-            hintText: "Nome de usuário",
-            labelText: "Nome de usuário",
-            icon: Icon(Icons.person),
+    return Form(
+      key: _formkey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextFormField(
+            controller: _usernameController,
+            validator: Validator().validateName,
+            decoration: const InputDecoration(
+              hintText: "Nome de usuário",
+              labelText: "Nome de usuário",
+              icon: Icon(Icons.person),
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        TextFormField(
-          controller: _emailController,
-          validator: Validator().validateEmail,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            hintText: "Usuário",
-            labelText: "Usuário",
-            icon: Icon(Icons.email_outlined),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _emailController,
+            validator: Validator().validateEmail,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              hintText: "Usuário",
+              labelText: "Usuário",
+              icon: Icon(Icons.email_outlined),
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        TextFormField(
-          controller: _passwordController,
-          validator: Validator().validatePassword,
-          obscureText: true,
-          decoration: const InputDecoration(
-            hintText: "Senha",
-            labelText: "Senha",
-            icon: Icon(Icons.lock),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _passwordController,
+            validator: Validator().validatePassword,
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: "Senha",
+              labelText: "Senha",
+              icon: Icon(Icons.lock),
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        TextFormField(
-          controller: _confirmPasswordController,
-          validator: Validator().validatePassword,
-          obscureText: true,
-          decoration: const InputDecoration(
-            hintText: "Confirmar senha",
-            labelText: "Confirmar senha",
-            icon: Icon(Icons.lock),
+          const SizedBox(height: 10),
+          TextFormField(
+            controller: _confirmPasswordController,
+            validator: Validator().validatePassword,
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: "Confirmar senha",
+              labelText: "Confirmar senha",
+              icon: Icon(Icons.lock),
+            ),
           ),
-        ),
-        const SizedBox(height: 30),
-        AppButton(text: "Criar conta", onPressed: _register),
-      ],
+          const SizedBox(height: 30),
+          AppButton(text: "Criar conta", onPressed: _register),
+        ],
+      ),
     );
   }
 
@@ -120,31 +119,31 @@ class _SignUpPageState extends State<SignUpPage> {
 
   _register() async {
     if (_passwordController.text != _confirmPasswordController.text) {
-      // ignore: use_build_context_synchronously
-      var modal = Modal(
-              title: "Ops...",
-              message: "As senhas não conferem, por favor tente novamente.")
-          .setAlert(context);
-      modal.show(context);
+      AppBottomSheet().errorAlert("As senhas não estão iguais!", context);
       return;
     }
 
-    if (_key.currentState?.validate() != null) {
-      _key.currentState?.save();
+    if (_formkey.currentState?.validate() == true &&
+        _formkey.currentState != null) {
+      _formkey.currentState?.save();
+
       loader.show(context);
 
-      final response = await AuthRepository().register(_usernameController.text,
-          _emailController.text, _passwordController.text);
+      final response = await AuthRepository().register(
+        _usernameController.text,
+        _emailController.text,
+        _passwordController.text,
+      );
 
       loader.hide();
 
       if (response.status == true) {
-        _goToLogin();
+        AppBottomSheet().successAlert(
+            "Conta criada com sucesso! Faça login para continuar.",
+            context,
+            _goToLogin());
       } else {
-        // ignore: use_build_context_synchronously
-        var modal =
-            Modal(title: "Ops...", message: response.error).setAlert(context);
-        modal.show(context);
+        AppBottomSheet().errorAlert(response.error, context);
       }
     }
   }

@@ -194,7 +194,11 @@ class AppBottomSheet {
     );
   }
 
-  successAlert(String message, BuildContext context, OnTapCallback? onTap) {
+  Future<void> successAlert(
+    String? message,
+    BuildContext context,
+    OnTapCallback? onTap,
+  ) async {
     AppBottomSheet(
       onTap: () {
         if (onTap != null) {
@@ -208,7 +212,10 @@ class AppBottomSheet {
     ).show(context);
   }
 
-  errorAlert(String error, BuildContext context) {
+  Future<void> errorAlert(
+    String? error,
+    BuildContext context,
+  ) async {
     AppBottomSheet(
       type: BottomSheetType.error,
       title: "Desculpe...",

@@ -1,5 +1,5 @@
+import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/loader.dart';
-import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/common/validator.dart';
@@ -8,34 +8,22 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _key = GlobalKey();
+  final GlobalKey<FormState> _formkey = GlobalKey();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   Loader loader = Loader();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          StyleManager.instance.primaryLight,
-          StyleManager.instance.secondary,
-        ],
-      )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: _page(),
-      ),
+    return Scaffold(
+      body: _page(),
     );
   }
 
@@ -44,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.all(32.0),
       child: Center(
         child: Form(
-          key: _key,
+          key: _formkey,
           autovalidateMode: AutovalidateMode.disabled,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -75,8 +63,6 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 50),
               AppButton(
                 text: "Entrar",
-                backgroundColor: Colors.white,
-                textColor: StyleManager.instance.primary,
                 onPressed: _login,
               ),
               const SizedBox(height: 20),
@@ -111,8 +97,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _login() async {
-    if (_key.currentState?.validate() != null) {
-      _key.currentState?.save();
+    if (_formkey.currentState?.validate() == true &&
+        _formkey.currentState != null) {
+      _formkey.currentState?.save();
+
       loader.show(context);
 
       final response = await AuthRepository()
@@ -123,10 +111,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response.status == true) {
         _goToHome();
       } else {
-        // ignore: use_build_context_synchronously
-        var modal =
-            Modal(title: "Ops...", message: response.error).setAlert(context);
-        modal.show(context);
+        AppBottomSheet().errorAlert(response.error, context);
       }
     }
   }
