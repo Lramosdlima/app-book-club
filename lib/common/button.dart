@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
               AppText(
                 text,
                 textColor: textColor ?? StyleManager.instance.primaryText,
-                type: TextType.title,
+                type: TextType.subtitle,
               )
             ],
           )),
