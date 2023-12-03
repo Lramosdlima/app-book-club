@@ -6,6 +6,7 @@ import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
+import 'package:ndialog/ndialog.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -102,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _confirmDeleteUserData() async {
     AlertDialog(
-      title: const AppText("Apagar conta"),
+      title: const AppText("Apagar conta", type: TextType.subtitle),
       content: const AppText(
           "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita."),
       actions: [
@@ -113,14 +114,14 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
         TextButton(
-          child: const AppText("Sim, apagar"),
+          child: const AppText("Sim, apagar", textColor: Colors.red),
           onPressed: () async {
             Navigator.pop(context);
             _deleteUserData();
           },
         ),
       ],
-    );
+    ).show(context);
   }
 
   _deleteUserData() async {
@@ -129,10 +130,14 @@ class _ProfilePageState extends State<ProfilePage> {
     loader.hide();
 
     // TODO: if (response.status == true) {
+    _logOut();
+
     AppBottomSheet(
       title: "Conta apagada",
       message: "Sua conta foi apagada com sucesso.",
+      type: BottomSheetType.success,
     ).show(context);
+
     // } else {
     //   // ignore: avoid_print
     //   print(response);
