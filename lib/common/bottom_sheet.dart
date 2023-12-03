@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 typedef OnTapCallback = void Function();
 
-enum BottomSheetType { success, error, warning, custom }
+enum BottomSheetType { success, error, warning, info, custom }
 
 class AppBottomSheet {
   final Widget? content;
@@ -46,6 +46,8 @@ class AppBottomSheet {
               return success(context);
             case BottomSheetType.error:
               return error(context);
+            case BottomSheetType.info:
+              return info(context);
             case BottomSheetType.warning:
               return warning(context);
             case BottomSheetType.custom:
@@ -54,6 +56,51 @@ class AppBottomSheet {
               return Container();
           }
         });
+  }
+
+  info(BuildContext context) {
+    return SizedBox(
+      height: height ?? MediaQuery.of(context).size.height * 0.6,
+      child: Center(
+          child: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Icon(icon ?? Icons.info_outline, color: Colors.blue, size: 50),
+            const SizedBox(height: 20),
+            Text(
+              title ?? '',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: StyleManager.instance.fontFamily,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(message ?? '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: StyleManager.instance.fontFamily,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                )),
+            const SizedBox(height: 20),
+            AppButton(
+                text: textBotton ?? "OK",
+                onPressed: () {
+                  if (onTap != null) {
+                    onTap!();
+                  }
+                  Navigator.pop(context);
+                })
+          ],
+        ),
+      )),
+    );
   }
 
   success(BuildContext context) {
@@ -106,8 +153,7 @@ class AppBottomSheet {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Icon(icon ?? Icons.info_outline,
-                color: StyleManager.instance.primary, size: 50),
+            Icon(icon ?? Icons.warning, color: Colors.orange, size: 50),
             const SizedBox(height: 20),
             Text(
               title ?? '',
