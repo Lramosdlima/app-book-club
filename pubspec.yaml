@@ -30,12 +30,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio:
-  ndialog:
+  #architecture
   mobx:
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  #local database
+  shared_preferences:
+
+  #alert
+  ndialog:
+
+  #utils packages
+  dio:
+
+  #design
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
