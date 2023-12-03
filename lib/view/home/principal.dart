@@ -1,8 +1,8 @@
 import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/view/home/challenges.dart';
-import 'package:bookclub/view/home/favoriteBooks.dart';
+import 'package:bookclub/view/home/favorite_books.dart';
 import 'package:bookclub/view/home/gender.dart';
-import 'package:bookclub/view/home/listBooks.dart';
+import 'package:bookclub/view/home/list_books.dart';
 import 'package:flutter/material.dart';
 
 class PrincipalPage extends StatefulWidget {

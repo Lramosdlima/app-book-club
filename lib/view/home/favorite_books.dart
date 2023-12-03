@@ -1,4 +1,4 @@
-import 'package:bookclub/common/emptyPage.dart';
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/favoriteBook.dart';
