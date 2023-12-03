@@ -41,127 +41,117 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            StyleManager.instance.primaryLight,
-            StyleManager.instance.secondary,
-          ],
-        )),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Stack(children: [
-              PageView.builder(
-                  controller: controller,
-                  itemCount: pageArr.length,
-                  itemBuilder: (context, index) {
-                    var pObj = pageArr[index] as Map? ?? {};
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.05),
-                          Text(
-                            pObj["title"].toString(),
-                            style: TextStyle(
-                              fontSize: 30,
-                              color: StyleManager.instance.primaryTextWhite,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.05),
-                          Text(
-                            pObj["sub_title"].toString(),
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: StyleManager.instance.primaryTextWhite,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.05),
-                          Image.asset(
-                            pObj["img"].toString(),
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            height: MediaQuery.of(context).size.width * 0.7,
-                            fit: BoxFit.fitWidth,
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.1),
-                        ],
-                      ),
-                    );
-                  }),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, AppRoutes.WELCOME);
-                            },
-                            child: Text(
-                              "Pular",
-                              style: TextStyle(
-                                  color: StyleManager.instance.primaryTextWhite,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: pageArr.map((pObj) {
-                            var index = pageArr.indexOf(pObj);
-
-                            return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                  color: page == index
-                                      ? StyleManager.instance.primary
-                                      : StyleManager.instance.primaryLight,
-                                  borderRadius: BorderRadius.circular(5)),
-                            );
-                          }).toList(),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              if (page < 1) {
-                                page = page + 1;
-                                controller?.jumpToPage(page);
-                              } else {
-                                Navigator.pushReplacementNamed(
-                                    context, AppRoutes.WELCOME);
-                              }
-                            },
-                            child: Text(
-                              "Próximo",
-                              style: TextStyle(
-                                  color: StyleManager.instance.primaryTextWhite,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                      ],
+    return Scaffold(
+        body: SafeArea(
+      child: Stack(children: [
+        PageView.builder(
+            controller: controller,
+            itemCount: pageArr.length,
+            itemBuilder: (context, index) {
+              var pObj = pageArr[index] as Map? ?? {};
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    _text(pObj["title"].toString(), TextType.title),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    _text(pObj["sub_title"].toString(), TextType.subtitle),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    Image.asset(
+                      pObj["img"].toString(),
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.width * 0.7,
+                      fit: BoxFit.fitWidth,
                     ),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                  ],
+                ),
+              );
+            }),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, AppRoutes.WELCOME);
+                      },
+                      child: _text("Pular", TextType.normal)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: pageArr.map((pObj) {
+                      var index = pageArr.indexOf(pObj);
+
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                            color: page == index
+                                ? StyleManager.instance.primary
+                                : StyleManager.instance.primaryLight,
+                            borderRadius: BorderRadius.circular(5)),
+                      );
+                    }).toList(),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                  TextButton(
+                    onPressed: () {
+                      if (page < 1) {
+                        page = page + 1;
+                        controller?.jumpToPage(page);
+                      } else {
+                        Navigator.pushReplacementNamed(
+                            context, AppRoutes.WELCOME);
+                      }
+                    },
+                    child: _text("Próximo", TextType.normal),
+                  ),
                 ],
-              )
-            ]),
+              ),
+            ],
           ),
-        ));
+        )
+      ]),
+    ));
+  }
+
+  _text(String text, TextType type) {
+    double size = 0;
+    bool bold = false;
+
+    switch (type) {
+      case TextType.title:
+        size = 30;
+        bold = true;
+        break;
+      case TextType.subtitle:
+        size = 20;
+        bold = false;
+        break;
+      case TextType.normal:
+        size = 17;
+        bold = false;
+        break;
+    }
+
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: size,
+        color: StyleManager.instance.primaryTextWhite,
+        fontWeight: bold ? FontWeight.w600 : FontWeight.w300,
+      ),
+    );
   }
 }
+
+enum TextType { title, subtitle, normal }
