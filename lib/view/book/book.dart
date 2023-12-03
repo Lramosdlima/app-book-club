@@ -1,5 +1,6 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/modal.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +26,16 @@ class _BookPageState extends State<BookPage> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Text("Livro: ${_bookData['title'] ?? ''}"),
+        title: Text(_bookData['title'] ?? "Livro"),
         actions: [
           _buttonShare(),
           _buttonFavorite(),
           _buttonEdit(book),
         ],
       ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 24, left: 50, right: 50, bottom: 10),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -108,7 +110,7 @@ class _BookPageState extends State<BookPage> {
   _buttonCommunity() {
     return AppButton(
       text: "Comunidade",
-      icon: const Icon(Icons.people, color: Colors.white),
+      icon: Icon(Icons.people, color: StyleManager.instance.primaryText),
       onPressed: () {},
     );
   }
@@ -116,7 +118,7 @@ class _BookPageState extends State<BookPage> {
   _buttonQuiz() {
     return AppButton(
       text: "Quiz",
-      icon: const Icon(Icons.quiz, color: Colors.white),
+      icon: Icon(Icons.quiz, color: StyleManager.instance.primaryText),
       onPressed: () {},
     );
   }
@@ -124,7 +126,7 @@ class _BookPageState extends State<BookPage> {
   _buttonChallenges() {
     return AppButton(
       text: "Desafios",
-      icon: const Icon(Icons.diamond, color: Colors.white),
+      icon: Icon(Icons.diamond, color: StyleManager.instance.primaryText),
       onPressed: () {},
     );
   }
@@ -132,7 +134,7 @@ class _BookPageState extends State<BookPage> {
   _buttonRead() {
     return AppButton(
       text: "Ler",
-      icon: const Icon(Icons.auto_stories, color: Colors.white),
+      icon: Icon(Icons.auto_stories, color: StyleManager.instance.primaryText),
       onPressed: () {},
     );
   }

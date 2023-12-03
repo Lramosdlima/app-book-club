@@ -18,6 +18,19 @@ class _EditBookPageState extends State<EditBookPage> {
   TextEditingController synopsisController = TextEditingController();
   TextEditingController imageController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _fillFields();
+  }
+
+  _fillFields() {
+    titleController.text = _bookData['title'] ?? '';
+    genreController.text = _bookData['genre'] ?? '';
+    synopsisController.text = _bookData['genre'] ?? '';
+    imageController.text = _bookData['imageUrl'] ?? '';
+  }
+
   List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
   String selectedAuthor = 'Autor';
   List<String> genres = [
@@ -41,16 +54,20 @@ class _EditBookPageState extends State<EditBookPage> {
       child: Scaffold(
         appBar: AppBar(title: const Text('Painel do livro')),
         body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.only(left: 30, right: 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _header(),
-                _body(),
-              ],
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  _header(),
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  const SizedBox(height: 20),
+                  _body(),
+                ],
+              ),
             ),
           ),
         ),
@@ -59,13 +76,13 @@ class _EditBookPageState extends State<EditBookPage> {
   }
 
   Widget _header() {
-    return const Column(
+    return Column(
       children: [
         Text(
-          "Painel do Livro",
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          _bookData['title'] ?? "Cadastro de Livro",
+          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
-        Text("Coloque as informações para começar"),
+        const Text("Coloque as informações do livro abaixo:"),
       ],
     );
   }
@@ -76,28 +93,25 @@ class _EditBookPageState extends State<EditBookPage> {
         AppTextField(
           controller: titleController,
           hintText: "Nome do livro",
-          // initialText: _bookData['title'] ?? '',
           icon: Icons.book_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: synopsisController,
           hintText: 'Sinopse',
-          // initialText: _bookData['synopsis'] ?? '',
           icon: Icons.border_color_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: imageController,
           hintText: 'Url da Imagem',
-          // initialText: _bookData['imageUrl'] ?? '',
           icon: Icons.image_outlined,
         ),
         const SizedBox(height: 10),
         _dropDownButtonGenre(),
         const SizedBox(height: 10),
         _dropDownButtonAuthor(),
-        const SizedBox(height: 10),
+        const SizedBox(height: 30),
         AppButton(
           text: "Salvar",
           onPressed: () {
@@ -174,5 +188,8 @@ class _EditBookPageState extends State<EditBookPage> {
       _bookData['imageUrl'] =
           book.imageUrl != null ? book.imageUrl.toString() : '';
     }
+    setState(() {
+      _fillFields();
+    });
   }
 }
