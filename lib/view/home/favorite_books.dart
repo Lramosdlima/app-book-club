@@ -65,7 +65,7 @@ class _FavoriteBookState extends State<FavoriteBook> {
                     height: 220,
                   )
                 : Image.asset(
-                    'assets/img/bookDefault.png',
+                    'assets/img/book_default.png',
                     height: 220,
                   ),
             const SizedBox(height: 10),

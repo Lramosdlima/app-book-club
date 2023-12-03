@@ -64,7 +64,7 @@ class _BookGridState extends State<BookGrid> {
                     height: 220,
                   )
                 : Image.asset(
-                    'assets/img/bookDefault.png',
+                    'assets/img/book_default.png',
                     height: 220,
                   ),
             const SizedBox(height: 10),

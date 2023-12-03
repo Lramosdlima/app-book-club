@@ -87,7 +87,7 @@ class _BookPageState extends State<BookPage> {
               border: Border.all(color: Colors.white, width: 2),
               shape: BoxShape.rectangle),
           child: Image.asset(
-            'assets/img/bookDefault.png',
+            'assets/img/book_default.png',
             fit: BoxFit.cover,
           ));
     }
