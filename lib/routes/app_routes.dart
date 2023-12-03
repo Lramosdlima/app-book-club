@@ -17,6 +17,7 @@ class AppRoutes {
   // ADMIN ROUTES
   static const CHALLENGE_FORM = '/challenge/form';
   // PROFILE ROUTES
+  static const PROFILE_DETAIL = '/profile/detail';
   static const EDIT_PROFILE = '/profile/edit';
   static const CHANGE_PASSWORD = '/profile/password';
 }

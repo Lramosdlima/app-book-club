@@ -37,16 +37,13 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AppText(
-                userStore.user.id != null ? 'Meus dados' : 'Login',
-                type: TextType.subtitle,
-              ),
-              const Divider(),
               AppCard(
                 title: userStore.user.id != null ? 'Meus dados' : 'Login',
                 icon: Icons.person,
                 onPressed: () {
-                  userStore.user.id != null ? _goToEditProfile() : _goToLogin();
+                  userStore.user.id != null
+                      ? _goToProfileDetail()
+                      : _goToLogin();
                 },
               ),
               const Divider(),
@@ -70,13 +67,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               AppCard(
-                title: 'Editar Perfil',
-                icon: Icons.edit,
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.EDIT_PROFILE);
-                },
-              ),
-              AppCard(
                 title: 'Excluir Conta',
                 icon: Icons.delete,
                 onPressed: _confirmDeleteUserData,
@@ -97,8 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return const Icon(Icons.person, color: Colors.white, size: 30);
   }
 
-  _goToEditProfile() {
-    Navigator.pushNamed(context, AppRoutes.EDIT_PROFILE);
+  _goToProfileDetail() {
+    Navigator.pushNamed(context, AppRoutes.PROFILE_DETAIL);
   }
 
   _goToLogin() {

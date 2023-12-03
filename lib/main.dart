@@ -8,7 +8,7 @@ import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
-import 'package:bookclub/view/profile/edit_profile.dart';
+import 'package:bookclub/view/profile/profile_detail.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         // PROFILE ROUTES
-        AppRoutes.EDIT_PROFILE: (_) => const EditProfilePage(),
+        AppRoutes.PROFILE_DETAIL: (_) => const ProfileDetailPage(),
       },
       debugShowCheckedModeBanner: false,
     );
