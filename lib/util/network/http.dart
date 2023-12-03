@@ -1,3 +1,4 @@
+import 'package:bookclub/util/storage/storage.dart';
 import 'package:dio/dio.dart';
 
 class HttpHelper {
@@ -20,11 +21,11 @@ class HttpHelper {
       return _client;
     }
 
-    // final token = await StorageHelper.get('token');
+    final token = await StorageHelper.get('token');
 
     _client?.options.headers = {
       'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token'
     };
 
     return _client;

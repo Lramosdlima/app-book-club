@@ -1,9 +1,12 @@
 import 'package:bookclub/model/response.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:bookclub/util/network/http.dart';
+import 'package:bookclub/util/storage/storage.dart';
 
 class AuthRepository {
   Future<ApiResponse> login(String email, String password) async {
     ApiResponse response = ApiResponse();
+    UserStore userStore = UserStore();
 
     var params = <String, dynamic>{};
     params["email"] = email;
@@ -16,6 +19,8 @@ class AuthRepository {
         response.status = result.data["status"];
         if (response.status == true) {
           response.data = result.data["data"];
+          userStore.setUserData(response.data["user"]);
+          StorageHelper.set('token', response.data["accessToken"]);
         } else {
           response.error = result.data["error"];
         }
