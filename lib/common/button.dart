@@ -1,4 +1,4 @@
-import 'package:bookclub/common/styleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,6 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
         onPressed: onPressed,
-        textColor: textColor ?? StyleManager.instance.primaryText,
         color: backgroundColor ?? StyleManager.instance.primary,
         minWidth: double.maxFinite,
         height: 50,
@@ -33,7 +32,7 @@ class AppButton extends StatelessWidget {
             icon != null ? const SizedBox(width: 20) : const SizedBox(),
             AppText(
                 text: text,
-                textColor: textColor ?? StyleManager.instance.primaryTextWhite,
+                textColor: textColor ?? StyleManager.instance.primaryText,
                 isTitle: true)
           ],
         ));
