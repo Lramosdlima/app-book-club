@@ -86,7 +86,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget _extraText() {
     return TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.SIGNUP);
+          AppBottomSheet(
+            title: "Não consegue acessar sua conta?",
+            message: "Entre em contato com o administrador do sistema.",
+            type: BottomSheetType.info,
+          ).show(context);
         },
         child: Text(
           "Não consegue acessar sua conta?",
