@@ -123,6 +123,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  mobx:
+    dependency: "direct main"
+    description:
+      name: mobx
+      sha256: "42ae7277ec5c36fa5ce02aa14551065babce3c38a35947330144ff47bc775c75"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   ndialog:
     dependency: "direct main"
     description:
