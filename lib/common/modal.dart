@@ -21,7 +21,7 @@ class Modal {
       this.dismissable = false});
 
   NAlertDialog setAlert(BuildContext context) {
-    dialog = NAlertDialog(
+    return NAlertDialog(
       onDismiss: onDismiss,
       backgroundColor: Colors.black.withOpacity(.80),
       blur: 2,
@@ -52,6 +52,16 @@ class Modal {
           style: const TextStyle(
               color: Colors.white, fontFamily: 'Manrope', fontSize: 12)),
     );
-    return dialog;
+  }
+
+  Future<void> errorAlert(String? error, BuildContext context) async {
+    var modal = Modal(title: 'Ops...', message: error).setAlert(context);
+    modal.show(context);
+  }
+
+  Future<void> successAlert(String? data, BuildContext context) async {
+    var message = data ?? 'Realizado com sucesso!';
+    var modal = Modal(title: 'Pronto!', message: message).setAlert(context);
+    modal.show(context);
   }
 }
