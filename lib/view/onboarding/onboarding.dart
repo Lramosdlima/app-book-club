@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -48,8 +48,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            TColor.primaryLight,
-            TColor.secondary,
+            StyleManager.instance.primaryLight,
+            StyleManager.instance.secondary,
           ],
         )),
         child: Scaffold(
@@ -72,7 +72,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             pObj["title"].toString(),
                             style: TextStyle(
                               fontSize: 30,
-                              color: TColor.primaryTextWhite,
+                              color: StyleManager.instance.primaryTextWhite,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -82,7 +82,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             pObj["sub_title"].toString(),
                             style: TextStyle(
                               fontSize: 20,
-                              color: TColor.primaryTextWhite,
+                              color: StyleManager.instance.primaryTextWhite,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -116,7 +116,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             child: Text(
                               "Pular",
                               style: TextStyle(
-                                  color: TColor.primaryTextWhite,
+                                  color: StyleManager.instance.primaryTextWhite,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500),
                             )),
@@ -132,8 +132,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               height: 10,
                               decoration: BoxDecoration(
                                   color: page == index
-                                      ? TColor.primary
-                                      : TColor.primaryLight,
+                                      ? StyleManager.instance.primary
+                                      : StyleManager.instance.primaryLight,
                                   borderRadius: BorderRadius.circular(5)),
                             );
                           }).toList(),
@@ -151,7 +151,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             child: Text(
                               "Próximo",
                               style: TextStyle(
-                                  color: TColor.primaryTextWhite,
+                                  color: StyleManager.instance.primaryTextWhite,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500),
                             )),

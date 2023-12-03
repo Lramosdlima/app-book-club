@@ -1,5 +1,4 @@
-import 'package:bookclub/common/button.dart';
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +36,7 @@ class _AdminPageState extends State<AdminPage> {
           Text(
             "Dados",
             style: TextStyle(
-              color: TColor.primaryTextWhite,
+              color: StyleManager.instance.primaryTextWhite,
               fontSize: 17,
               fontWeight: FontWeight.bold,
             ),

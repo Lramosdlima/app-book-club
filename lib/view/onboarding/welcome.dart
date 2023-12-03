@@ -1,5 +1,5 @@
 import 'package:bookclub/common/button.dart';
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +33,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     "Bem vindo ao app",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: TColor.primaryTextWhite,
+                      color: StyleManager.instance.primaryTextWhite,
                       fontWeight: FontWeight.w600,
                       fontSize: 30,
                     ),
@@ -42,7 +42,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     "Book Club!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: TColor.primaryTextWhite,
+                      color: StyleManager.instance.primaryTextWhite,
                       fontWeight: FontWeight.w600,
                       fontSize: 30,
                     ),
@@ -70,7 +70,8 @@ class _WelcomePageState extends State<WelcomePage> {
                         "Acessar sem login",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 16, color: TColor.primaryTextWhite),
+                            fontSize: 16,
+                            color: StyleManager.instance.primaryTextWhite),
                       )),
                 ],
               ),

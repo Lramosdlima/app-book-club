@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 
@@ -15,7 +15,8 @@ class Loader {
         child: Container(
             alignment: Alignment.center,
             child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(TColor.primary))),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    StyleManager.instance.primary))),
       ),
       backgroundColor: Colors.black.withOpacity(.80),
     );
@@ -32,7 +33,8 @@ class Loader {
       child: Container(
           alignment: Alignment.center,
           child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(TColor.primary))),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  StyleManager.instance.primary))),
     );
   }
 }

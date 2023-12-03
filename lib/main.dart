@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/styleManager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/view/book/book.dart';
 import 'package:bookclub/view/book/editBook.dart';
@@ -21,14 +21,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: TColor.primary,
-        fontFamily: TColor.fontFamily,
+        primaryColor: StyleManager.instance.primary,
+        fontFamily: StyleManager.instance.fontFamily,
       ),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
         colorScheme: ColorScheme.dark(
-          primary: TColor.primary,
-          secondary: TColor.secondary,
+          primary: StyleManager.instance.primary,
+          secondary: StyleManager.instance.secondary,
         ),
         brightness: Brightness.dark,
       ),

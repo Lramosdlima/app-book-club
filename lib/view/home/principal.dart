@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/view/home/challenges.dart';
 import 'package:bookclub/view/home/favoriteBooks.dart';
 import 'package:bookclub/view/home/gender.dart';
@@ -75,11 +75,11 @@ class _PrincipalPageState extends State<PrincipalPage> {
             controller: _searchController,
             decoration: InputDecoration(
               hintText: "Digite o nome do livro...",
-              hintStyle: TextStyle(color: TColor.secondaryText),
+              hintStyle: TextStyle(color: StyleManager.instance.secondaryText),
               border: InputBorder.none,
               prefixIcon: Icon(
                 Icons.search,
-                color: TColor.secondaryText,
+                color: StyleManager.instance.secondaryText,
               ),
             ),
           ),
@@ -90,7 +90,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
             label: const Text('Pesquisar'),
             icon: const Icon(Icons.search),
             style: ElevatedButton.styleFrom(
-              foregroundColor: TColor.primaryText,
+              foregroundColor: StyleManager.instance.primaryText,
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

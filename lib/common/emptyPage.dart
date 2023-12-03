@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:flutter/material.dart';
 
 class EmptyPage extends StatelessWidget {
@@ -15,8 +15,8 @@ class EmptyPage extends StatelessWidget {
         style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            fontFamily: TColor.secondaryFontFamily,
-            color: TColor.secondaryText),
+            fontFamily: StyleManager.instance.secondaryFontFamily,
+            color: StyleManager.instance.secondaryText),
       ),
     );
   }

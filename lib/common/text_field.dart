@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
@@ -23,11 +23,11 @@ class AppTextField extends StatelessWidget {
         borderSide: const BorderSide(color: Colors.white));
     return TextFormField(
       initialValue: initialText,
-      style: TextStyle(color: TColor.primaryTextWhite),
+      style: TextStyle(color: StyleManager.instance.primaryTextWhite),
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: TColor.primaryTextWhite),
+        hintStyle: TextStyle(color: StyleManager.instance.primaryTextWhite),
         enabledBorder: border,
         focusedBorder: border,
         fillColor: Theme.of(context).primaryColor.withOpacity(0.1),

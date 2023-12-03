@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
@@ -19,7 +19,7 @@ class AppText extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: TextStyle(
-        color: textColor ?? TColor.primaryTextWhite,
+        color: textColor ?? StyleManager.instance.primaryTextWhite,
         fontSize: isTitle ? 17 : 14,
         fontWeight: isTitle ? FontWeight.bold : FontWeight.normal,
       ),

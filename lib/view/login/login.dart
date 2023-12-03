@@ -1,7 +1,7 @@
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/button.dart';
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
         begin: Alignment.topRight,
         end: Alignment.bottomLeft,
         colors: [
-          TColor.primaryLight,
-          TColor.secondary,
+          StyleManager.instance.primaryLight,
+          StyleManager.instance.secondary,
         ],
       )),
       child: Scaffold(
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               AppButton(
                 text: "Entrar",
                 backgroundColor: Colors.white,
-                textColor: TColor.primary,
+                textColor: StyleManager.instance.primary,
                 onPressed: _login,
               ),
               const SizedBox(height: 20),
@@ -105,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(
           "Não consegue acessar sua conta?",
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: TColor.primaryTextWhite),
+          style: TextStyle(
+              fontSize: 16, color: StyleManager.instance.primaryTextWhite),
         ));
   }
 

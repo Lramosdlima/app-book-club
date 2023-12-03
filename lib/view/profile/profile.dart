@@ -1,4 +1,4 @@
-import 'package:bookclub/common/color_extension.dart';
+import 'package:bookclub/common/StyleManager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
               "Dados",
               style: TextStyle(
-                color: TColor.primaryTextWhite,
+                color: StyleManager.instance.primaryTextWhite,
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
               "Configurações",
               style: TextStyle(
-                color: TColor.primaryTextWhite,
+                color: StyleManager.instance.primaryTextWhite,
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
