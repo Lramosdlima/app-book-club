@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formkey = GlobalKey();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late bool _passwordVisible;
   Loader loader = Loader();
@@ -100,47 +100,53 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextFormField(
-            controller: _usernameController,
-            validator: Validator().validateEmail,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: "Usuário",
-              labelText: "Usuário",
-              icon: Icon(Icons.person),
-            ),
-          ),
+          _emailFormField(),
           const SizedBox(height: 20),
-          TextFormField(
-            controller: _passwordController,
-            validator: Validator().validatePassword,
-            obscureText: !_passwordVisible,
-            decoration: InputDecoration(
-              hintText: "Senha",
-              labelText: "Senha",
-              icon: const Icon(Icons.lock),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible == true
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: StyleManager.instance.primaryTextWhite,
-                  size: 20,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-              ),
-            ),
-          ),
+          _passwordFormField(),
           const SizedBox(height: 40),
           AppButton(
             text: "Entrar",
             onPressed: _login,
           )
         ],
+      ),
+    );
+  }
+
+  _emailFormField() {
+    return TextFormField(
+      controller: _emailController,
+      validator: Validator().validateEmail,
+      keyboardType: TextInputType.emailAddress,
+      decoration: const InputDecoration(
+        hintText: "Email",
+        labelText: "Email",
+        icon: Icon(Icons.email),
+      ),
+    );
+  }
+
+  _passwordFormField() {
+    return TextFormField(
+      controller: _passwordController,
+      validator: Validator().validatePassword,
+      obscureText: !_passwordVisible,
+      decoration: InputDecoration(
+        hintText: "Senha",
+        labelText: "Senha",
+        icon: const Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
+            color: StyleManager.instance.primaryTextWhite,
+            size: 20,
+          ),
+          onPressed: () {
+            setState(() {
+              _passwordVisible = !_passwordVisible;
+            });
+          },
+        ),
       ),
     );
   }
@@ -189,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
       loader.show(context);
 
       final response = await AuthRepository()
-          .login(_usernameController.text, _passwordController.text);
+          .login(_emailController.text, _passwordController.text);
 
       loader.hide();
 
