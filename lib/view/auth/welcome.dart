@@ -1,5 +1,5 @@
 import 'package:bookclub/common/button.dart';
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 

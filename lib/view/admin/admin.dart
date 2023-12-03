@@ -1,4 +1,5 @@
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _AdminPageState extends State<AdminPage> {
           children: [
             _icon(),
             const SizedBox(width: 10),
-            const Text("Painel Administrador"),
+            const AppText("Painel Administrador"),
           ],
         ),
       ),
@@ -33,60 +34,53 @@ class _AdminPageState extends State<AdminPage> {
       child: ListView(
         children: [
           const SizedBox(height: 10),
-          Text(
-            "Dados",
-            style: TextStyle(
-              color: StyleManager.instance.primaryTextWhite,
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          const AppText("Dados", type: TextType.title),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.menu_book),
-            title: const Text('Painel Livro'),
+            title: const AppText('Painel Livro'),
             onTap: () {
               Navigator.pushNamed(context, AppRoutes.BOOK_FORM);
             },
           ),
           ListTile(
             leading: const Icon(Icons.diamond),
-            title: const Text('Painel Desafio'),
+            title: const AppText('Painel Desafio'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           ListTile(
             leading: const Icon(Icons.quiz),
-            title: const Text('Painel QUIZ'),
+            title: const AppText('Painel QUIZ'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           ListTile(
             leading: const Icon(Icons.people),
-            title: const Text('Painel Comunidade'),
+            title: const AppText('Painel Comunidade'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Painel Usuário'),
+            title: const AppText('Painel Usuário'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           ListTile(
             leading: const Icon(Icons.event),
-            title: const Text('Painel Evento'),
+            title: const AppText('Painel Evento'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },
           ),
           ListTile(
             leading: const Icon(Icons.chat),
-            title: const Text('Painel Chat'),
+            title: const AppText('Painel Chat'),
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.ADMIN);
             },

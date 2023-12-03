@@ -1,4 +1,4 @@
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/home/challenges.dart';
 import 'package:bookclub/view/home/favorite_books.dart';
 import 'package:bookclub/view/home/gender.dart';

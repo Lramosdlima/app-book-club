@@ -1,4 +1,4 @@
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 

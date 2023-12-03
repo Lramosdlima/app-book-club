@@ -1,5 +1,6 @@
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/favorite_book.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -69,23 +70,11 @@ class _FavoriteBookState extends State<FavoriteBook> {
                     height: 220,
                   ),
             const SizedBox(height: 10),
-            Text(
-              book.title ?? '',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            AppText(book.title ?? '', type: TextType.title),
             const SizedBox(height: 5),
-            Text(
-              book.authors?[0] ?? '',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
+            AppText(book.authors?[0] ?? ''),
             const SizedBox(height: 5),
-            Text(
-              'Gênero: ${book.genre ?? ''}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
+            AppText('Gênero: ${book.genre ?? ''}'),
           ],
         ),
       ),

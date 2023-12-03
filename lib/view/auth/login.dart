@@ -1,7 +1,7 @@
 import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/button.dart';
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';

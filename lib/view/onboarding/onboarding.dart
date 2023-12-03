@@ -1,4 +1,5 @@
-import 'package:bookclub/common/StyleManager.dart';
+import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -55,9 +56,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: Column(
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-                    _text(pObj["title"].toString(), TextType.title),
+                    AppText(
+                      pObj["title"].toString(),
+                      type: TextType.title,
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-                    _text(pObj["sub_title"].toString(), TextType.subtitle),
+                    AppText(
+                      pObj["sub_title"].toString(),
+                      type: TextType.normal,
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.05),
                     Image.asset(
                       pObj["img"].toString(),
@@ -83,7 +90,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         Navigator.pushReplacementNamed(
                             context, AppRoutes.WELCOME);
                       },
-                      child: _text("Pular", TextType.normal)),
+                      child: const AppText("Pular", type: TextType.normal)),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +119,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             context, AppRoutes.WELCOME);
                       }
                     },
-                    child: _text("Próximo", TextType.normal),
+                    child: const AppText("Próximo", type: TextType.normal),
                   ),
                 ],
               ),
@@ -122,36 +129,4 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ]),
     ));
   }
-
-  _text(String text, TextType type) {
-    double size = 0;
-    bool bold = false;
-
-    switch (type) {
-      case TextType.title:
-        size = 30;
-        bold = true;
-        break;
-      case TextType.subtitle:
-        size = 20;
-        bold = false;
-        break;
-      case TextType.normal:
-        size = 17;
-        bold = false;
-        break;
-    }
-
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: size,
-        color: StyleManager.instance.primaryTextWhite,
-        fontWeight: bold ? FontWeight.w600 : FontWeight.w300,
-      ),
-    );
-  }
 }
-
-enum TextType { title, subtitle, normal }

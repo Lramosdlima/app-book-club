@@ -34,9 +34,10 @@ class AppButton extends StatelessWidget {
               icon ?? const SizedBox(),
               icon != null ? const SizedBox(width: 20) : const SizedBox(),
               AppText(
-                  text: text,
-                  textColor: textColor ?? StyleManager.instance.primaryText,
-                  isTitle: true)
+                text,
+                textColor: textColor ?? StyleManager.instance.primaryText,
+                type: TextType.title,
+              )
             ],
           )),
     );
