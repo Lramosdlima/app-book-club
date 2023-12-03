@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/response.dart';
 import 'package:bookclub/util/network/http.dart';
@@ -26,7 +28,6 @@ class BookRepository {
       }).catchError((e) {
         response.status = false;
         response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
         print(e);
       });
 
@@ -54,7 +55,6 @@ class BookRepository {
       }).catchError((e) {
         response.status = false;
         response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
         print(e);
       });
 
@@ -88,7 +88,6 @@ class BookRepository {
       }).catchError((e) {
         response.status = false;
         response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
         print(e);
       });
 

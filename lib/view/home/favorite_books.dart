@@ -1,7 +1,7 @@
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/book.dart';
-import 'package:bookclub/repository/favoriteBook.dart';
+import 'package:bookclub/repository/favorite_book.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -101,6 +101,7 @@ class _FavoriteBookState extends State<FavoriteBook> {
         books = List<Book>.from(response.data);
       });
     } else {
+      // ignore: avoid_print
       print(response.error);
     }
     setState(() => _isLoading = false);
