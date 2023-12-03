@@ -4,7 +4,7 @@ import 'package:bookclub/model/book.dart';
 import 'package:flutter/material.dart';
 
 class EditBookPage extends StatefulWidget {
-  EditBookPage({Key? key}) : super(key: key);
+  const EditBookPage({Key? key}) : super(key: key);
 
   @override
   State<EditBookPage> createState() => _EditBookPageState();

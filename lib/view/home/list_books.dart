@@ -6,6 +6,8 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class BookGrid extends StatefulWidget {
+  const BookGrid({Key? key}) : super(key: key);
+
   @override
   State<BookGrid> createState() => _BookGridState();
 }

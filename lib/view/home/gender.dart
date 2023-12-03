@@ -8,7 +8,14 @@ class Gender {
   Gender(this.name, this.description, this.icon);
 }
 
-class GenderList extends StatelessWidget {
+class GenderList extends StatefulWidget {
+  const GenderList({Key? key}) : super(key: key);
+
+  @override
+  State<GenderList> createState() => _GenderListState();
+}
+
+class _GenderListState extends State<GenderList> {
   final List<Gender> genders = [
     Gender("Ação", "Livros com muita adrenalina e lutas intensas.",
         Icons.directions_run),
@@ -24,8 +31,6 @@ class GenderList extends StatelessWidget {
         "Livros que exploram o futuro e o desconhecido.", Icons.rocket_launch),
     Gender("Drama", "Livros emocionantes e envolventes.", Icons.theater_comedy),
   ];
-
-  GenderList({super.key});
 
   @override
   Widget build(BuildContext context) {

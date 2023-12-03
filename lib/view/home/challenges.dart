@@ -10,7 +10,14 @@ class Challenge {
       [this.isCompleted = false]);
 }
 
-class ChallengeList extends StatelessWidget {
+class ChallengeList extends StatefulWidget {
+  const ChallengeList({Key? key}) : super(key: key);
+
+  @override
+  State<ChallengeList> createState() => _ChallengeListState();
+}
+
+class _ChallengeListState extends State<ChallengeList> {
   final List<Challenge> challenge = [
     Challenge(
         "Mundo Literário Além das Fronteiras",
@@ -49,8 +56,6 @@ class ChallengeList extends StatelessWidget {
       "https://example.com/pequeno_principe.jpg",
     ),
   ];
-
-  ChallengeList({super.key});
 
   @override
   Widget build(BuildContext context) {

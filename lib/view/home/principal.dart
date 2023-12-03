@@ -6,7 +6,7 @@ import 'package:bookclub/view/home/list_books.dart';
 import 'package:flutter/material.dart';
 
 class PrincipalPage extends StatefulWidget {
-  const PrincipalPage({super.key});
+  const PrincipalPage({Key? key}) : super(key: key);
 
   @override
   State<PrincipalPage> createState() => _PrincipalPageState();
@@ -49,7 +49,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           ),
         ),
       ),
-      body: TabBarView(
+      body: const TabBarView(
         children: <Widget>[
           BookGrid(),
           FavoriteBook(),

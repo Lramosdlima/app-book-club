@@ -6,7 +6,7 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteBook extends StatefulWidget {
-  const FavoriteBook({super.key});
+  const FavoriteBook({Key? key}) : super(key: key);
 
   @override
   State<FavoriteBook> createState() => _FavoriteBookState();

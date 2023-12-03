@@ -17,7 +17,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
         AppRoutes.ONBOARDING: (_) => const OnboardingPage(),
         AppRoutes.WELCOME: (_) => const WelcomePage(),
         AppRoutes.LOGIN: (_) => const LoginPage(),
-        AppRoutes.SIGNUP: (_) => SignUpPage(),
-        AppRoutes.HOME: (_) => HomePage(),
+        AppRoutes.SIGNUP: (_) => const SignUpPage(),
+        AppRoutes.HOME: (_) => const HomePage(),
         AppRoutes.PROFILE: (_) => const ProfilePage(),
-        AppRoutes.BOOK: (_) => BookPage(),
-        AppRoutes.BOOK_FORM: (_) => EditBookPage(),
-        AppRoutes.FAVORITE_BOOK: (_) => FavoriteBook(),
+        AppRoutes.BOOK: (_) => const BookPage(),
+        AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
+        AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         AppRoutes.ADMIN: (_) => const AdminPage(),
       },
       debugShowCheckedModeBanner: false,

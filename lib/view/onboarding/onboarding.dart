@@ -3,7 +3,7 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  const OnboardingPage({Key? key}) : super(key: key);
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
@@ -36,7 +36,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       if (mounted) {
         setState(() {});
       }
-      ;
     });
   }
 

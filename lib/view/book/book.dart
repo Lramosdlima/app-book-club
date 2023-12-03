@@ -5,7 +5,7 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
-  const BookPage({super.key});
+  const BookPage({Key? key}) : super(key: key);
 
   @override
   State<BookPage> createState() => _BookPageState();
