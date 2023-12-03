@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final String? initialText;
   final IconData? icon;
   final bool isPassword;
 
@@ -13,8 +12,7 @@ class AppTextField extends StatelessWidget {
       required this.controller,
       required this.hintText,
       this.icon,
-      this.isPassword = false,
-      this.initialText});
+      this.isPassword = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,6 @@ class AppTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Colors.white));
     return TextFormField(
-      initialValue: initialText,
       style: TextStyle(color: StyleManager.instance.primaryTextWhite),
       controller: controller,
       decoration: InputDecoration(
