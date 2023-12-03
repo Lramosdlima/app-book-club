@@ -9,12 +9,15 @@ class AppRoutes {
   static const SIGNUP = '/auth/signup';
   // HOME ROUTES
   static const HOME = '/home';
-  static const PROFILE = '/home/profile';
-  static const ADMIN = '/home/admin';
+  static const ADMIN = '/admin';
+  static const PROFILE = '/profile';
   // BOOK ROUTES
   static const BOOK = '/book';
   static const FAVORITE_BOOK = '/book/favorite';
   static const BOOK_FORM = '/book/form';
   // ADMIN ROUTES
   static const CHALLENGE_FORM = '/challenge/form';
+  // PROFILE ROUTES
+  static const EDIT_PROFILE = '/profile/edit';
+  static const CHANGE_PASSWORD = '/profile/password';
 }

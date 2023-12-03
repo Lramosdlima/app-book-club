@@ -36,16 +36,19 @@ class MyApp extends StatelessWidget {
       ),
       title: 'Book Club',
       routes: {
+        // INICIAL ROUTES
         AppRoutes.ONBOARDING: (_) => const OnboardingPage(),
         AppRoutes.WELCOME: (_) => const WelcomePage(),
         AppRoutes.LOGIN: (_) => const LoginPage(),
         AppRoutes.SIGNUP: (_) => const SignUpPage(),
+        // HOME ROUTES
         AppRoutes.HOME: (_) => const HomePage(),
+        AppRoutes.ADMIN: (_) => const AdminPage(),
         AppRoutes.PROFILE: (_) => const ProfilePage(),
+        // BOOK ROUTES
         AppRoutes.BOOK: (_) => const BookPage(),
         AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
-        AppRoutes.ADMIN: (_) => const AdminPage(),
       },
       debugShowCheckedModeBanner: false,
     );
