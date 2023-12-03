@@ -18,29 +18,34 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double size;
+    TextAlign textAlign;
     FontWeight fontWeight;
 
     switch (type) {
       case TextType.title:
         size = 30;
         fontWeight = FontWeight.bold;
+        textAlign = TextAlign.center;
         break;
       case TextType.subtitle:
         size = 20;
         fontWeight = FontWeight.normal;
+        textAlign = TextAlign.justify;
         break;
       case TextType.normal:
         size = 17;
         fontWeight = FontWeight.normal;
+        textAlign = TextAlign.justify;
         break;
       default:
         size = 17;
         fontWeight = FontWeight.normal;
+        textAlign = TextAlign.justify;
     }
 
     return Text(
       text,
-      textAlign: TextAlign.center,
+      textAlign: textAlign,
       style: TextStyle(
         fontSize: size,
         color: StyleManager.instance.primaryTextWhite,
