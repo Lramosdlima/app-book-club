@@ -1,5 +1,5 @@
 <h1 align="center">
-    <a href="#" alt="Api Book Club 📚"> App Book Club </a>
+    <a href="#" alt="Api Book Club 📚"> 📚 App Book Club </a>
 </h1>
 
 <h3 align="center">
@@ -10,9 +10,9 @@
   Feito por Leonardo R., Felipe R. e Rafael C.
 </p>
 
-# Sobre
+# Sobre o projeto 🤔
 
-Esse aplicativo é um projeto de graduação de Análise e Desenvolvimento de Sistemas para o Projeto Integrador. Ela foi desenvolvida com o intuito de praticar conhecimentos adquiridos no decorrer do curso. Esse aplicativo utiliza das funções fornecidas pela [API Book Club](https://github.com/Lramosdlima/api-book-club).
+Esse aplicativo é um projeto de graduação no CEUB de Análise e Desenvolvimento de Sistemas para o Projeto Integrador. Ela foi desenvolvida com o intuito de praticar conhecimentos adquiridos no decorrer do curso. Esse aplicativo utiliza das funções fornecidas pela [API Book Club](https://github.com/Lramosdlima/api-book-club).
 
 ## 🛠 Conhecimentos Aplicados
 
