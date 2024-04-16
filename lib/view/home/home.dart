@@ -1,7 +1,10 @@
 import 'package:bookclub/view/admin/admin.dart';
+import 'package:bookclub/view/home/newhome/bookstore.dart';
 import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pageOptions = <Widget>[
-    const PrincipalPage(),
+    const Bookstore(),
     const AdminPage(),
     const ProfilePage(),
   ];
