@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 class NavigationItem {
-
   IconData iconData;
 
   NavigationItem(this.iconData);
-
 }
 
-List<NavigationItem> getNavigationItemList(){
+List<NavigationItem> getNavigationItemList() {
   return <NavigationItem>[
     NavigationItem(Icons.home),
     NavigationItem(Icons.book),
@@ -18,7 +16,6 @@ List<NavigationItem> getNavigationItemList(){
 }
 
 class Book {
-
   String title;
   String description;
   Author author;
@@ -26,10 +23,9 @@ class Book {
   String image;
 
   Book(this.title, this.description, this.author, this.score, this.image);
-
 }
 
-List<Book> getBookList(){
+List<Book> getBookList() {
   return <Book>[
     Book(
       "An Anonymous Girl",
@@ -40,7 +36,7 @@ List<Book> getBookList(){
         "assets/authors/greer_hendricks.jpg",
       ),
       "4.14",
-      "assets/books/an_anonymous_girl_by_greer_hendricks.jpg",
+      "assets/img/books/an_anonymous_girl_by_greer_hendricks.jpg",
     ),
     Book(
       "The Water Cure",
@@ -51,7 +47,7 @@ List<Book> getBookList(){
         "assets/authors/sophie_mackintosh.jpg",
       ),
       "4.14",
-      "assets/books/the_water_cure_by_sophie_mackintosh.jpg",
+      "assets/img/books/the_water_cure_by_sophie_mackintosh.jpg",
     ),
     Book(
       "The Dreamers",
@@ -62,7 +58,7 @@ List<Book> getBookList(){
         "assets/authors/karen_thompson_walker.jpg",
       ),
       "4.14",
-      "assets/books/the_dreamers_by_karen_thompson.jpg",
+      "assets/img/books/the_dreamers_by_karen_thompson.jpg",
     ),
     Book(
       "Maid",
@@ -73,7 +69,7 @@ List<Book> getBookList(){
         "assets/authors/stepanie_land.jpg",
       ),
       "4.14",
-      "assets/books/maid_by_stepanie_land.jpg",
+      "assets/img/books/maid_by_stepanie_land.jpg",
     ),
     Book(
       "The Suspect",
@@ -84,7 +80,7 @@ List<Book> getBookList(){
         "assets/authors/fiona_barton.jpg",
       ),
       "4.14",
-      "assets/books/the_suspect_by_fiona_barton.jpg",
+      "assets/img/books/the_suspect_by_fiona_barton.jpg",
     ),
     Book(
       "The Lost Girls of Paris",
@@ -95,7 +91,7 @@ List<Book> getBookList(){
         "assets/authors/pam_jenoff.jpg",
       ),
       "4.14",
-      "assets/books/the_lost_girls_of_paris_by_pam_jenoff.jpg",
+      "assets/img/books/the_lost_girls_of_paris_by_pam_jenoff.jpg",
     ),
     Book(
       "The Age of Light",
@@ -106,7 +102,7 @@ List<Book> getBookList(){
         "assets/authors/whitney_scharer.jpg",
       ),
       "4.14",
-      "assets/books/the_age_of_light_by_whitney_scharer.jpg",
+      "assets/img/books/the_age_of_light_by_whitney_scharer.jpg",
     ),
     Book(
       "The Last Romantics",
@@ -117,7 +113,7 @@ List<Book> getBookList(){
         "assets/authors/tara_conklin.jpg",
       ),
       "4.14",
-      "assets/books/the_last_romantics_by_tara_conklin.jpg",
+      "assets/img/books/the_last_romantics_by_tara_conklin.jpg",
     ),
     Book(
       "The Night Tiger",
@@ -128,7 +124,7 @@ List<Book> getBookList(){
         "assets/authors/yangsze_choo.jpg",
       ),
       "4.14",
-      "assets/books/the_night_tiger_by_yangsze_choo.jpg",
+      "assets/img/books/the_night_tiger_by_yangsze_choo.jpg",
     ),
     Book(
       "The Lost Night",
@@ -139,7 +135,7 @@ List<Book> getBookList(){
         "assets/authors/andrea_bartz.jpg",
       ),
       "4.14",
-      "assets/books/the_lost_night_by_andrea_bartz.jpg",
+      "assets/img/books/the_lost_night_by_andrea_bartz.jpg",
     ),
     Book(
       "You Know You Want This",
@@ -150,23 +146,20 @@ List<Book> getBookList(){
         "assets/authors/kristen_roupenian.jpg",
       ),
       "4.14",
-      "assets/books/you_know_you_want_this_by_kristen_roupenian.jpg",
+      "assets/img/books/you_know_you_want_this_by_kristen_roupenian.jpg",
     ),
   ];
 }
 
 class Author {
-
   String fullname;
   int books;
   String image;
 
-
   Author(this.fullname, this.books, this.image);
-
 }
 
-List<Author> getAuthorList(){
+List<Author> getAuthorList() {
   return <Author>[
     Author(
       "Stepanie Land",
@@ -227,14 +220,12 @@ List<Author> getAuthorList(){
 }
 
 class Filter {
-
   String name;
 
   Filter(this.name);
-
 }
 
-List<Filter> getFilterList(){
+List<Filter> getFilterList() {
   return <Filter>[
     Filter("LIVROS"),
     Filter("REVIEWS"),
