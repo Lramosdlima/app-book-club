@@ -1,10 +1,13 @@
+import 'package:bookclub/model/author.dart';
+import 'package:bookclub/model/genre.dart';
+
 class Book {
   final int? id;
   final String? title;
   final String? synopsis;
-  final Map? genre;
+  final Genre? genre;
   final String? imageUrl;
-  final Map? author;
+  final Author? author;
 
   Book({
     this.id,
@@ -20,9 +23,9 @@ class Book {
       id: map["id"] as int?,
       title: map["title"] as String,
       synopsis: map["synopsis"] as String,
-      genre: map["genre"] as Map?,
+      genre: Genre.fromMap(map["genre"]),
       imageUrl: map["imageUrl"] as String?,
-      author: map["author"] as Map?,
+      author: Author.fromMap(map["author"]),
     );
   }
 }
