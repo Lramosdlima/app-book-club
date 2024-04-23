@@ -5,7 +5,8 @@ import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
-
+import 'collection_folder/collection.dart';
+import 'collection_folder/collection_screen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pageOptions = <Widget>[
-    const Bookstore(),
+    const LoginPage(),
     const AdminPage(),
     const ProfilePage(),
   ];
