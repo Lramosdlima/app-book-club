@@ -185,8 +185,8 @@ class _EditBookPageState extends State<EditBookPage> {
       _bookData['synopsis'] =
           book.synopsis != null ? book.synopsis.toString() : '';
       _bookData['genre'] = book.genre != null ? book.genre.toString() : '';
-      _bookData['authors'] =
-          book.authors != null ? book.authors.toString() : '';
+      _bookData['author'] =
+          book.author != null ? book.author.toString() : '';
       _bookData['imageUrl'] =
           book.imageUrl != null ? book.imageUrl.toString() : '';
     }
