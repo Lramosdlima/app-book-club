@@ -9,7 +9,7 @@ class BookRepository {
     ApiResponse response = ApiResponse();
     List books = [];
     try {
-      final request = HttpHelper.get('/book/all/complete');
+      final request = HttpHelper.get('/book/all');
 
       await request.then((result) {
         response.status = result.data["status"];
