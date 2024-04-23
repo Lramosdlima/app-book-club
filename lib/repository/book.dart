@@ -12,15 +12,15 @@ class BookRepository {
       final request = HttpHelper.get('/book/all/complete');
 
       await request.then((result) {
-        var objects = result.data["data"];
-
-        for (var book in objects) {
-          var bookObject = Book.fromMap(book);
-          books.add(bookObject);
-        }
-
         response.status = result.data["status"];
         if (response.status == true) {
+          var objects = result.data["data"];
+
+          for (var book in objects) {
+            var bookObject = Book.fromMap(book);
+            books.add(bookObject);
+          }
+
           response.data = books;
         } else {
           response.error = result.data["error"];
@@ -44,10 +44,10 @@ class BookRepository {
       final request = HttpHelper.get('/book/$id');
 
       await request.then((result) {
-        var book = Book.fromMap(result.data["data"]);
-
         response.status = result.data["status"];
         if (response.status == true) {
+          var book = Book.fromMap(result.data["data"]);
+
           response.data = book;
         } else {
           response.error = result.data["error"];
@@ -72,15 +72,15 @@ class BookRepository {
       final request = HttpHelper.get('/book/favorites');
 
       await request.then((result) {
-        var objects = result.data["data"];
-
-        for (var book in objects) {
-          var bookObject = Book.fromMap(book);
-          books.add(bookObject);
-        }
-
         response.status = result.data["status"];
         if (response.status == true) {
+          var objects = result.data["data"];
+
+          for (var book in objects) {
+            var bookObject = Book.fromMap(book);
+            books.add(bookObject);
+          }
+
           response.data = books;
         } else {
           response.error = result.data["error"];
