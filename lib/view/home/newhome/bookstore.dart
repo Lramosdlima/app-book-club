@@ -79,7 +79,7 @@ class _BookstoreState extends State<Bookstore> {
                   "Discover books",
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
-                    fontSize: 40,
+                    fontSize: 30,
                     height: 1,
                   ),
                 ),
