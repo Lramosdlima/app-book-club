@@ -29,7 +29,12 @@ class BookDetail extends StatelessWidget {
               expandedTitleScale: 1,
               background: Hero(
                 tag: book.title ?? '',
-                child: Image.asset(book.imageUrl ?? '', fit: BoxFit.fitWidth),
+                child: Image.network(
+                    book.imageUrl ?? '',
+                    height: 220,
+                    width: 100,
+                    fit: BoxFit.cover,
+                  ),
               ),
             ),
           ),
