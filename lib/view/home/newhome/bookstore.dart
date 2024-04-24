@@ -1,3 +1,7 @@
+import 'package:bookclub/common/empty_page.dart';
+import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/model/book.dart';
+import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:bookclub/view/home/newhome/constants.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
@@ -11,13 +15,17 @@ class Bookstore extends StatefulWidget {
 }
 
 class _BookstoreState extends State<Bookstore> {
+  bool _isLoading = false;
+  Loader loader = Loader();
+  late List<Book> books = [];
+
   List<Filter> filters = getFilterList();
   Filter? selectedFilter;
 
   List<NavigationItem> navigationItems = getNavigationItemList();
   NavigationItem? selectedItem;
 
-  List<Book> books = getBookList();
+  // List<Book> books = getBookList();
   List<Author> authors = getAuthorList();
 
   @override
@@ -27,8 +35,12 @@ class _BookstoreState extends State<Bookstore> {
       selectedFilter = filters[0];
       selectedItem = navigationItems[0];
     });
+    Future.delayed(Duration.zero, () {
+      _getBooks();
+    });
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +66,12 @@ class _BookstoreState extends State<Bookstore> {
           ),
         ],
       ),
-      body: Column(
+      body: _isLoading ? Loader().pageLoading() : _buildList(),
+    );
+  }
+
+      Widget _buildList() {
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -98,117 +115,22 @@ class _BookstoreState extends State<Bookstore> {
           ),
 
           Expanded(
-            child: Container(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: buildBooks(),
-              ),
-            ),
+            child: books.isNotEmpty ? ListView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: buildBooks(),
+            ) : const EmptyPage(text: "Livros não encontrados!"),
           ),
 
           Expanded(
-            child: Container(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: buildBooks(),
-              ),
-            ),
+            child: books.isNotEmpty ? ListView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: buildBooks(),
+            ) : const EmptyPage(text: "Livros não encontrados!"),
           ),
-
-          // Container(
-          //   decoration: const BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.only(
-          //       topLeft: Radius.circular(40),
-          //     ),
-          //   ),
-          //   child: Column(
-          //     children: [
-
-          //       Padding(
-          //         padding: const EdgeInsets.all(16),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-
-          //             const Text(
-          //               "Authors to follow",
-          //               style: TextStyle(
-          //                 fontSize: 22,
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Colors.black,
-          //               ),
-          //             ),
-
-          //             Row(
-          //               children: [
-
-          //                 Text(
-          //                   "Show all",
-          //                   style: TextStyle(
-          //                     fontSize: 18,
-          //                     fontWeight: FontWeight.bold,
-          //                     color: kPrimaryColor,
-          //                   ),
-          //                 ),
-
-          //                 const SizedBox(
-          //                   width: 8,
-          //                 ),
-
-          //                 Icon(
-          //                   Icons.arrow_forward,
-          //                   size: 18,
-          //                   color: kPrimaryColor,
-          //                 ),
-
-          //               ],
-          //             ),
-
-          //           ],
-          //         ),
-          //       ),
-
-          //       Container(
-          //         height: 100,
-          //         margin: const EdgeInsets.only(bottom: 16),
-          //         child: ListView(
-          //           physics: const BouncingScrollPhysics(),
-          //           scrollDirection: Axis.horizontal,
-          //           children: buildAuthors(),
-          //         ),
-          //       ),
-
-          //     ],
-          //   ),
-          // ),
         ],
-      ),
-      // bottomNavigationBar: Container(
-      //   height: 70,
-      //   decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: const BorderRadius.only(
-      //       topLeft: Radius.circular(25),
-      //       topRight: Radius.circular(25),
-      //     ),
-      //     boxShadow: [
-      //       BoxShadow(
-      //         color: Colors.grey.withOpacity(0.2),
-      //         spreadRadius: 8,
-      //         blurRadius: 12,
-      //         offset: const Offset(0, 3),
-      //       ),
-      //     ],
-      //   ),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //     children: buildNavigationItems(),
-      //   ),
-      // ),
-    );
+      );
   }
 
   List<Widget> buildFilters() {
@@ -266,6 +188,9 @@ class _BookstoreState extends State<Bookstore> {
   }
 
   Widget buildBook(Book book, int index) {
+    const urlDefault =
+        'https://ayine.com.br/wp-content/uploads/2022/03/Miolo-diagonal-O-livro-dos-amigos-site.png';
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -275,9 +200,9 @@ class _BookstoreState extends State<Bookstore> {
       },
       child: Container(
         margin:
-            EdgeInsets.only(right: 32, left: index == 0 ? 16 : 0, bottom: 8),
+            const EdgeInsets.only(right: 16, left: 16, bottom: 8),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
@@ -297,23 +222,25 @@ class _BookstoreState extends State<Bookstore> {
                   top: 24,
                 ),
                 child: Hero(
-                  tag: book.title,
-                  child: Image.asset(
-                    book.image,
-                    fit: BoxFit.fitWidth,
+                  tag: book.title ?? '',
+                  child: Image.network(
+                    book.imageUrl ?? urlDefault,
+                    height: 220,
+                    width: 100,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             Text(
-              book.title,
+              book.title ?? '',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              book.author.fullname,
+              book.author?.name ?? '',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
@@ -409,31 +336,18 @@ class _BookstoreState extends State<Bookstore> {
     );
   }
 
-  // List<Widget> buildNavigationItems() {
-  //   List<Widget> list = [];
-  //   for (var navigationItem in navigationItems) {
-  //     list.add(buildNavigationItem(navigationItem));
-  //   }
-  //   return list;
-  // }
+    _getBooks() async {
+    setState(() => _isLoading = true);
+    final response = await BookRepository().getBooks();
 
-  // Widget buildNavigationItem(NavigationItem item) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         selectedItem = item;
-  //       });
-  //     },
-  //     child: Container(
-  //       width: 50,
-  //       child: Center(
-  //         child: Icon(
-  //           item.iconData,
-  //           color: selectedItem == item ? kPrimaryColor : Colors.grey[400],
-  //           size: 28,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+    if (response.status == true) {
+      setState(() {
+        books = List<Book>.from(response.data);
+      });
+    } else {
+      // ignore: avoid_print
+      print(response.error);
+    }
+    setState(() => _isLoading = false);
+  }
 }

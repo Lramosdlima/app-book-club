@@ -1,10 +1,7 @@
-import 'dart:html';
 import 'package:bookclub/common/style_manager.dart';
-import 'package:bookclub/view/home/newhome/constants.dart';
+import 'package:bookclub/model/book.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 
@@ -25,14 +22,14 @@ class BookDetail extends StatelessWidget {
             expandedHeight: 550,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                book.title,
+                book.title ?? '',
                 style: TextStyle(fontSize: 18),
               ),
               centerTitle: false,
               expandedTitleScale: 1,
               background: Hero(
-                tag: book.title,
-                child: Image.asset(book.image, fit: BoxFit.fitWidth),
+                tag: book.title ?? '',
+                child: Image.asset(book.imageUrl ?? '', fit: BoxFit.fitWidth),
               ),
             ),
           ),
@@ -47,7 +44,7 @@ class BookDetail extends StatelessWidget {
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: ReadMoreText(
-                        book.description,
+                        book.synopsis ?? '',
                         trimLines: 4, 
                         trimMode: TrimMode.Line,
                         trimExpandedText: 'mostra menos',
