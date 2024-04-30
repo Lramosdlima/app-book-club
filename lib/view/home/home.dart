@@ -5,7 +5,7 @@ import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
-import 'collection/collection_screen.dart';
+import 'collection/collection.dart';
 
 
 class HomePage extends StatefulWidget {
