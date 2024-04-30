@@ -1,11 +1,15 @@
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:bookclub/view/home/newhome/constants.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:readmore/readmore.dart';
 
 class Bookstore extends StatefulWidget {
   const Bookstore({super.key});
@@ -28,6 +32,8 @@ class _BookstoreState extends State<Bookstore> {
   // List<Book> books = getBookList();
   List<Author> authors = getAuthorList();
 
+  List<Comment> comments = getCommentList();
+
   @override
   void initState() {
     super.initState();
@@ -43,30 +49,35 @@ class _BookstoreState extends State<Bookstore> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        elevation: 0,
-        // brightness: Brightness.light,
-        leading: Icon(
-          Icons.sort,
-          color: kPrimaryColor,
-          size: 28,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: const TabBar(
+            tabs: [
+              Tab(
+                text: "Livros",
+              ),
+              Tab(
+                text: "Reviews",
+              ),
+              Tab(
+                text: "Listas",
+              )
+            ]),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 16,
+        body: TabBarView(
+          children: [
+            _isLoading ? Loader().pageLoading() : _buildList(),
+            SingleChildScrollView(child: buildComments()),
+            Container(
+              color: Colors.black,
+              child: const Icon(Icons.percent),
             ),
-            child: Icon(
-              Icons.search,
-              color: Colors.grey[400],
-              size: 28,
-            ),
-          ),
-        ],
+
+          ]
+          ) 
       ),
-      body: _isLoading ? Loader().pageLoading() : _buildList(),
     );
   }
 
@@ -74,52 +85,31 @@ class _BookstoreState extends State<Bookstore> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomRight: Radius.circular(0),
+          const Padding(
+            padding: EdgeInsets.only(top: 10.0, left: 20.0),
+            child: Text(
+              "Polular Books",
+              style: TextStyle( 
+                fontSize: 20
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 8,
-                  blurRadius: 12,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Discover books",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 30,
-                    height: 1,
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: buildFilters(),
-                  ),
-                ),
-              ],
             ),
           ),
-
           Expanded(
             child: books.isNotEmpty ? ListView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: buildBooks(),
             ) : const EmptyPage(text: "Livros não encontrados!"),
+          ),
+
+          const Padding(
+            padding: EdgeInsets.only(top: 10.0, left: 20.0),
+            child: Text(
+              "Recent Activity",
+              style: TextStyle( 
+                fontSize: 20
+              ),
+            ),
           ),
 
           Expanded(
@@ -131,52 +121,6 @@ class _BookstoreState extends State<Bookstore> {
           ),
         ],
       );
-  }
-
-  List<Widget> buildFilters() {
-    List<Widget> list = [];
-    for (var i = 0; i < filters.length; i++) {
-      list.add(buildFilter(filters[i]));
-    }
-    return list;
-  }
-
-  Widget buildFilter(Filter item) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedFilter = item;
-        });
-      },
-      child: Container(
-        height: 50,
-        child: Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                width: 30,
-                height: 3,
-                color:
-                    selectedFilter == item ? kPrimaryColor : Colors.transparent,
-              ),
-            ),
-            Center(
-              child: Text(
-                item.name,
-                style: TextStyle(
-                  color:
-                      selectedFilter == item ? kPrimaryColor : Colors.grey[400],
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 3,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   List<Widget> buildBooks() {
@@ -225,8 +169,8 @@ class _BookstoreState extends State<Bookstore> {
                   tag: book.title ?? '',
                   child: Image.network(
                     book.imageUrl ?? urlDefault,
-                    height: 220,
-                    width: 100,
+                    height: 180,
+                    width: 120,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -235,14 +179,14 @@ class _BookstoreState extends State<Bookstore> {
             Text(
               book.title ?? '',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               book.author?.name ?? '',
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 10,
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
               ),
@@ -349,5 +293,57 @@ class _BookstoreState extends State<Bookstore> {
       print(response.error);
     }
     setState(() => _isLoading = false);
+  }
+
+  Widget buildComments() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: comments.length,
+      itemBuilder: (BuildContext context, int index) {
+        return buildComment(comments[index]);
+      },
+    );
+  }
+
+  Widget buildComment(Comment comment) {
+    return ListTile(
+      title: Column(
+        children: [
+          Row(
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(backgroundImage: AssetImage(comment.userImage)),
+                  SizedBox(width: 16.0),
+                  Text(comment.name)
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0,),
+          Row(
+            children: [
+              RatingBarIndicator(
+                rating: 3.5,
+                itemSize: 13,
+                itemBuilder: (_, __) => Icon(Icons.star, color: StyleManager.instance.secondary ,),
+              ),
+              SizedBox(width: 16.0,),
+              Text(comment.date,),
+
+            ],
+          ),
+          const SizedBox(height: 16.0,),
+          ReadMoreText(
+            comment.commentText,
+            trimLines: 2, 
+            trimMode: TrimMode.Line,
+            trimExpandedText: 'mostra menos',
+            trimCollapsedText: 'mostrar mais',
+            )
+        ],
+      ),
+    );
   }
 }

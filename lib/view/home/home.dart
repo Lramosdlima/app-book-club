@@ -1,3 +1,4 @@
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/home/newhome/bookstore.dart';
 import 'package:bookclub/view/home/newhome/constants.dart';
@@ -48,18 +49,18 @@ class _HomePageState extends State<HomePage> {
         body: _body(),
       bottomNavigationBar: Container(
         height: 70,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // color: Colors.white,
-          borderRadius: const BorderRadius.only(
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.black,
               spreadRadius: 8,
               blurRadius: 12,
-              offset: const Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),
@@ -96,7 +97,7 @@ class _HomePageState extends State<HomePage> {
         child: Center(
           child: Icon(
             item.iconData,
-            color: selectedItem == item ? kPrimaryColor : Colors.grey[400],
+            color: selectedItem == item ? StyleManager.instance.primary : Colors.grey[400],
             size: 28,
           ),
         ),
