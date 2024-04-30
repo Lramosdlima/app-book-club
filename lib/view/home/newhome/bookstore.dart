@@ -4,6 +4,7 @@ import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
+import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:bookclub/view/home/newhome/constants.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
@@ -30,15 +31,14 @@ class _BookstoreState extends State<Bookstore> {
   NavigationItem? selectedItem;
 
   // List<Book> books = getBookList();
-  List<Author> authors = getAuthorList();
-
-  List<Comment> comments = getCommentList();
+  // List<Author> authors = getAuthorList();
+  // List<Comment> comments = getCommentList();
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      selectedFilter = filters[0];
+      // selectedFilter = filters[0];
       selectedItem = navigationItems[0];
     });
     Future.delayed(Duration.zero, () {
@@ -46,15 +46,13 @@ class _BookstoreState extends State<Bookstore> {
     });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
+          appBar: AppBar(
+            bottom: const TabBar(tabs: [
               Tab(
                 text: "Livros",
               ),
@@ -65,62 +63,56 @@ class _BookstoreState extends State<Bookstore> {
                 text: "Listas",
               )
             ]),
-        ),
-        body: TabBarView(
-          children: [
+          ),
+          body: TabBarView(children: [
             _isLoading ? Loader().pageLoading() : _buildList(),
-            SingleChildScrollView(child: buildComments()),
+            const CommentsPage(),
             Container(
               color: Colors.black,
               child: const Icon(Icons.percent),
             ),
-
-          ]
-          ) 
-      ),
+          ])),
     );
   }
 
-      Widget _buildList() {
+  Widget _buildList() {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 10.0, left: 20.0),
-            child: Text(
-              "Polular Books",
-              style: TextStyle( 
-                fontSize: 20
-              ),
-            ),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(top: 10.0, left: 20.0),
+          child: Text(
+            "Polular Books",
+            style: TextStyle(fontSize: 20),
           ),
-          Expanded(
-            child: books.isNotEmpty ? ListView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: buildBooks(),
-            ) : const EmptyPage(text: "Livros não encontrados!"),
+        ),
+        Expanded(
+          child: books.isNotEmpty
+              ? ListView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  children: buildBooks(),
+                )
+              : const EmptyPage(text: "Livros não encontrados!"),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: 10.0, left: 20.0),
+          child: Text(
+            "Recent Activity",
+            style: TextStyle(fontSize: 20),
           ),
-
-          const Padding(
-            padding: EdgeInsets.only(top: 10.0, left: 20.0),
-            child: Text(
-              "Recent Activity",
-              style: TextStyle( 
-                fontSize: 20
-              ),
-            ),
-          ),
-
-          Expanded(
-            child: books.isNotEmpty ? ListView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: buildBooks(),
-            ) : const EmptyPage(text: "Livros não encontrados!"),
-          ),
-        ],
-      );
+        ),
+        Expanded(
+          child: books.isNotEmpty
+              ? ListView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  children: buildBooks(),
+                )
+              : const EmptyPage(text: "Livros não encontrados!"),
+        ),
+      ],
+    );
   }
 
   List<Widget> buildBooks() {
@@ -143,144 +135,196 @@ class _BookstoreState extends State<Bookstore> {
         );
       },
       child: Container(
-        margin:
-            const EdgeInsets.only(right: 16, left: 16, bottom: 8),
+        margin: const EdgeInsets.only(right: 10, left: 10, bottom: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 8,
-                      blurRadius: 12,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                margin: const EdgeInsets.only(
-                  bottom: 16,
-                  top: 24,
-                ),
-                child: Hero(
-                  tag: book.title ?? '',
-                  child: Image.network(
-                    book.imageUrl ?? urlDefault,
-                    height: 180,
-                    width: 120,
-                    fit: BoxFit.cover,
-                  ),
+            SizedBox(
+              height: 190.0,
+              width: 120.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  book.imageUrl ?? urlDefault,
+                  height: 190.0,
+                  width: 120.0,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-            Text(
-              book.title ?? '',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+            SizedBox(
+              width: 130,
+              child: Text(
+                book.title ?? '',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 13),
               ),
             ),
-            Text(
-              book.author?.name ?? '',
-              style: const TextStyle(
-                fontSize: 10,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
+            RatingBarIndicator(
+              rating: 3.5,
+              itemSize: 15,
+              itemBuilder: (_, __) => Icon(
+                Icons.star,
+                color: StyleManager.instance.primary,
               ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  List<Widget> buildAuthors() {
-    List<Widget> list = [];
-    for (var i = 0; i < authors.length; i++) {
-      list.add(buildAuthor(authors[i], i));
-    }
-    return list;
-  }
+  // Widget buildBook(Book book, int index) {
+  //   const urlDefault =
+  //       'https://ayine.com.br/wp-content/uploads/2022/03/Miolo-diagonal-O-livro-dos-amigos-site.png';
 
-  Widget buildAuthor(Author author, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: const BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      padding: const EdgeInsets.all(12),
-      margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),
-      width: 255,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Card(
-            elevation: 4,
-            margin: const EdgeInsets.all(0),
-            clipBehavior: Clip.antiAlias,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(15),
-              ),
-            ),
-            child: Container(
-              width: 75,
-              height: 75,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(author.image),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                author.fullname,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.library_books,
-                    color: Colors.grey,
-                    size: 14,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    author.books.toString() + " books",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  //   return GestureDetector(
+  //     onTap: () {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => BookDetail(book: book)),
+  //       );
+  //     },
+  //     child: Container(
+  //       margin:
+  //           const EdgeInsets.only(right: 16, left: 16, bottom: 8),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         children: <Widget>[
+  //           Expanded(
+  //             child: Container(
+  //               decoration: BoxDecoration(
+  //                 boxShadow: [
+  //                   BoxShadow(
+  //                     color: Colors.grey.withOpacity(0.5),
+  //                     spreadRadius: 8,
+  //                     blurRadius: 12,
+  //                     offset: const Offset(0, 3),
+  //                   ),
+  //                 ],
+  //               ),
+  //               margin: const EdgeInsets.only(
+  //                 bottom: 16,
+  //                 top: 24,
+  //               ),
+  //               child: Hero(
+  //                 tag: book.title ?? '',
+  //                 child: Image.network(
+  //                   book.imageUrl ?? urlDefault,
+  //                   height: 180,
+  //                   width: 120,
+  //                   fit: BoxFit.cover,
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           Text(
+  //             book.title ?? '',
+  //             style: TextStyle(
+  //               fontSize: 12,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //           Text(
+  //             book.author?.name ?? '',
+  //             style: const TextStyle(
+  //               fontSize: 10,
+  //               color: Colors.grey,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-    _getBooks() async {
+  // List<Widget> buildAuthors() {
+  //   List<Widget> list = [];
+  //   for (var i = 0; i < authors.length; i++) {
+  //     list.add(buildAuthor(authors[i], i));
+  //   }
+  //   return list;
+  // }
+
+  // Widget buildAuthor(Author author, int index) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.grey[200],
+  //       borderRadius: const BorderRadius.all(
+  //         Radius.circular(15),
+  //       ),
+  //     ),
+  //     padding: const EdgeInsets.all(12),
+  //     margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),
+  //     width: 255,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: <Widget>[
+  //         Card(
+  //           elevation: 4,
+  //           margin: const EdgeInsets.all(0),
+  //           clipBehavior: Clip.antiAlias,
+  //           shape: const RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.all(
+  //               Radius.circular(15),
+  //             ),
+  //           ),
+  //           child: Container(
+  //             width: 75,
+  //             height: 75,
+  //             decoration: BoxDecoration(
+  //               image: DecorationImage(
+  //                 image: AssetImage(author.image),
+  //                 fit: BoxFit.cover,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(
+  //           width: 12,
+  //         ),
+  //         Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(
+  //               author.fullname,
+  //               style: TextStyle(
+  //                 fontSize: 16,
+  //                 fontWeight: FontWeight.bold,
+  //               ),
+  //             ),
+  //             Row(
+  //               children: [
+  //                 const Icon(
+  //                   Icons.library_books,
+  //                   color: Colors.grey,
+  //                   size: 14,
+  //                 ),
+  //                 const SizedBox(
+  //                   width: 8,
+  //                 ),
+  //                 Text(
+  //                   author.books.toString() + " books",
+  //                   style: const TextStyle(
+  //                     fontSize: 14,
+  //                     color: Colors.grey,
+  //                     fontWeight: FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  _getBooks() async {
     setState(() => _isLoading = true);
     final response = await BookRepository().getBooks();
 
@@ -295,55 +339,4 @@ class _BookstoreState extends State<Bookstore> {
     setState(() => _isLoading = false);
   }
 
-  Widget buildComments() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: comments.length,
-      itemBuilder: (BuildContext context, int index) {
-        return buildComment(comments[index]);
-      },
-    );
-  }
-
-  Widget buildComment(Comment comment) {
-    return ListTile(
-      title: Column(
-        children: [
-          Row(
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(backgroundImage: AssetImage(comment.userImage)),
-                  SizedBox(width: 16.0),
-                  Text(comment.name)
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 16.0,),
-          Row(
-            children: [
-              RatingBarIndicator(
-                rating: 3.5,
-                itemSize: 13,
-                itemBuilder: (_, __) => Icon(Icons.star, color: StyleManager.instance.secondary ,),
-              ),
-              SizedBox(width: 16.0,),
-              Text(comment.date,),
-
-            ],
-          ),
-          const SizedBox(height: 16.0,),
-          ReadMoreText(
-            comment.commentText,
-            trimLines: 2, 
-            trimMode: TrimMode.Line,
-            trimExpandedText: 'mostra menos',
-            trimCollapsedText: 'mostrar mais',
-            )
-        ],
-      ),
-    );
-  }
 }

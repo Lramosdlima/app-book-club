@@ -1,5 +1,6 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
+import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -62,7 +63,7 @@ class BookDetail extends StatelessWidget {
                   );
                 } else {
                   // Outros itens da lista são comentários
-                  return buildComments();
+                  return CommentsPage();
                 }
               },
               childCount: 2, // Apenas um item (os comentários)
@@ -73,55 +74,4 @@ class BookDetail extends StatelessWidget {
     );
   }
 
-  Widget buildComments() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: comments.length,
-      itemBuilder: (BuildContext context, int index) {
-        return buildComment(comments[index]);
-      },
-    );
-  }
-
-  Widget buildComment(Comment comment) {
-    return ListTile(
-      title: Column(
-        children: [
-          Row(
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(backgroundImage: AssetImage(comment.userImage)),
-                  SizedBox(width: 16.0),
-                  Text(comment.name)
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 16.0,),
-          Row(
-            children: [
-              RatingBarIndicator(
-                rating: 3.5,
-                itemSize: 13,
-                itemBuilder: (_, __) => Icon(Icons.star, color: StyleManager.instance.secondary ,),
-              ),
-              SizedBox(width: 16.0,),
-              Text(comment.date,),
-
-            ],
-          ),
-          const SizedBox(height: 16.0,),
-          ReadMoreText(
-            comment.commentText,
-            trimLines: 2, 
-            trimMode: TrimMode.Line,
-            trimExpandedText: 'mostra menos',
-            trimCollapsedText: 'mostrar mais',
-            )
-        ],
-      ),
-    );
-  }
 }

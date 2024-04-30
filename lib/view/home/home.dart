@@ -1,7 +1,7 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/admin/admin.dart';
+import 'package:bookclub/view/home/challenges.dart';
 import 'package:bookclub/view/home/newhome/bookstore.dart';
-import 'package:bookclub/view/home/newhome/constants.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
@@ -19,20 +19,9 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pageOptions = <Widget>[
     const Bookstore(),
-    const AdminPage(),
+    const ChallengeList(),
     const ProfilePage(),
   ];
-
-  List<NavigationItem> navigationItems = getNavigationItemList();
-  NavigationItem? selectedItem;
-
-    @override
-  void initState() {
-    super.initState();
-    setState(() {
-      selectedItem = navigationItems[0];
-    });
-  }
 
   void _onItemTapped(int newIndex) {
     setState(() {
@@ -42,66 +31,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 4,
-      child: Scaffold(
+    return Scaffold(
         body: _body(),
-      bottomNavigationBar: Container(
-        height: 70,
-        decoration: const BoxDecoration(
-          // color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black,
-              spreadRadius: 8,
-              blurRadius: 12,
-              offset: Offset(0, 3),
+       bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Principal',
+            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.book),
+            //   label: 'Buscar Livros',
+            // ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_library),
+              label: 'Coleções',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
             ),
           ],
+          currentIndex: _currentIndex,
+          onTap: _onItemTapped,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: buildNavigationItems(),
-        ),
-      ),
-      ),
-    );
+      );
   }
 
   _body() {
     return _pageOptions[_currentIndex];
-  }
-
-  List<Widget> buildNavigationItems() {
-    List<Widget> list = [];
-    for (var navigationItem in navigationItems) {
-      list.add(buildNavigationItem(navigationItem));
-    }
-    return list;
-  }
-
-  Widget buildNavigationItem(NavigationItem item) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedItem = item;
-        });
-      },
-      child: Container(
-        width: 50,
-        child: Center(
-          child: Icon(
-            item.iconData,
-            color: selectedItem == item ? StyleManager.instance.primary : Colors.grey[400],
-            size: 28,
-          ),
-        ),
-      ),
-    );
   }
 }
