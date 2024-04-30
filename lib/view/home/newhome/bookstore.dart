@@ -71,11 +71,14 @@ class _BookstoreState extends State<Bookstore> {
               )
             ]),
           ),
-          body: TabBarView(children: [
-            _isLoading ? Loader().pageLoading() : _buildList(),
-            const CommentsPage(),
-            const CollectionPage(),
-          ])),
+          body: Container(
+            color: StyleManager.instance.backgroundSecondary,
+            child: TabBarView(children: [
+              _isLoading ? Loader().pageLoading() : _buildList(),
+              const CommentsPage(),
+              const CollectionPage(),
+            ]),
+          )),
     );
   }
 

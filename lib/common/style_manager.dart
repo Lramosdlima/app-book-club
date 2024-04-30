@@ -11,6 +11,7 @@ class StyleManager {
   Color secondaryText = const Color(0xFF9E9E9E);
   Color backgroundColor = Colors.white;
   Color darkBackgroundColor = const Color(0xFF212121);
+  Color backgroundSecondary = Colors.grey.shade900;
 
   static final StyleManager _singleton = StyleManager._internal();
   StyleManager._internal();
