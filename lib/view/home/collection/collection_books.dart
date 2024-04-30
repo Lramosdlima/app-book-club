@@ -1,4 +1,4 @@
-import 'package:bookclub/view/home/collection_folder/collection.dart';
+import 'package:bookclub/model/collection.dart';
 import 'package:flutter/material.dart';
 
 class CollectionBooksPage extends StatefulWidget {
@@ -20,18 +20,16 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
         title: Container(
           height: 38
         )
-      )
+      ),
       body: Container(
         color: Colors.grey.shade900,
-        child:
-            ? ListView.builder(
-                itemCount: , 
+        child: ListView.builder(
+                itemCount: _foundedbooks.length, 
                 itemBuilder: (context, index) {
-                  child: BookComponent(collection: _foundedbooks[index], context: context),
+                  child: BookComponent(collection: _foundedbooks[index], context: context);
                 }
-    
-        )
-        ),
+              )
+      )
     );
 }
 }
