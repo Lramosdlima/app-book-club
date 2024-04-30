@@ -23,12 +23,12 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
       ),
       body: Container(
         color: Colors.grey.shade900,
-        child: ListView.builder(
-                itemCount: _foundedbooks.length, 
-                itemBuilder: (context, index) {
-                  child: BookComponent(collection: _foundedbooks[index], context: context);
-                }
-              )
+        // child: ListView.builder(
+        //         itemCount: _foundedbooks.length, 
+        //         itemBuilder: (context, index) {
+        //           child: BookComponent(collection: _foundedbooks[index], context: context);
+        //         }
+        //       )
       )
     );
 }
