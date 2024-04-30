@@ -3,14 +3,13 @@ import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
+import 'package:bookclub/view/home/collection/collection.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
-import 'package:bookclub/view/home/newhome/constants.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:readmore/readmore.dart';
 
 class Bookstore extends StatefulWidget {
   const Bookstore({super.key});
@@ -52,25 +51,30 @@ class _BookstoreState extends State<Bookstore> {
       length: 3,
       child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Row(
+              children: [
+                _logo(),
+                const SizedBox(width: 10),
+                const Text('Book Club'),
+              ],
+            ),
             bottom: const TabBar(tabs: [
               Tab(
                 text: "Livros",
               ),
               Tab(
-                text: "Reviews",
+                text: "Avaliações",
               ),
               Tab(
-                text: "Listas",
+                text: "Coleções",
               )
             ]),
           ),
           body: TabBarView(children: [
             _isLoading ? Loader().pageLoading() : _buildList(),
             const CommentsPage(),
-            Container(
-              color: Colors.black,
-              child: const Icon(Icons.percent),
-            ),
+            const CollectionPage(),
           ])),
     );
   }
@@ -82,7 +86,7 @@ class _BookstoreState extends State<Bookstore> {
         const Padding(
           padding: EdgeInsets.only(top: 10.0, left: 20.0),
           child: Text(
-            "Polular Books",
+            "Livros Populares",
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -98,7 +102,7 @@ class _BookstoreState extends State<Bookstore> {
         const Padding(
           padding: EdgeInsets.only(top: 10.0, left: 20.0),
           child: Text(
-            "Recent Activity",
+            "Atividades Recentes",
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -339,4 +343,14 @@ class _BookstoreState extends State<Bookstore> {
     setState(() => _isLoading = false);
   }
 
+  Widget _logo() {
+    return Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 1),
+          shape: BoxShape.circle),
+      child: const Icon(Icons.auto_stories, color: Colors.white, size: 20),
+    );
+  }
 }

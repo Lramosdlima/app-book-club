@@ -39,6 +39,9 @@ class _GenderListState extends State<GenderList> {
         itemCount: genders.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
+            onTap: () {
+              
+            },
             leading: Icon(genders[index].icon),
             title: Text(genders[index].name),
             subtitle: Text(genders[index].description),

@@ -1,4 +1,4 @@
-import 'collection/collection.dart';
+import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/home/newhome/bookstore.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pageOptions = <Widget>[
     const Bookstore(),
-    const CollectionPage(),
+    const SearchPage(),
     const ProfilePage(),
   ];
 
@@ -28,30 +28,30 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _body(),
-       bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Principal',
-            ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.book),
-            //   label: 'Buscar Livros',
-            // ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_library),
-              label: 'Coleções',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-          ],
-          currentIndex: _currentIndex,
-          onTap: _onItemTapped,
-        ),
-      );
+      body: _body(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Principal',
+          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.book),
+          //   label: 'Buscar Livros',
+          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Pesquisar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+        ],
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 
   _body() {
