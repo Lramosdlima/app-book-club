@@ -59,6 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
               ),
+              AppCard(title: 'Avaliações', icon: Icons.star, onPressed: (){}),
+              AppCard(title: 'Minhas Coleções', icon: Icons.local_library, onPressed: (){}),
+              AppCard(title: 'Favoritos', icon: Icons.favorite, onPressed: (){}),
+              AppCard(title: 'Já Lidos', icon: Icons.bookmark, onPressed: (){}),
+              AppCard(title: 'Quero Ler', icon: Icons.book, onPressed: (){}),
+              const Divider(),
               AppCard(
                 title: 'Alterar Senha',
                 icon: Icons.lock,

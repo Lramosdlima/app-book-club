@@ -23,9 +23,9 @@ class Book {
       id: map["id"] as int?,
       title: map["title"] as String,
       synopsis: map["synopsis"] as String,
-      genre: Genre.fromMap(map["genre"]),
+      genre:  map["genre"] == null ? null : Genre.fromMap(map["genre"]),
       imageUrl: map["imageUrl"] as String?,
-      author: Author.fromMap(map["author"]),
+      author: map["author"] == null ? null : Author.fromMap(map["author"]),
     );
   }
 }
