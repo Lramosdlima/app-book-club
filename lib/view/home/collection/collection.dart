@@ -1,5 +1,5 @@
-import 'package:bookclub/view/home/collection_folder/collection.dart';
-import 'package:bookclub/view/home/collection_folder/collection_books.dart';
+import 'package:bookclub/model/collection.dart';
+import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
