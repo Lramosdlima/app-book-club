@@ -1,9 +1,5 @@
-import 'package:bookclub/common/style_manager.dart';
-import 'package:bookclub/view/admin/admin.dart';
-import 'package:bookclub/view/home/challenges.dart';
+import 'collection/collection.dart';
 import 'package:bookclub/view/home/newhome/bookstore.dart';
-import 'package:bookclub/view/home/newhome/data.dart';
-import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pageOptions = <Widget>[
     const Bookstore(),
-    const ChallengeList(),
+    const CollectionPage(),
     const ProfilePage(),
   ];
 
