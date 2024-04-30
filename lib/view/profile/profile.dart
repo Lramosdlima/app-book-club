@@ -1,6 +1,5 @@
-import 'package:bookclub/common/card.dart';
-import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/bottom_sheet.dart';
+import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/routes/app_routes.dart';

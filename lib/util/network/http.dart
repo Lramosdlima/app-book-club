@@ -32,7 +32,8 @@ class HttpHelper {
   }
 
   static getApiBaseUrl() async {
-    return 'http://localhost:8000';
+    // return 'http://localhost:8000';
+    return 'https://api-book-club.azurewebsites.net';
   }
 
   static Future<Response> get(String endpoint,
@@ -69,7 +70,7 @@ class HttpHelper {
         return e.response?.data["data"];
       }
       if (e.response?.data["error"] != null) {
-        return e.response?.data["error"];
+        return e.response?.data["error"].toString();
       }
     }
 

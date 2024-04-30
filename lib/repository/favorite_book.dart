@@ -14,14 +14,14 @@ class FavoriteBookRepository {
       final request = HttpHelper.get('/favorite');
 
       await request.then((result) {
-        var objects = result.data["data"];
-
-        for (var favorite in objects) {
-          favorites.add(FavoriteBook.fromMap(favorite));
-        }
-
         response.status = result.data["status"];
         if (response.status == true) {
+          var objects = result.data["data"];
+
+          for (var favorite in objects) {
+            favorites.add(FavoriteBook.fromMap(favorite));
+          }
+
           response.data = favorites;
         } else {
           response.error = result.data["error"];
