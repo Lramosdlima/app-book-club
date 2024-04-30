@@ -1,7 +1,12 @@
 import 'package:bookclub/view/admin/admin.dart';
+import 'package:bookclub/view/home/newhome/bookstore.dart';
+import 'package:bookclub/view/home/newhome/constants.dart';
+import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:bookclub/view/home/principal.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'collection/collection.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,10 +19,21 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pageOptions = <Widget>[
-    const PrincipalPage(),
+    const CollectionPage(),
     const AdminPage(),
     const ProfilePage(),
   ];
+
+  List<NavigationItem> navigationItems = getNavigationItemList();
+  NavigationItem? selectedItem;
+
+    @override
+  void initState() {
+    super.initState();
+    setState(() {
+      selectedItem = navigationItems[0];
+    });
+  }
 
   void _onItemTapped(int newIndex) {
     setState(() {
@@ -32,29 +48,61 @@ class _HomePageState extends State<HomePage> {
       length: 4,
       child: Scaffold(
         body: _body(),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Principal',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.admin_panel_settings),
-              label: 'Administrar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          // color: Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 8,
+              blurRadius: 12,
+              offset: const Offset(0, 3),
             ),
           ],
-          currentIndex: _currentIndex,
-          onTap: _onItemTapped,
         ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: buildNavigationItems(),
+        ),
+      ),
       ),
     );
   }
 
   _body() {
     return _pageOptions[_currentIndex];
+  }
+
+  List<Widget> buildNavigationItems() {
+    List<Widget> list = [];
+    for (var navigationItem in navigationItems) {
+      list.add(buildNavigationItem(navigationItem));
+    }
+    return list;
+  }
+
+  Widget buildNavigationItem(NavigationItem item) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedItem = item;
+        });
+      },
+      child: Container(
+        width: 50,
+        child: Center(
+          child: Icon(
+            item.iconData,
+            color: selectedItem == item ? kPrimaryColor : Colors.grey[400],
+            size: 28,
+          ),
+        ),
+      ),
+    );
   }
 }
