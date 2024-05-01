@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                       "Bem vindo ao app",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryText,
+                        color: StyleManager.instance.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 30,
                       ),
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       "Book Club!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryText,
+                        color: StyleManager.instance.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 28,
                       ),
@@ -87,9 +87,9 @@ class _LoginPageState extends State<LoginPage> {
       width: 180,
       height: 180,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 4),
+          border: Border.all(color: StyleManager.instance.primary, width: 4),
           shape: BoxShape.circle),
-      child: const Icon(Icons.auto_stories, color: Colors.white, size: 110),
+      child: Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110),
     );
   }
 
@@ -138,7 +138,6 @@ class _LoginPageState extends State<LoginPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {

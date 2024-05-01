@@ -46,7 +46,7 @@ class BookDetail extends StatelessWidget {
                   // Primeiro item é o container
                   return Container(
                     padding: EdgeInsets.all(20.0),
-                    color: StyleManager.instance.darkBackgroundColor,
+                    color: StyleManager.instance.backgroundColor,
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: ReadMoreText(

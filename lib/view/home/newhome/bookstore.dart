@@ -72,7 +72,7 @@ class _BookstoreState extends State<Bookstore> {
             ]),
           ),
           body: Container(
-            color: StyleManager.instance.backgroundSecondary,
+            color: StyleManager.instance.backgroundColor,
             child: TabBarView(children: [
               _isLoading ? Loader().pageLoading() : _buildList(),
               const CommentsPage(),
@@ -351,9 +351,9 @@ class _BookstoreState extends State<Bookstore> {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 1),
+          border: Border.all(color: StyleManager.instance.primaryText, width: 1),
           shape: BoxShape.circle),
-      child: const Icon(Icons.auto_stories, color: Colors.white, size: 20),
+      child: Icon(Icons.auto_stories, color: StyleManager.instance.primaryText, size: 20),
     );
   }
 }

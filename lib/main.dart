@@ -42,18 +42,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: StyleManager.instance.primary,
-        fontFamily: StyleManager.instance.fontFamily,
-      ),
+      theme: MyAppThemes.lightTheme,
+      darkTheme: MyAppThemes.darkTheme,
       themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.dark(
-          primary: StyleManager.instance.primary,
-          secondary: StyleManager.instance.secondary,
-        ),
-        brightness: Brightness.dark,
-      ),
       title: 'Book Club',
       routes: {
         // INICIAL ROUTES

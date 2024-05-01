@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class StyleManager {
   String fontFamily = 'Roboto';
   String secondaryFontFamily = 'Montserrat';
-  Color primary = const Color.fromARGB(255, 51, 33, 243);
-  Color secondary = Color.fromARGB(255, 61, 55, 175);
-  Color primaryLight = Color.fromARGB(255, 103, 102, 170);
-  Color primaryText = const Color(0xFFFFFFFF);
+  Color primary =  const Color.fromARGB(255, 49, 35, 204);
+  Color secondary =  const Color.fromARGB(255, 61, 55, 175);
+  Color primaryLight = const Color.fromARGB(255, 99, 98, 177);
   Color secondaryText = const Color(0xFF9E9E9E);
-  Color backgroundColor = Colors.white;
-  Color darkBackgroundColor = const Color(0xFF212121);
+
+  // DARK THEME
+  Color primaryText =  const Color(0xFFFFFFFF);
+  Color backgroundColor = const Color(0xFF212121);
   Color backgroundSecondary = Colors.grey.shade900;
+
+  // LIGHT THEME
+  // Color primaryText = const Color.fromARGB(255, 47, 47, 47);
+  // Color backgroundColor = const Color.fromARGB(255, 243, 243, 243);
+  // Color backgroundSecondary = const Color.fromARGB(255, 196, 196, 196);
 
   static final StyleManager _singleton = StyleManager._internal();
   StyleManager._internal();
   static StyleManager get instance => _singleton;
 }
+
+class MyAppThemes {
+  static final lightTheme = ThemeData(
+    primaryColor: StyleManager.instance.primary,
+    brightness: Brightness.light,
+  );
+
+  static final darkTheme = ThemeData(
+    primaryColor: StyleManager.instance.primary,
+    brightness: Brightness.dark,
+  );
+}
+        
