@@ -103,7 +103,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         decoration: BoxDecoration(
                             color: page == index
                                 ? StyleManager.instance.primary
-                                : StyleManager.instance.primaryLight,
+                                : StyleManager.instance.tertiary,
                             borderRadius: BorderRadius.circular(5)),
                       );
                     }).toList(),

@@ -159,11 +159,11 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.SIGNUP);
           },
-          child: const Row(
+          child: Row(
             children: [
-              Text("Criar nova conta"),
-              SizedBox(width: 6),
-              Icon(Icons.person, size: 16)
+              Text("Criar nova conta", style: TextStyle(color: StyleManager.instance.tertiary)),
+              const SizedBox(width: 6),
+              Icon(Icons.person, size: 16, color: StyleManager.instance.tertiary)
             ],
           ),
         )

@@ -182,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Já tem uma conta?"),
-        TextButton(onPressed: _goToLogin, child: const Text("Login"))
+        TextButton(onPressed: _goToLogin, child: Text("Login", style: TextStyle(color: StyleManager.instance.tertiary)))
       ],
     );
   }
