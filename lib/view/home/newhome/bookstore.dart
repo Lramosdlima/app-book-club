@@ -83,42 +83,53 @@ class _BookstoreState extends State<Bookstore> {
   }
 
   Widget _buildList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 10.0, left: 20.0),
-          child: Text(
-            "Livros Populares",
-            style: TextStyle(fontSize: 20),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 20.0, left: 20.0,),
+            child: Text(
+              "Livros Populares",
+              style: TextStyle(fontSize: 25),
+            ),
           ),
-        ),
-        Expanded(
-          child: books.isNotEmpty
-              ? ListView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: buildBooks(),
-                )
-              : const EmptyPage(text: "Livros não encontrados!"),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 10.0, left: 20.0),
-          child: Text(
-            "Atividades Recentes",
-            style: TextStyle(fontSize: 20),
+          const Divider(),
+          SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+
+          SizedBox(
+            height: MediaQuery.of(context).size.width * 0.75,
+            child: books.isNotEmpty
+                ? ListView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: buildBooks(),
+                  )
+                : const EmptyPage(text: "Livros não encontrados!"),
           ),
-        ),
-        Expanded(
-          child: books.isNotEmpty
-              ? ListView(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: buildBooks(),
-                )
-              : const EmptyPage(text: "Livros não encontrados!"),
-        ),
-      ],
+          SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+          const Padding(
+            padding: EdgeInsets.only(top: 10.0, left: 20.0),
+            child: Text(
+              "Atividades Recentes",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+          const Divider(),
+          SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+          SizedBox(
+            height: MediaQuery.of(context).size.width * 0.75,
+            child: books.isNotEmpty
+                ? ListView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: buildBooks(),
+                  )
+                : const EmptyPage(text: "Livros não encontrados!"),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.width * 0.10),
+        ],
+      ),
     );
   }
 
@@ -134,6 +145,10 @@ class _BookstoreState extends State<Bookstore> {
     const urlDefault =
         'https://ayine.com.br/wp-content/uploads/2022/03/Miolo-diagonal-O-livro-dos-amigos-site.png';
 
+    // const width = 100.0;
+    const width = 150.0;
+    const height = width * 1.35;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -142,30 +157,32 @@ class _BookstoreState extends State<Bookstore> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 10, left: 10, bottom: 8),
+        margin: const EdgeInsets.only(left: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 160.0,
-              width: 110.0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  book.imageUrl ?? urlDefault,
-                  height: 160.0,
-                  width: 110.0,
-                  fit: BoxFit.cover,
+              height: height,
+              width: width,
+              child: Card(
+                elevation: 5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.network(
+                    book.imageUrl ?? urlDefault,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 5),
             SizedBox(
               width: 130,
               child: Text(
                 book.title ?? '',
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             RatingBarIndicator(
@@ -351,9 +368,11 @@ class _BookstoreState extends State<Bookstore> {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-          border: Border.all(color: StyleManager.instance.primaryText, width: 1),
+          border:
+              Border.all(color: StyleManager.instance.primaryText, width: 1),
           shape: BoxShape.circle),
-      child: Icon(Icons.auto_stories, color: StyleManager.instance.primaryText, size: 20),
+      child: Icon(Icons.auto_stories,
+          color: StyleManager.instance.primaryText, size: 20),
     );
   }
 }
