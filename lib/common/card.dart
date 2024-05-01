@@ -16,7 +16,7 @@ class AppCard extends StatelessWidget {
       elevation: 1,
       child: ListTile(
         onTap: onPressed,
-        leading: Icon(icon, color: StyleManager.instance.primaryTextWhite),
+        leading: Icon(icon, color: StyleManager.instance.primaryText),
         title: AppText(title),
         trailing: Icon(
           Icons.arrow_forward_ios,

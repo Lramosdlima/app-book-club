@@ -32,12 +32,12 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        Image.asset(
-          'assets/img/welcome.jpg',
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   'assets/img/welcome.jpg',
+        //   width: MediaQuery.of(context).size.width,
+        //   height: MediaQuery.of(context).size.height,
+        //   fit: BoxFit.cover,
+        // ),
         SafeArea(
           child: SingleChildScrollView(
             child: Center(
@@ -46,11 +46,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _logo(),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
                       "Bem vindo ao app",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite,
+                        color: StyleManager.instance.primaryText,
                         fontWeight: FontWeight.w600,
                         fontSize: 30,
                       ),
@@ -59,13 +61,11 @@ class _LoginPageState extends State<LoginPage> {
                       "Book Club!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite,
+                        color: StyleManager.instance.primaryText,
                         fontWeight: FontWeight.w600,
                         fontSize: 28,
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    _logo(),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.06),
                     _form(),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.06),
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
+            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {

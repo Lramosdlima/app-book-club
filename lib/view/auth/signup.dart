@@ -127,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
+            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {
@@ -152,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
+            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {

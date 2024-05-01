@@ -148,14 +148,14 @@ class _BookstoreState extends State<Bookstore> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 190.0,
-              width: 120.0,
+              height: 160.0,
+              width: 110.0,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
                   book.imageUrl ?? urlDefault,
-                  height: 190.0,
-                  width: 120.0,
+                  height: 160.0,
+                  width: 110.0,
                   fit: BoxFit.cover,
                 ),
               ),

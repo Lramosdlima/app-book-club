@@ -41,11 +41,11 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                 const SizedBox(height: 10),
                 Text('Nome: ${userStore.user.name ?? ''}',
                     style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite)),
+                        color: StyleManager.instance.primaryText)),
                 const SizedBox(height: 5),
                 Text('Email: ${userStore.user.email ?? ''}',
                     style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite)),
+                        color: StyleManager.instance.primaryText)),
                 const SizedBox(height: 5),
               ]),
             ),

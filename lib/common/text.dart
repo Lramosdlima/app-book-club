@@ -50,7 +50,7 @@ class AppText extends StatelessWidget {
       textAlign: textAlign,
       style: TextStyle(
         fontSize: this.size ?? size,
-        color: textColor ?? StyleManager.instance.primaryTextWhite,
+        color: textColor ?? StyleManager.instance.primaryText,
         fontWeight: fontWeight,
       ),
     );
