@@ -1,6 +1,6 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/home/collection/collection.dart';
-import 'package:bookclub/view/home/newhome/bookstore.dart';
+import 'package:bookclub/view/home/newhome/books_tabs.dart';
 import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pageOptions = <Widget>[
-    const Bookstore(),
+    const BookTabs(),
     const SearchPage(),
     const CollectionPage(),
     const ProfilePage(),

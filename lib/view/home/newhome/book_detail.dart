@@ -3,14 +3,13 @@ import 'package:bookclub/model/book.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 
 class BookDetail extends StatelessWidget {
   final Book book;
   final List<Comment> comments;
 
-  BookDetail({required this.book}) : comments = getCommentList();
+  BookDetail({super.key, required this.book}) : comments = getCommentList();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class BookDetail extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 book.title ?? '',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
               centerTitle: false,
               expandedTitleScale: 1,
@@ -45,7 +44,7 @@ class BookDetail extends StatelessWidget {
                 if (index == 0) {
                   // Primeiro item é o container
                   return Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     color: StyleManager.instance.backgroundColor,
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
@@ -63,7 +62,7 @@ class BookDetail extends StatelessWidget {
                   );
                 } else {
                   // Outros itens da lista são comentários
-                  return CommentsPage();
+                  return const CommentsPage();
                 }
               },
               childCount: 2, // Apenas um item (os comentários)
