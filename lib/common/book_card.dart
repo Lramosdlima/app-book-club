@@ -59,7 +59,7 @@ class BookCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 RatingBarIndicator(
-                  rating: 3.5,
+                  rating: double.parse((book.rate ?? 0).toString()),
                   itemSize: 18,
                   itemBuilder: (_, __) => Icon(
                     Icons.star,
