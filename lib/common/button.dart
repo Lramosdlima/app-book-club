@@ -35,7 +35,7 @@ class AppButton extends StatelessWidget {
               icon != null ? const SizedBox(width: 20) : const SizedBox(),
               AppText(
                 text,
-                textColor: textColor ?? StyleManager.instance.primaryText,
+                textColor: textColor ?? Colors.white,
                 type: TextType.subtitle,
               )
             ],

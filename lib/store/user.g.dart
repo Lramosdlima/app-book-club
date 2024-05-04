@@ -44,4 +44,15 @@ mixin _$UserStore on _UserStore, Store {
 user: ${user}
     ''';
   }
+
+  @override
+  dynamic clearUserData() {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.clearUserData');
+    try {
+      return super.clearUserData();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
 }

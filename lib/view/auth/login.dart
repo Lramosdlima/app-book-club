@@ -32,25 +32,27 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        Image.asset(
-          'assets/img/welcome.jpg',
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   'assets/img/welcome.jpg',
+        //   width: MediaQuery.of(context).size.width,
+        //   height: MediaQuery.of(context).size.height,
+        //   fit: BoxFit.cover,
+        // ),
         SafeArea(
           child: SingleChildScrollView(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(25.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _logo(),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
                       "Bem vindo ao app",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite,
+                        color: StyleManager.instance.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 30,
                       ),
@@ -59,13 +61,11 @@ class _LoginPageState extends State<LoginPage> {
                       "Book Club!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: StyleManager.instance.primaryTextWhite,
+                        color: StyleManager.instance.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 28,
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    _logo(),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.06),
                     _form(),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.06),
@@ -87,9 +87,9 @@ class _LoginPageState extends State<LoginPage> {
       width: 180,
       height: 180,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 4),
+          border: Border.all(color: StyleManager.instance.primary, width: 4),
           shape: BoxShape.circle),
-      child: const Icon(Icons.auto_stories, color: Colors.white, size: 110),
+      child: Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110),
     );
   }
 
@@ -138,7 +138,6 @@ class _LoginPageState extends State<LoginPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
             size: 20,
           ),
           onPressed: () {
@@ -160,11 +159,11 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.SIGNUP);
           },
-          child: const Row(
+          child: Row(
             children: [
-              Text("Criar nova conta"),
-              SizedBox(width: 6),
-              Icon(Icons.person, size: 16)
+              Text("Criar nova conta", style: TextStyle(color: StyleManager.instance.tertiary)),
+              const SizedBox(width: 6),
+              Icon(Icons.person, size: 16, color: StyleManager.instance.tertiary)
             ],
           ),
         )

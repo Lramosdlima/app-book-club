@@ -20,4 +20,8 @@ class AppRoutes {
   static const PROFILE_DETAIL = '/profile/detail';
   static const EDIT_PROFILE = '/profile/edit';
   static const CHANGE_PASSWORD = '/profile/password';
+  // COLLECTION ROUTES
+  static const COLLECTION = '/collection';
+  static const COLLECTION_BOOKS = '/collection/books';
+  static const MY_COLLECTION = '/collection/user';
 }

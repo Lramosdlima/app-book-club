@@ -146,10 +146,10 @@ class _BookPageState extends State<BookPage> {
       _bookData['synopsis'] =
           book.synopsis != null ? book.synopsis.toString() : '';
       _bookData['genre'] = book.genre != null ? book.genre.toString() : '';
-      _bookData['authors'] =
-          book.authors != null ? book.authors.toString() : '';
+      _bookData['author'] =
+          book.author != null ? book.author.toString() : '';
       _bookData['imageUrl'] =
-          book.imageUrl != null ? book.imageUrl.toString() : '';
+          book.url_image != null ? book.url_image.toString() : '';
     }
   }
 

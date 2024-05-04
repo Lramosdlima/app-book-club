@@ -1,5 +1,7 @@
-import 'package:bookclub/view/admin/admin.dart';
-import 'package:bookclub/view/home/principal.dart';
+import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/view/home/collection/collection.dart';
+import 'package:bookclub/view/home/newhome/books_tabs.dart';
+import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -14,42 +16,45 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pageOptions = <Widget>[
-    const PrincipalPage(),
-    const AdminPage(),
+    const BookTabs(),
+    const SearchPage(),
+    const CollectionPage(),
     const ProfilePage(),
   ];
 
-  void _onItemTapped(int newIndex) {
-    setState(() {
-      _currentIndex = newIndex;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 4,
-      child: Scaffold(
-        body: _body(),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Principal',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.admin_panel_settings),
-              label: 'Administrar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-          ],
-          currentIndex: _currentIndex,
-          onTap: _onItemTapped,
-        ),
+    return Scaffold(
+      body: _body(),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        indicatorColor: StyleManager.instance.primary,
+        selectedIndex: _currentIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Principal',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.search),
+            icon: Icon(Icons.search_outlined),
+            label: 'Buscar',
+          ),
+          NavigationDestination(
+              selectedIcon: Icon(Icons.local_library),
+              icon: Icon(Icons.local_library_outlined),
+              label: 'Suas Coleções'),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline),
+            label: 'Perfil',
+          )
+        ],
       ),
     );
   }

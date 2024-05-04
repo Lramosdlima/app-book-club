@@ -21,9 +21,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       "img": "assets/img/on_1.png"
     },
     {
-      "title": "Como permanecer lendo?",
+      "title": "Será que o livro é bom?",
       "sub_title":
-          "Aqui você encontra incentivos como quiz sobre seu livro favorito, interação com comunidade e vários desafios! Vamos juntos nessa jornada!",
+          "Todo tempo é precioso hoje em dia! Então antes de começar a ler um livro, que tal ver o que a galera acha sobre ele?",
       "img": "assets/img/on_2.png"
     },
   ];
@@ -103,7 +103,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         decoration: BoxDecoration(
                             color: page == index
                                 ? StyleManager.instance.primary
-                                : StyleManager.instance.primaryLight,
+                                : StyleManager.instance.tertiary,
                             borderRadius: BorderRadius.circular(5)),
                       );
                     }).toList(),

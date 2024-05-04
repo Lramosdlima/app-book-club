@@ -20,11 +20,11 @@ class AppTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(color: Colors.white));
     return TextFormField(
-      style: TextStyle(color: StyleManager.instance.primaryTextWhite),
+      style: TextStyle(color: StyleManager.instance.primaryText),
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: StyleManager.instance.primaryTextWhite),
+        hintStyle: TextStyle(color: StyleManager.instance.primaryText),
         enabledBorder: border,
         focusedBorder: border,
         fillColor: Theme.of(context).primaryColor.withOpacity(0.1),

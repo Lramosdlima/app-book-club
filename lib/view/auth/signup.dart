@@ -39,17 +39,20 @@ class _SignUpPageState extends State<SignUpPage> {
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.all(24),
-          child: Column(children: [
-            _header(),
-            const SizedBox(height: 30),
-            _inputFields(),
-            const SizedBox(height: 30),
-            _loginInfo(),
-          ]),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Expanded(
+            // width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
+            // margin: const EdgeInsets.all(24),
+            child: Column(children: [
+              _header(),
+              const SizedBox(height: 30),
+              _inputFields(),
+              const SizedBox(height: 30),
+              _loginInfo(),
+            ]),
+          ),
         ),
       ),
     ));
@@ -127,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
         suffixIcon: IconButton(
           icon: Icon(
             _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
+            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {
@@ -151,13 +154,13 @@ class _SignUpPageState extends State<SignUpPage> {
         icon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           icon: Icon(
-            _passwordVisible == true ? Icons.visibility : Icons.visibility_off,
-            color: StyleManager.instance.primaryTextWhite,
+            _confirmPasswordVisible == true ? Icons.visibility : Icons.visibility_off,
+            color: StyleManager.instance.primaryText,
             size: 20,
           ),
           onPressed: () {
             setState(() {
-              _passwordVisible = !_passwordVisible;
+              _confirmPasswordVisible = !_confirmPasswordVisible;
             });
           },
         ),
@@ -168,9 +171,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _icon() {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 2),
+          border: Border.all(color: StyleManager.instance.primary, width: 2),
           shape: BoxShape.circle),
-      child: const Icon(Icons.person, color: Colors.white, size: 120),
+      child: Icon(Icons.person, color: StyleManager.instance.primary, size: 120),
     );
   }
 
@@ -179,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Já tem uma conta?"),
-        TextButton(onPressed: _goToLogin, child: const Text("Login"))
+        TextButton(onPressed: _goToLogin, child: Text("Login", style: TextStyle(color: StyleManager.instance.tertiary)))
       ],
     );
   }

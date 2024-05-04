@@ -1,80 +1,79 @@
+// ignore_for_file: avoid_print
+
+import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/model/response.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:bookclub/util/network/http.dart';
-import 'package:bookclub/util/storage/storage.dart';
 
-class AuthRepository {
-  Future<ApiResponse> login(String email, String password) async {
+class CollectionRepository {
+  Future<ApiResponse> getCollections() async {
+    ApiResponse response = ApiResponse();
+
+    List collections = [];
+
+    try {
+      final request = HttpHelper.get('/collection/all');
+
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          var objects = result.data["data"];
+
+          for (var collection in objects) {
+            collections.add(Collection.fromMap(collection));
+          }
+
+          response.data = collections;
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
+   Future<ApiResponse> getMyCollections() async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
-    var params = <String, dynamic>{};
-    params["email"] = email;
-    params["password"] = password;
+    var userId = userStore.user.id;
+
+    List collections = [];
 
     try {
-      final request = HttpHelper.post('/auth/login', body: params);
+      final request = HttpHelper.get('/collection/user/$userId');
 
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-          response.data = result.data["data"];
-          userStore.setUserData(response.data["user"]);
-          StorageHelper.set('token', response.data["accessToken"]);
+          var objects = result.data["data"];
+
+          for (var collection in objects) {
+            collections.add(Collection.fromMap(collection));
+          }
+
+          response.data = collections;
         } else {
           response.error = result.data["error"];
         }
       }).catchError((e) {
         response.status = false;
         response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
         print(e);
       });
 
       return response;
     } catch (error) {
-      // ignore: avoid_print
       print(error);
       return response;
     }
-  }
-
-  Future<ApiResponse> register(
-      String name, String email, String password) async {
-    ApiResponse response = ApiResponse();
-
-    var params = <String, dynamic>{};
-    params["name"] = name;
-    params["email"] = email;
-    params["password"] = password;
-
-    try {
-      final request = HttpHelper.post('/auth/register', body: params);
-
-      await request.then((result) {
-        response.status = result.data["status"];
-        if (response.status == true) {
-          response.data = result.data["data"];
-        } else {
-          response.error = result.data["error"];
-        }
-      }).catchError((e) {
-        response.status = false;
-        response.error = HttpHelper.getError(e);
-        // ignore: avoid_print
-        print(e);
-      });
-
-      return response;
-    } catch (error) {
-      // ignore: avoid_print
-      print(error);
-      return response;
-    }
-  }
-
-  logout() {
-    StorageHelper.remove('token');
-    StorageHelper.remove('refresh_token');
   }
 }

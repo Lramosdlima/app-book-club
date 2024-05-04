@@ -32,7 +32,7 @@ class AppBottomSheet {
 
   show(BuildContext context) {
     showModalBottomSheet(
-        backgroundColor: StyleManager.instance.darkBackgroundColor,
+        backgroundColor: StyleManager.instance.backgroundColor,
         isScrollControlled: isScroll ?? false,
         context: context,
         shape: const RoundedRectangleBorder(

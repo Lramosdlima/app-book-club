@@ -38,7 +38,7 @@ class _BookGridState extends State<BookGrid> {
         ? GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.7,
+              childAspectRatio: 0.5,
             ),
             itemCount: books.length,
             itemBuilder: (BuildContext context, int index) {
@@ -61,9 +61,9 @@ class _BookGridState extends State<BookGrid> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            book.imageUrl != null
+            book.url_image != null
                 ? Image.network(
-                    book.imageUrl ?? urlDefault,
+                    book.url_image ?? urlDefault,
                     height: 220,
                   )
                 : Image.asset(
@@ -73,9 +73,9 @@ class _BookGridState extends State<BookGrid> {
             const SizedBox(height: 10),
             AppText(book.title ?? '', type: TextType.title),
             const SizedBox(height: 5),
-            AppText(book.authors?[0] ?? ''),
+            AppText(book.author?.name ?? ''),
             const SizedBox(height: 5),
-            AppText('Gênero: ${book.genre ?? ''}'),
+            AppText('Gênero: ${book.genre?.name ?? ''}'),
           ],
         ),
       ),
