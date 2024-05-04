@@ -166,6 +166,11 @@ collectionComponent({required Collection collection, context}) {
               collection.description ?? '',
               style: const TextStyle(color: Colors.white),
             ),
+            const SizedBox(height: 10),
+            Text(
+              'Por: ${collection.owner ?? ''}',
+              style: const TextStyle(color: Colors.white),
+            )
           ],
         ),
       ),
