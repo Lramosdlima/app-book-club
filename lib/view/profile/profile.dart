@@ -53,7 +53,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(color: StyleManager.instance.primary)),
               Divider(color: StyleManager.instance.primary),
               const SizedBox(height: 10),
-
               ListTile(
                 leading: const Icon(Icons.notifications),
                 title: const Text('Notificações'),
@@ -68,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               AppCard(title: 'Avaliações', icon: Icons.star, onPressed: () {}),
               AppCard(
-                  title: 'Minhas Coleções',
+                  title: 'Coleções Adicionadas',
                   icon: Icons.local_library,
                   onPressed: () {}),
               AppCard(
@@ -77,23 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Já Lidos', icon: Icons.bookmark, onPressed: () {}),
               AppCard(title: 'Quero Ler', icon: Icons.book, onPressed: () {}),
               const SizedBox(height: 30),
-              Text('Sua Conta',
-                  style: TextStyle(color: StyleManager.instance.primary)),
-              Divider(color: StyleManager.instance.primary),
-              const SizedBox(height: 10),
-              AppCard(
-                title: 'Alterar Senha',
-                icon: Icons.lock,
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.CHANGE_PASSWORD);
-                },
-              ),
-              AppCard(
-                title: 'Excluir Conta',
-                icon: Icons.delete,
-                color: Colors.red,
-                onPressed: _confirmDeleteUserData,
-              ),
+              userStore.user.id != null ? _yourAccount() : const SizedBox(),
               AppCard(
                 title: 'Sair',
                 icon: Icons.exit_to_app,
@@ -103,6 +86,30 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  _yourAccount() {
+    return Column(
+      children: [
+        Text('Sua Conta',
+            style: TextStyle(color: StyleManager.instance.primary)),
+        Divider(color: StyleManager.instance.primary),
+        const SizedBox(height: 10),
+        AppCard(
+          title: 'Alterar Senha',
+          icon: Icons.lock,
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.CHANGE_PASSWORD);
+          },
+        ),
+        AppCard(
+          title: 'Excluir Conta',
+          icon: Icons.delete,
+          color: Colors.red,
+          onPressed: _confirmDeleteUserData,
+        ),
+      ],
     );
   }
 
