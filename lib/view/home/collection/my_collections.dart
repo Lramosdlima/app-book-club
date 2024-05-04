@@ -1,6 +1,7 @@
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -23,10 +24,6 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
   @override
   void initState() {
     super.initState();
-
-    setState(() {
-      _foundedMyCollections = _collections;
-    });
 
     Future.delayed(Duration.zero, () {
       _getMyCollections();
@@ -121,6 +118,9 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
       setState(() {
         _collections = List<Collection>.from(response.data);
       });
+      setState(() {
+        _foundedMyCollections = _collections;
+      });
     } else {
       // ignore: avoid_print
       print(response.error);
@@ -132,12 +132,8 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
 collectionComponent({required Collection collection, context}) {
   return GestureDetector(
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CollectionBooksPage(collection: collection)),
-      );
-    },
+          Navigator.pushNamed(context, AppRoutes.COLLECTION_BOOKS, arguments: collection);
+        },
     child: Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
