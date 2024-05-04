@@ -34,21 +34,49 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
           : Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(children: [
+                const SizedBox(height: 10),
+                _photo(userStore.user.profilePicture),
                 const SizedBox(height: 20),
                 Text('Dados pessoais',
                     style: TextStyle(color: StyleManager.instance.primary)),
                 Divider(color: StyleManager.instance.primary),
-                const SizedBox(height: 10),
-                Text('Nome: ${userStore.user.name ?? ''}',
-                    style: TextStyle(
-                        color: StyleManager.instance.primaryText)),
                 const SizedBox(height: 5),
-                Text('Email: ${userStore.user.email ?? ''}',
-                    style: TextStyle(
-                        color: StyleManager.instance.primaryText)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Usuário: ',
+                        style: TextStyle(color: StyleManager.instance.primary)),
+                    Text(userStore.user.name ?? '',
+                        style: TextStyle(color: StyleManager.instance.primaryText)),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                  Text('Email: ',
+                      style: TextStyle(color: StyleManager.instance.primary)),
+                  Text(userStore.user.email ?? '',
+                      style: TextStyle(color: StyleManager.instance.primaryText)),
+                ],),
                 const SizedBox(height: 5),
               ]),
             ),
+    );
+  }
+
+  Widget _photo(String? userImage) {
+    return Container(
+      width: 180,
+      height: 180,
+      decoration: BoxDecoration(
+          border: Border.all(color: StyleManager.instance.primary, width: 4),
+          shape: BoxShape.circle),
+      child: userImage == null
+          ? Icon(Icons.person, color: StyleManager.instance.primary, size: 110)
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(userImage)),
     );
   }
 
