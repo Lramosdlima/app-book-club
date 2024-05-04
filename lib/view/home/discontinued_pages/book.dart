@@ -149,7 +149,7 @@ class _BookPageState extends State<BookPage> {
       _bookData['author'] =
           book.author != null ? book.author.toString() : '';
       _bookData['imageUrl'] =
-          book.imageUrl != null ? book.imageUrl.toString() : '';
+          book.url_image != null ? book.url_image.toString() : '';
     }
   }
 

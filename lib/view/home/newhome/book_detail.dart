@@ -30,7 +30,7 @@ class BookDetail extends StatelessWidget {
               background: Hero(
                 tag: book.title ?? '',
                 child: Image.network(
-                    book.imageUrl ?? '',
+                    book.url_image ?? '',
                     height: 220,
                     width: 100,
                     fit: BoxFit.cover,

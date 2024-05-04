@@ -61,9 +61,9 @@ class _BookGridState extends State<BookGrid> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            book.imageUrl != null
+            book.url_image != null
                 ? Image.network(
-                    book.imageUrl ?? urlDefault,
+                    book.url_image ?? urlDefault,
                     height: 220,
                   )
                 : Image.asset(

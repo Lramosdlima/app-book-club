@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:bookclub/model/author.dart';
 import 'package:bookclub/model/genre.dart';
 
@@ -6,7 +8,7 @@ class Book {
   final String? title;
   final String? synopsis;
   final Genre? genre;
-  final String? imageUrl;
+  final String? url_image;
   final Author? author;
 
   Book({
@@ -14,7 +16,7 @@ class Book {
     this.title,
     this.synopsis,
     this.genre,
-    this.imageUrl,
+    this.url_image,
     this.author,
   });
 
@@ -24,7 +26,7 @@ class Book {
       title: map["title"] as String,
       synopsis: map["synopsis"] as String,
       genre:  map["genre"] == null ? null : Genre.fromMap(map["genre"]),
-      imageUrl: map["imageUrl"] as String?,
+      url_image: map["url_image"] as String?,
       author: map["author"] == null ? null : Author.fromMap(map["author"]),
     );
   }

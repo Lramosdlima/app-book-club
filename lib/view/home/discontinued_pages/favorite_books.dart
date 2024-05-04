@@ -60,9 +60,9 @@ class _FavoriteBookState extends State<FavoriteBook> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            book.imageUrl != null
+            book.url_image != null
                 ? Image.network(
-                    book.imageUrl!,
+                    book.url_image!,
                     height: 220,
                   )
                 : Image.asset(
