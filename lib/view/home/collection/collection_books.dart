@@ -22,7 +22,7 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
         appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.grey.shade900,
-            title: Container(height: 38)),
+            title: collection.title != null ? Text(collection.title!) : null),
         body: ListView.builder(
           itemCount: foundedbooks.length,
           itemBuilder: (BuildContext context, int index) {
