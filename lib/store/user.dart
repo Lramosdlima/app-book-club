@@ -20,4 +20,9 @@ abstract class _UserStore with Store {
   setUserData(data) {
     user = User.fromMap(data);
   }
+
+  @action
+  clearUserData() {
+    user = User();
+  }
 }

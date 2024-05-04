@@ -3,6 +3,7 @@ import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
+import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
@@ -163,7 +164,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _logOut() {
-    // TODO: AuthRepository().logout();
+    AuthRepository().logout();
+    userStore.clearUserData();
     Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 

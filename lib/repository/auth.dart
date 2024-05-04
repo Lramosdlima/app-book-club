@@ -72,4 +72,9 @@ class AuthRepository {
       return response;
     }
   }
+
+  logout() {
+    StorageHelper.remove('token');
+    StorageHelper.remove('refresh_token');
+  }
 }
