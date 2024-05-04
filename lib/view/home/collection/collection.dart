@@ -68,46 +68,51 @@ class _CollectionPageState extends State<CollectionPage> {
         ),
       ),
       body: Container(
-          color: Colors.grey.shade900,
-          child: _isLoading
-              ? Loader().pageLoading()
-              : ListView.builder(
-                  itemCount: _foundedCollections.length,
-                  itemBuilder: (context, index) {
-                    return Slidable(
-                      //key: const ValueKey(0),
-                      endActionPane: const ActionPane(
-                        motion: ScrollMotion(),
-                        //dismissible: DismissiblePane(onDismissed: () {}),
-                        children: [
-                          // A SlidableAction can have an icon and/or a label.
-                          SlidableAction(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20)),
-                            onPressed: doNothing,
-                            backgroundColor: Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Tirar da Coleção',
-                          ),
-                          SlidableAction(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
-                            onPressed: doNothing,
-                            backgroundColor: Color(0xFF0392CF),
-                            foregroundColor: Colors.white,
-                            icon: Icons.add,
-                            label: 'Adicionar a coleção',
-                          ),
-                        ],
-                      ),
-                      child: collectionComponent(
-                          collection: _foundedCollections[index],
-                          context: context),
-                    );
-                  })),
+        color: Colors.grey.shade900,
+        child: _isLoading
+            ? Loader().pageLoading()
+            : _foundedCollections.isNotEmpty
+                ? ListView.builder(
+                    itemCount: _foundedCollections.length,
+                    itemBuilder: (context, index) {
+                      return Slidable(
+                        //key: const ValueKey(0),
+                        endActionPane: const ActionPane(
+                          motion: ScrollMotion(),
+                          //dismissible: DismissiblePane(onDismissed: () {}),
+                          children: [
+                            // A SlidableAction can have an icon and/or a label.
+                            SlidableAction(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20)),
+                              onPressed: doNothing,
+                              backgroundColor: Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Tirar da Coleção',
+                            ),
+                            SlidableAction(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)),
+                              onPressed: doNothing,
+                              backgroundColor: Color(0xFF0392CF),
+                              foregroundColor: Colors.white,
+                              icon: Icons.add,
+                              label: 'Adicionar a coleção',
+                            ),
+                          ],
+                        ),
+                        child: collectionComponent(
+                            collection: _foundedCollections[index],
+                            context: context),
+                      );
+                    })
+                : const Center(
+                    child: Text("Nenhuma coleção encontrada"),
+                  ),
+      ),
     );
   }
 
@@ -148,7 +153,8 @@ collectionComponent({required Collection collection, context}) {
               Row(
                 children: [
                   // Text(collection.image),
-                  const Icon(Icons.book_outlined, color: Colors.white, size: 22),
+                  const Icon(Icons.book_outlined,
+                      color: Colors.white, size: 22),
                   const SizedBox(width: 10),
                   Text(
                     collection.title ?? '',

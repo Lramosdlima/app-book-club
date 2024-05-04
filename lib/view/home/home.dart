@@ -1,5 +1,5 @@
 import 'package:bookclub/common/style_manager.dart';
-import 'package:bookclub/view/home/collection/collection.dart';
+import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/newhome/books_tabs.dart';
 import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/profile/profile.dart';
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pageOptions = <Widget>[
     const BookTabs(),
     const SearchPage(),
-    const CollectionPage(),
+    const MyCollectionPage(),
     const ProfilePage(),
   ];
 
