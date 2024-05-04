@@ -5,37 +5,37 @@ import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class CollectionPage extends StatefulWidget {
-  const CollectionPage({Key? key}) : super(key: key);
+class MyCollectionPage extends StatefulWidget {
+  const MyCollectionPage({Key? key}) : super(key: key);
 
   @override
-  _CollectionPageState createState() => _CollectionPageState();
+  _MyCollectionPageState createState() => _MyCollectionPageState();
 }
 
-class _CollectionPageState extends State<CollectionPage> {
+class _MyCollectionPageState extends State<MyCollectionPage> {
   bool _isLoading = false;
   Loader loader = Loader();
 
   late List<Collection> _collections = [];
 
-  List<Collection> _foundedCollections = [];
+  List<Collection> _foundedMyCollections = [];
 
   @override
   void initState() {
     super.initState();
 
     setState(() {
-      _foundedCollections = _collections;
+      _foundedMyCollections = _collections;
     });
 
     Future.delayed(Duration.zero, () {
-      _getCollections();
+      _getMyCollections();
     });
   }
 
   onSearch(String search) {
     setState(() {
-      _foundedCollections = _collections
+      _foundedMyCollections = _collections
           .where(
               (collection) => collection.title!.toLowerCase().contains(search))
           .toList();
@@ -74,7 +74,7 @@ class _CollectionPageState extends State<CollectionPage> {
           child: _isLoading
               ? Loader().pageLoading()
               : ListView.builder(
-                  itemCount: _foundedCollections.length,
+                  itemCount: _foundedMyCollections.length,
                   itemBuilder: (context, index) {
                     return Slidable(
                       //key: const ValueKey(0),
@@ -106,16 +106,16 @@ class _CollectionPageState extends State<CollectionPage> {
                         ],
                       ),
                       child: collectionComponent(
-                          collection: _foundedCollections[index],
+                          collection: _foundedMyCollections[index],
                           context: context),
                     );
                   })),
     );
   }
 
-  _getCollections() async {
+  _getMyCollections() async {
     setState(() => _isLoading = true);
-    final response = await CollectionRepository().getCollections();
+    final response = await CollectionRepository().getMyCollections();
 
     if (response.status == true) {
       setState(() {

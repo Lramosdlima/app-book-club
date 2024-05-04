@@ -41,14 +41,14 @@ class _HomePageState extends State<HomePage> {
             label: 'Principal',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.book),
-            icon: Icon(Icons.book_outlined),
-            label: 'Buscar Livros',
+            selectedIcon: Icon(Icons.search),
+            icon: Icon(Icons.search_outlined),
+            label: 'Buscar',
           ),
           NavigationDestination(
               selectedIcon: Icon(Icons.local_library),
               icon: Icon(Icons.local_library_outlined),
-              label: 'Coleções'),
+              label: 'Suas Coleções'),
           NavigationDestination(
             selectedIcon: Icon(Icons.person),
             icon: Icon(Icons.person_outline),
