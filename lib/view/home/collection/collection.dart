@@ -1,4 +1,5 @@
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -137,41 +138,45 @@ collectionComponent({required Collection collection, context}) {
     },
     child: Padding(
       padding: const EdgeInsets.all(10),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        //color: Colors.amber,
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                //Text(collection.image),
-                //const Icon(Icons.book_outlined, color: Colors.white, size: 50),
-                //SizedBox(width: 10),
-                Text(
-                  collection.title ?? '',
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              collection.description ?? '',
-              style: const TextStyle(color: Colors.white),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Por: ${collection.owner ?? ''}',
-              style: const TextStyle(color: Colors.white),
-            )
-          ],
+      child: Card(
+        color: StyleManager.instance.backgroundColor,
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.all(13.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  // Text(collection.image),
+                  const Icon(Icons.book_outlined, color: Colors.white, size: 22),
+                  const SizedBox(width: 10),
+                  Text(
+                    collection.title ?? '',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                collection.description ?? '',
+                style: const TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text(
+                    'Por: ${collection.owner ?? ''}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.swipe_outlined)
+                ],
+              )
+            ],
+          ),
         ),
       ),
     ),
