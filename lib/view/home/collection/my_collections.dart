@@ -70,43 +70,45 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
           color: Colors.grey.shade900,
           child: _isLoading
               ? Loader().pageLoading()
-              : ListView.builder(
-                  itemCount: _foundedMyCollections.length,
-                  itemBuilder: (context, index) {
-                    return Slidable(
-                      //key: const ValueKey(0),
-                      endActionPane: const ActionPane(
-                        motion: ScrollMotion(),
-                        //dismissible: DismissiblePane(onDismissed: () {}),
-                        children: [
-                          // A SlidableAction can have an icon and/or a label.
-                          SlidableAction(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20)),
-                            onPressed: doNothing,
-                            backgroundColor: Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Tirar da Coleção',
+              : _foundedMyCollections.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: _foundedMyCollections.length,
+                      itemBuilder: (context, index) {
+                        return Slidable(
+                          //key: const ValueKey(0),
+                          endActionPane: const ActionPane(
+                            motion: ScrollMotion(),
+                            //dismissible: DismissiblePane(onDismissed: () {}),
+                            children: [
+                              // A SlidableAction can have an icon and/or a label.
+                              SlidableAction(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20)),
+                                onPressed: doNothing,
+                                backgroundColor: Color(0xFFFE4A49),
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                                label: 'Tirar da Coleção',
+                              ),
+                              SlidableAction(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20)),
+                                onPressed: doNothing,
+                                backgroundColor: Color(0xFF0392CF),
+                                foregroundColor: Colors.white,
+                                icon: Icons.add,
+                                label: 'Adicionar a coleção',
+                              ),
+                            ],
                           ),
-                          SlidableAction(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
-                            onPressed: doNothing,
-                            backgroundColor: Color(0xFF0392CF),
-                            foregroundColor: Colors.white,
-                            icon: Icons.add,
-                            label: 'Adicionar a coleção',
-                          ),
-                        ],
-                      ),
-                      child: collectionComponent(
-                          collection: _foundedMyCollections[index],
-                          context: context),
-                    );
-                  })),
+                          child: collectionComponent(
+                              collection: _foundedMyCollections[index],
+                              context: context),
+                        );
+                      })
+                  : const Center(child: Text("Nenhuma coleção sua foi encontrada"))),
     );
   }
 
@@ -132,8 +134,9 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
 collectionComponent({required Collection collection, context}) {
   return GestureDetector(
     onTap: () {
-          Navigator.pushNamed(context, AppRoutes.COLLECTION_BOOKS, arguments: collection);
-        },
+      Navigator.pushNamed(context, AppRoutes.COLLECTION_BOOKS,
+          arguments: collection);
+    },
     child: Padding(
       padding: const EdgeInsets.all(10),
       child: Container(

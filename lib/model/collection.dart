@@ -6,6 +6,7 @@ class Collection {
   final int? id;
   final String? title;
   final int? owner_id;
+  final String? owner;
   final String? description;
   final List<Book>? books;
 
@@ -13,6 +14,7 @@ class Collection {
     this.id,
     this.title,
     this.owner_id,
+    this.owner,
     this.description,
     this.books,
   });
@@ -22,6 +24,7 @@ class Collection {
       id: map["id"] as int?,
       title: map["title"] as String,
       owner_id: map["owner_id"] as int,
+      owner: map["owner"] as String,
       description: map["description"] as String?,
       books:  map["books"] == null ? null : List<Book>.from(map["books"].map((book) => Book.fromMap(book))),
     );

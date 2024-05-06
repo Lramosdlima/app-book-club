@@ -22,32 +22,30 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
         appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.grey.shade900,
-            title: Container(height: 38)),
-        body: Container(
-          child: ListView.builder(
-            itemCount: foundedbooks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  const SizedBox(height: 15),
-                  ListTile(
-                    title: Text(foundedbooks[index].title ?? ''),
-                    subtitle: Text(foundedbooks[index].author?.name ?? ''),
-                    leading: const Icon(Icons.book),
-                    tileColor: Colors.grey.shade800,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BookDetail(book: foundedbooks[index])),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                ],
-              );
-            },
-          ),
+            title: collection.title != null ? Text(collection.title!) : null),
+        body: ListView.builder(
+          itemCount: foundedbooks.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                const SizedBox(height: 15),
+                ListTile(
+                  title: Text(foundedbooks[index].title ?? ''),
+                  subtitle: Text(foundedbooks[index].author?.name ?? ''),
+                  leading: const Icon(Icons.book),
+                  tileColor: Colors.grey.shade800,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BookDetail(book: foundedbooks[index])),
+                    );
+                  },
+                ),
+                const SizedBox(height: 15),
+              ],
+            );
+          },
         ));
   }
 }
