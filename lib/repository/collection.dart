@@ -153,9 +153,6 @@ class CollectionRepository {
   ) async {
     ApiResponse response = ApiResponse();
 
-    var params = <String, dynamic>{};
-    params["collection_id"] = collectionId;
-
     try {
       final request = HttpHelper.delete('/collection/delete/$collectionId');
 
@@ -220,10 +217,9 @@ class CollectionRepository {
 
     var params = <String, dynamic>{};
     params["user_id"] = userStore.user.id;
-    params["collection_id"] = collectionId;
 
     try {
-      final request = HttpHelper.delete('/collection/user/remove/$collectionId');
+      final request = HttpHelper.delete('/collection/user/remove/$collectionId', body: params);
 
       await request.then((result) {
         response.status = result.data["status"];
