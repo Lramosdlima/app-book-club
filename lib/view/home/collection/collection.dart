@@ -1,9 +1,7 @@
+import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/loader.dart';
-import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
-import 'package:bookclub/routes/app_routes.dart';
-import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -104,9 +102,8 @@ class _CollectionPageState extends State<CollectionPage> {
                             ),
                           ],
                         ),
-                        child: collectionComponent(
-                            collection: _foundedCollections[index],
-                            context: context),
+                        child: CollectionCard(
+                            collection: _foundedCollections[index]),
                       );
                     })
                 : const Center(
@@ -133,60 +130,6 @@ class _CollectionPageState extends State<CollectionPage> {
     }
     setState(() => _isLoading = false);
   }
-}
-
-collectionComponent({required Collection collection, context}) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.pushNamed(context, AppRoutes.COLLECTION_BOOKS,
-          arguments: collection);
-    },
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Card(
-        color: StyleManager.instance.backgroundColor,
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(13.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  // Text(collection.image),
-                  const Icon(Icons.book_outlined,
-                      color: Colors.white, size: 22),
-                  const SizedBox(width: 10),
-                  Text(
-                    collection.title ?? '',
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                collection.description ?? '',
-                style: const TextStyle(color: Colors.white),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Text(
-                    'Por: ${collection.owner ?? ''}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.swipe_outlined)
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
 }
 
 void doNothing(BuildContext context) {}
