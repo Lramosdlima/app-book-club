@@ -1,5 +1,6 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/routes/app_routes.dart';
+import 'package:bookclub/util/storage/storage.dart';
 import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
@@ -16,31 +17,34 @@ import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  //TODO: refresh token config
-
-  // Widget firstPage = const OnboardPage();
+  WidgetsFlutterBinding.ensureInitialized();
+  // //TODO: refresh token config
   // var token = await StorageHelper.get('token');
+  var token = await StorageHelper.get('token');
 
-  // if (token != null) {
-  //   try {
-  //     var response = await AuthRepository().refreshToken();
-  //     if (response.status == true) {
-  //       // ignore: avoid_print
-  //       print('token refreshed');
+  if (token != null) {
+    try {
+      // var response = await AuthRepository().refreshToken();
+      // if (response.status == true) {
+      // ignore: avoid_print
+      // print('token refreshed');
 
-  //       await AuthRepository().getUserInfo();
-  //       firstPage = const HomePage();
-  //     }
-  //   } catch (e) {
-  //     StorageHelper.remove('token');
-  //   }
-  // }
+      // await AuthRepository().getUserInfo();
+      runApp(const MyApp(firstPage: AppRoutes.LOGIN));
 
-  runApp(const MyApp());
+      // }
+    } catch (e) {
+      // StorageHelper.remove('token');
+    }
+  }
+
+  runApp(const MyApp(firstPage: AppRoutes.ONBOARDING));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final String firstPage;
+
+  const MyApp({Key? key, required this.firstPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyAppThemes.darkTheme,
       themeMode: ThemeMode.dark,
       title: 'Book Club',
+      initialRoute: firstPage,
       routes: {
         // INICIAL ROUTES
         AppRoutes.ONBOARDING: (_) => const OnboardingPage(),

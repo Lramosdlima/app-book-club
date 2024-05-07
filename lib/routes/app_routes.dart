@@ -2,7 +2,8 @@
 
 class AppRoutes {
   // INICIAL ROUTES
-  static const ONBOARDING = '/';
+  static const ROOTE = '/';
+  static const ONBOARDING = '/onboarding';
   static const SPLASH = '/splash';
   static const LOGIN = '/auth/login';
   static const SIGNUP = '/auth/signup';
