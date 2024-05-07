@@ -7,7 +7,7 @@ import 'package:bookclub/view/home/collection/collection.dart';
 import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/discontinued_pages/book.dart';
-import 'package:bookclub/view/home/discontinued_pages/edit_book.dart';
+import 'package:bookclub/view/home/discontinued_pages/create_collection.dart';
 import 'package:bookclub/view/home/discontinued_pages/favorite_books.dart';
 import 'package:bookclub/view/home/discontinued_pages/profile_detail.dart';
 import 'package:bookclub/view/home/home.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.PROFILE: (_) => const ProfilePage(),
         // BOOK ROUTES
         AppRoutes.BOOK: (_) => const BookPage(),
-        AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
+        AppRoutes.COLLECTION_FORM: (_) => const CreateCollectionPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         // PROFILE ROUTES
         AppRoutes.PROFILE_DETAIL: (_) => const ProfileDetailPage(),

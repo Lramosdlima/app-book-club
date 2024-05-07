@@ -1,8 +1,7 @@
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
-import 'package:bookclub/routes/app_routes.dart';
-import 'package:bookclub/view/home/collection/collection_books.dart';
+import 'package:bookclub/view/home/discontinued_pages/edit_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -66,6 +65,13 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _goToEditBook();
+        },
+        backgroundColor: StyleManager.instance.primary,
+        child: Icon(Icons.add),
+      ),
       body: Container(
           color: Colors.grey.shade900,
           child: _isLoading
@@ -110,6 +116,13 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                       })
                   : const Center(child: Text("Nenhuma coleção sua foi encontrada"))),
     );
+  }
+
+  _goToEditBook() {
+    Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EditBookPage()),
+          );
   }
 
   _getMyCollections() async {

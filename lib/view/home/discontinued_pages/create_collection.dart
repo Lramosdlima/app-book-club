@@ -1,22 +1,22 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
-import 'package:bookclub/model/book.dart';
+import 'package:bookclub/model/collection.dart';
+import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:flutter/material.dart';
 
-class EditBookPage extends StatefulWidget {
-  const EditBookPage({Key? key}) : super(key: key);
+class CreateCollectionPage extends StatefulWidget {
+  const CreateCollectionPage({Key? key}) : super(key: key);
 
   @override
-  State<EditBookPage> createState() => _EditBookPageState();
+  State<CreateCollectionPage> createState() => _CreateCollectionPageState();
 }
 
-class _EditBookPageState extends State<EditBookPage> {
-  final Map<String, String> _bookData = {};
+class _CreateCollectionPageState extends State<CreateCollectionPage> {
+  final Map<String, String> _collectionData = {};
 
   TextEditingController titleController = TextEditingController();
-  TextEditingController genreController = TextEditingController();
-  TextEditingController synopsisController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+ 
 
   @override
   void initState() {
@@ -25,14 +25,14 @@ class _EditBookPageState extends State<EditBookPage> {
   }
 
   _fillFields() {
-    titleController.text = _bookData['title'] ?? '';
-    genreController.text = _bookData['genre'] ?? '';
-    synopsisController.text = _bookData['synopsis'] ?? '';
-    imageController.text = _bookData['imageUrl'] ?? '';
-    selectedGenre = _bookData['genre'] ?? 'Ação';
+    titleController.text = _collectionData['title'] ?? '';
+   
+    descriptionController.text = _collectionData['description'] ?? '';
+ 
+    /*selectedGenre = _collectionData['genre'] ?? 'Ação';*/
   }
 
-  List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
+  /*List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
   String selectedAuthor = 'Autor';
   List<String> genres = [
     'Ação',
@@ -44,17 +44,18 @@ class _EditBookPageState extends State<EditBookPage> {
     'Romance',
     'Outro'
   ];
-  String selectedGenre = 'Ação';
+  String selectedGenre = 'Ação';*/
 
   @override
   Widget build(BuildContext context) {
-    final Book? book = ModalRoute.of(context)!.settings.arguments as Book?;
+    final Collection? collection = ModalRoute.of(context)!.settings.arguments as Collection?;
 
-    _loadBookData(book);
+    _loadCollectionData(collection);
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Painel do livro')),
+        appBar: AppBar(title: const Text('Painel da Coleção ')),
+        backgroundColor: Colors.grey.shade900,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -81,10 +82,10 @@ class _EditBookPageState extends State<EditBookPage> {
     return Column(
       children: [
         Text(
-          _bookData['title'] ?? "Cadastro de Livro",
-          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          _collectionData['title'] ?? "Cadastro de Coleção",
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
-        const Text("Coloque as informações do livro abaixo:"),
+        const Text("Coloque as informações da coleção abaixo:"),
       ],
     );
   }
@@ -94,17 +95,17 @@ class _EditBookPageState extends State<EditBookPage> {
       children: [
         AppTextField(
           controller: titleController,
-          hintText: "Nome do livro",
+          hintText: "Título da coleção",
           icon: Icons.book_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
-          controller: synopsisController,
-          hintText: 'Sinopse',
+          controller: descriptionController,
+          hintText: 'Descrição da coleção',
           icon: Icons.border_color_outlined,
         ),
-        const SizedBox(height: 10),
-        AppTextField(
+        const SizedBox(height: 40),
+        /*AppTextField(
           controller: imageController,
           hintText: 'Url da Imagem',
           icon: Icons.image_outlined,
@@ -113,18 +114,19 @@ class _EditBookPageState extends State<EditBookPage> {
         _dropDownButtonGenre(),
         const SizedBox(height: 10),
         _dropDownButtonAuthor(),
-        const SizedBox(height: 30),
+        const SizedBox(height: 30),*/
         AppButton(
-          text: "Salvar",
+          text: "Adicionar Livros",
           onPressed: () {
-            Navigator.pop(context);
+            _goToCollectionAddBook() ;
           },
+          
         ),
       ],
     );
   }
 
-  Widget _dropDownButtonGenre() {
+  /*Widget _dropDownButtonGenre() {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(5),
@@ -132,7 +134,7 @@ class _EditBookPageState extends State<EditBookPage> {
         border: Border.all(color: Colors.white, width: 1),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: DropdownButtonHideUnderline(
+    child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: selectedGenre,
           onChanged: (String? newValue) {
@@ -149,9 +151,9 @@ class _EditBookPageState extends State<EditBookPage> {
         ),
       ),
     );
-  }
+  }*/
 
-  _dropDownButtonAuthor() {
+  /*_dropDownButtonAuthor() {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(5),
@@ -176,19 +178,20 @@ class _EditBookPageState extends State<EditBookPage> {
         ),
       ),
     );
+  }*/
+  _goToCollectionAddBook() {
+    Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CollectionAddBook()),
+          );
   }
 
-  void _loadBookData(Book? book) {
-    if (book != null) {
-      _bookData['id'] = book.id.toString();
-      _bookData['title'] = book.title.toString();
-      _bookData['synopsis'] =
-          book.synopsis != null ? book.synopsis.toString() : '';
-      _bookData['genre'] = book.genre != null ? book.genre.toString() : '';
-      _bookData['author'] =
-          book.author != null ? book.author.toString() : '';
-      _bookData['url_image'] =
-          book.url_image != null ? book.url_image.toString() : '';
+  void _loadCollectionData(Collection? collection) {
+    if (collection != null) {
+      _collectionData['id'] = collection.id.toString();
+      _collectionData['title'] = collection.title.toString();
+      _collectionData['description'] =
+          collection.description != null ? collection.description.toString() : '';
     }
     setState(() {
       _fillFields();
