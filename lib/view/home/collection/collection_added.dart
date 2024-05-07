@@ -85,7 +85,7 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
                                   const BorderRadius.all(Radius.circular(16)),
                               onPressed: (context) {
                                 _removeCollection(
-                                    context, _foundedCollections[index].id);
+                                    _foundedCollections[index].id);
                               },
                               backgroundColor: const Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
@@ -123,30 +123,26 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
     setState(() => _isLoading = false);
   }
 
-  _removeCollection(context, id) async {
-      var modalSuccess = Modal(
-              title: "Coleção removida com sucesso!",
-              message: "Você pode conferir novas coleções na aba \"Coleções\".")
-          .setAlert(context);
+  _removeCollection(int? id) async {
+    if (id == null) return;
 
-      var modalError = Modal(
-              title: "Erro ao remover a coleção",
-              message: "Tente novamente mais tarde.")
-          .setAlert(context);
     try {
       final response =
           await CollectionRepository().removeCollectionFromUser(id);
 
       if (response.status == true) {
-        modalSuccess.show(context);
+        Modal().successAlert(response.data.toString(), context);
+        setState(() {
+          
+        });
       } else {
         // ignore: avoid_print
-        modalError.show(context);
         print(response.error);
+        Modal().errorAlert(response.error.toString(), context);
       }
     } catch (e) {
-      modalError.show(context);
       print(e);
+      Modal().errorAlert(e.toString(), context);
     }
   }
 }

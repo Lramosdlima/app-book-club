@@ -1,7 +1,6 @@
 import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
-import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:flutter/material.dart';
@@ -42,67 +41,78 @@ class _CollectionPageState extends State<CollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.grey.shade900,
-        title: SizedBox(
-          height: 38,
-          child: TextField(
-            onChanged: (value) => onSearch(value),
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[850],
-                contentPadding: const EdgeInsets.all(0),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade500,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none),
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500),
-                hintText: "Procure coleções"),
+    return Column(
+      children: [
+        _searchBar(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width,
+          child: _isLoading
+              ? Loader().pageLoading()
+              : _foundedCollections.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: _foundedCollections.length,
+                      itemBuilder: (context, index) {
+                        return Slidable(
+                          //key: const ValueKey(0),
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            //dismissible: DismissiblePane(onDismissed: () {}),
+                            children: [
+                              SlidableAction(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
+                                onPressed: (context) {
+                                  _addCollection( _foundedCollections[index].id);
+                                },
+                                backgroundColor: const Color(0xFF0392CF),
+                                foregroundColor: Colors.white,
+                                icon: Icons.add,
+                                label: 'Adicionar a coleção',
+                                autoClose: true,
+                              ),
+                            ],
+                          ),
+                          child: CollectionCard(
+                              collection: _foundedCollections[index]),
+                        );
+                      })
+                  : const Center(
+                      child: Text("Nenhuma coleção encontrada"),
+                    ),
+        ),
+      ],
+    );
+  }
+
+  _searchBar() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 38,
+            child: TextField(
+              onChanged: (value) => onSearch(value.toLowerCase()),
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[850],
+                  contentPadding: const EdgeInsets.all(0),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey.shade500,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide.none),
+                  hintStyle:
+                      TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  hintText: "Procure coleções"),
+            ),
           ),
         ),
-      ),
-      body: Container(
-        color: Colors.grey.shade900,
-        child: _isLoading
-            ? Loader().pageLoading()
-            : _foundedCollections.isNotEmpty
-                ? ListView.builder(
-                    itemCount: _foundedCollections.length,
-                    itemBuilder: (context, index) {
-                      return Slidable(
-                        //key: const ValueKey(0),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          //dismissible: DismissiblePane(onDismissed: () {}),
-                          children: [
-                            SlidableAction(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16)),
-                              onPressed: (context) {
-                                _addCollection(
-                                    context, _foundedCollections[index].id);
-                              },
-                              backgroundColor: const Color(0xFF0392CF),
-                              foregroundColor: Colors.white,
-                              icon: Icons.add,
-                              label: 'Adicionar a coleção',
-                            ),
-                          ],
-                        ),
-                        child: CollectionCard(
-                            collection: _foundedCollections[index]),
-                      );
-                    })
-                : const Center(
-                    child: Text("Nenhuma coleção encontrada"),
-                  ),
-      ),
+      ],
     );
   }
 
@@ -124,24 +134,23 @@ class _CollectionPageState extends State<CollectionPage> {
     setState(() => _isLoading = false);
   }
 
-  _addCollection(context, id) async {
-    final response = await CollectionRepository().addCollectionToUser(id);
-    var modalSuccess = Modal(
-            title: "Coleção adicionada com sucesso!",
-            message: "Você pode conferir suas coleções no seu perfil.")
-        .setAlert(context);
+  _addCollection(int? id) async {
+    if (id == null) return;
 
-    var modalError = Modal(
-            title: "Erro ao remover a coleção",
-            message: "Tente novamente mais tarde.\n ${response.error}")
-        .setAlert(context);
+    try {
+      final response = await CollectionRepository().addCollectionToUser(id);
 
-    if (response.status == true) {
-      modalSuccess.show(context);
-    } else {
-      modalError.show(context);
+      if (response.status == true) {
+        Modal().successAlert(response.data.toString(), context);
+      } else {
+        // ignore: avoid_print
+        print(response.error);
+        Modal().errorAlert(response.error.toString(), context);
+      }
+    } catch (e) {
       // ignore: avoid_print
-      print(response.error);
+      print(e);
+      Modal().errorAlert(e.toString(), context);
     }
   }
 }
