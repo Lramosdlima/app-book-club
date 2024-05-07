@@ -40,59 +40,151 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              userStore.user.id != null
-                  ? _myProfile()
-                  : AppCard(
-                      title: 'Fazer Login',
-                      icon: Icons.person,
-                      onPressed: () {
-                        _goToLogin();
-                      },
-                    ),
+              _myProfile(),
               const SizedBox(height: 30),
-              Text('Suas configurações',
+              Text('Suas Interações',
                   style: TextStyle(color: StyleManager.instance.primary)),
               Divider(color: StyleManager.instance.primary),
               const SizedBox(height: 10),
-              ListTile(
-                leading: const Icon(Icons.notifications),
-                title: const Text('Notificações'),
-                trailing: Switch(
-                  value: _notification,
-                  onChanged: (value) {
-                    setState(() {
-                      _notification = value;
-                    });
-                  },
-                ),
-              ),
-              AppCard(title: 'Avaliações', icon: Icons.star, onPressed: () {}),
+              // TODO: Criar uma funcionalidade de notificação
+              // ListTile(
+              //   leading: const Icon(Icons.notifications),
+              //   title: const Text('Notificações'),
+              //   trailing: Switch(
+              //     value: _notification,
+              //     onChanged: (value) {
+              //       setState(() {
+              //         _notification = value;
+              //       });
+              //     },
+              //   ),
+              // ),
+              AppCard(
+                  title: 'Avaliações',
+                  icon: Icons.star,
+                  onPressed: () {
+                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                  }),
               AppCard(
                   title: 'Coleções Adicionadas',
                   icon: Icons.local_library,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CollectionAddedPage()),
-                    );
+                    userStore.user.id == null
+                        ? _showNecessaryLogin()
+                        : _goToCollectionAdded();
                   }),
               AppCard(
-                  title: 'Favoritos', icon: Icons.favorite, onPressed: () {}),
+                  title: 'Favoritos',
+                  icon: Icons.favorite,
+                  onPressed: () {
+                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                  }),
               AppCard(
-                  title: 'Já Lidos', icon: Icons.bookmark, onPressed: () {}),
-              AppCard(title: 'Quero Ler', icon: Icons.book, onPressed: () {}),
+                  title: 'Já Lidos',
+                  icon: Icons.bookmark,
+                  onPressed: () {
+                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                  }),
+              AppCard(
+                  title: 'Quero Ler',
+                  icon: Icons.book,
+                  onPressed: () {
+                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                  }),
               const SizedBox(height: 30),
-              userStore.user.id != null ? _yourAccount() : const SizedBox(),
-              AppCard(
-                title: 'Sair',
-                icon: Icons.exit_to_app,
-                onPressed: _logOut,
-              ),
+              userStore.user.id == null ? const SizedBox() : _yourAccount(),
+              userStore.user.id == null
+                  ? const SizedBox()
+                  : AppCard(
+                      title: 'Sair',
+                      icon: Icons.exit_to_app,
+                      onPressed: _logOut,
+                    )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _icon() {
+    return const Icon(Icons.person, color: Colors.white, size: 30);
+  }
+
+  _myProfile() {
+    return Column(children: [
+      _photo(userStore.user.profilePicture),
+      const SizedBox(height: 20),
+      Text('Dados da Conta',
+          style: TextStyle(color: StyleManager.instance.primary)),
+      Divider(color: StyleManager.instance.primary),
+      const SizedBox(height: 10),
+      userStore.user.id == null
+          ? AppCard(
+              title: 'Fazer Login',
+              icon: Icons.person,
+              onPressed: () {
+                _goToLogin();
+              },
+            )
+          : Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Usuário: ',
+                        style: TextStyle(color: StyleManager.instance.primary)),
+                    Text(userStore.user.name ?? '',
+                        style: TextStyle(
+                            color: StyleManager.instance.primaryText)),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Email: ',
+                        style: TextStyle(color: StyleManager.instance.primary)),
+                    Text(userStore.user.email ?? '',
+                        style: TextStyle(
+                            color: StyleManager.instance.primaryText)),
+                  ],
+                ),
+              ],
+            ),
+    ]);
+  }
+
+  Widget _photo(String? userImage) {
+    return Container(
+      width: 180,
+      height: 180,
+      decoration: BoxDecoration(
+          border: Border.all(color: StyleManager.instance.primary, width: 4),
+          shape: BoxShape.circle),
+      child: userImage == null
+          ? Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110)
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(userImage)),
+    );
+  }
+
+  _goToLogin() {
+    Navigator.pushNamed(context, AppRoutes.LOGIN);
+  }
+
+  _goToCollectionAdded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CollectionAddedPage()),
+    );
+  }
+
+  _logOut() {
+    AuthRepository().logout();
+    userStore.clearUserData();
+    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
   _yourAccount() {
@@ -117,69 +209,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ],
     );
-  }
-
-  Widget _icon() {
-    return const Icon(Icons.person, color: Colors.white, size: 30);
-  }
-
-  _myProfile() {
-    return Column(children: [
-      _photo(userStore.user.profilePicture),
-      const SizedBox(height: 20),
-      Text('Dados da Conta',
-          style: TextStyle(color: StyleManager.instance.primary)),
-      Divider(color: StyleManager.instance.primary),
-      const SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text('Usuário: ',
-              style: TextStyle(color: StyleManager.instance.primary)),
-          Text(userStore.user.name ?? '',
-              style: TextStyle(color: StyleManager.instance.primaryText)),
-        ],
-      ),
-      const SizedBox(height: 5),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text('Email: ',
-              style: TextStyle(color: StyleManager.instance.primary)),
-          Text(userStore.user.email ?? '',
-              style: TextStyle(color: StyleManager.instance.primaryText)),
-        ],
-      ),
-    ]);
-  }
-
-  Widget _photo(String? userImage) {
-    return Container(
-      width: 180,
-      height: 180,
-      decoration: BoxDecoration(
-          border: Border.all(color: StyleManager.instance.primary, width: 4),
-          shape: BoxShape.circle),
-      child: userImage == null
-          ? Icon(Icons.person, color: StyleManager.instance.primary, size: 110)
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.network(userImage)),
-    );
-  }
-
-  _goToProfileDetail() {
-    Navigator.pushNamed(context, AppRoutes.PROFILE_DETAIL);
-  }
-
-  _goToLogin() {
-    Navigator.pushNamed(context, AppRoutes.LOGIN);
-  }
-
-  _logOut() {
-    AuthRepository().logout();
-    userStore.clearUserData();
-    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
   _confirmDeleteUserData() async {
@@ -223,5 +252,13 @@ class _ProfilePageState extends State<ProfilePage> {
     //   // ignore: avoid_print
     //   print(response);
     // }
+  }
+
+  _showNecessaryLogin() {
+    AppBottomSheet(
+      title: "Poxa... 😟",
+      message: "Para acessar essa função é necessário ter uma conta e efetuar o login!",
+      type: BottomSheetType.info,
+    ).show(context);
   }
 }
