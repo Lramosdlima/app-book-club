@@ -1,7 +1,6 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/home/collection/collection.dart';
-import 'package:bookclub/view/home/newhome/book_popular.dart';
-import 'package:bookclub/view/home/newhome/book_recent.dart';
+import 'package:bookclub/view/home/newhome/book_list.dart';
 import 'package:flutter/material.dart';
 
 class BookTabs extends StatelessWidget {
@@ -10,7 +9,7 @@ class BookTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -21,23 +20,15 @@ class BookTabs extends StatelessWidget {
                 const Text('Book Club'),
               ],
             ),
-            bottom: const TabBar(tabs: [
-              Tab(
-                text: "Populares",
-              ),
-              Tab(
-                text: "Recentes",
-              ),
-              Tab(
-                text: "Coleções",
-              )
-            ]),
+            bottom: const TabBar(
+                tabs: [Tab(text: "Livros"), Tab(text: "Coleções")]),
           ),
           body: Container(
-            color: StyleManager.instance.backgroundColor,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.grey.shade900,
             child: const TabBarView(children: [
-              BookPopular(),
-              BookRecent(),
+              BookListPage(),
               CollectionPage(),
             ]),
           )),
