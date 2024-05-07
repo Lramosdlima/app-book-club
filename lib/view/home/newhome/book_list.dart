@@ -56,11 +56,11 @@ class _BookListPageState extends State<BookListPage> {
 
     switch (type) {
       case "recent":
-        title = "Atividades Recentes";
+        title = "Recentes";
         buildBooks = buildBooksRecent();
         break;
       case "popular":
-        title = "Atividades Populares";
+        title = "Populares";
         buildBooks = buildBooksPopular();
         break;
       default:
@@ -69,7 +69,7 @@ class _BookListPageState extends State<BookListPage> {
     }
 
     return Column(children: [
-      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.03),
       Text(
         title,
         style: const TextStyle(fontSize: 25),
@@ -93,6 +93,7 @@ class _BookListPageState extends State<BookListPage> {
           ],
         ),
       ),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.03),
     ]);
   }
 
