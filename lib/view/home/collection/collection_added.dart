@@ -1,4 +1,5 @@
 import 'package:bookclub/common/collection_card.dart';
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/model/collection.dart';
@@ -98,9 +99,7 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
                             collection: _foundedCollections[index]),
                       );
                     })
-                : const Center(
-                    child: Text("Nenhuma coleção encontrada"),
-                  ),
+                : const EmptyPage(text: "Nenhuma coleção adicionada a seu perfil"),
       ),
     );
   }
@@ -132,9 +131,7 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
 
       if (response.status == true) {
         Modal().successAlert(response.data.toString(), context);
-        setState(() {
-          
-        });
+        setState(() {});
       } else {
         // ignore: avoid_print
         print(response.error);

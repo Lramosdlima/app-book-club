@@ -1,4 +1,5 @@
 import 'package:bookclub/common/collection_card.dart';
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/model/collection.dart';
@@ -63,7 +64,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(16)),
                                 onPressed: (context) {
-                                  _addCollection( _foundedCollections[index].id);
+                                  _addCollection(_foundedCollections[index].id);
                                 },
                                 backgroundColor: const Color(0xFF0392CF),
                                 foregroundColor: Colors.white,
@@ -77,9 +78,7 @@ class _CollectionPageState extends State<CollectionPage> {
                               collection: _foundedCollections[index]),
                         );
                       })
-                  : const Center(
-                      child: Text("Nenhuma coleção encontrada"),
-                    ),
+                  : const EmptyPage(text: "Coleções não foram encontradas"),
         ),
       ],
     );

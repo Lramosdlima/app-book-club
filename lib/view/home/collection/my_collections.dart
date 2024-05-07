@@ -1,4 +1,5 @@
 import 'package:bookclub/common/collection_card.dart';
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
@@ -115,7 +116,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                             collection: _foundedMyCollections[index]),
                       );
                       })
-                  : const Center(child: Text("Nenhuma coleção sua foi encontrada"))),
+                  : const EmptyPage(text: "Nenhuma coleção sua foi encontrada...")),
     );
   }
 
