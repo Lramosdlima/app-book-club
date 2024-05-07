@@ -2,6 +2,7 @@ import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: StyleManager.instance.backgroundColor,
         title: SizedBox(
           height: 38,
           child: TextField(

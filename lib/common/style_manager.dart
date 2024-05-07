@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class StyleManager {
   String fontFamily = 'Roboto';
   String secondaryFontFamily = 'Montserrat';
-  Color primary = const Color.fromARGB(255, 49, 35, 204);
-  Color secondary = const Color.fromARGB(255, 63, 50, 207);
-  Color tertiary = const Color.fromARGB(255, 99, 98, 177);
+  // Color primary = const Color.fromARGB(255, 49, 35, 204);
+  // Color secondary = const Color.fromARGB(255, 63, 50, 207);
+  // Color tertiary = const Color.fromARGB(255, 99, 98, 177);
+  Color primary = Color(0xFFCC7D23);
+  Color secondary = Color.fromARGB(255, 207, 142, 50);
+  Color tertiary = Color.fromARGB(255, 177, 147, 98);
   Color secondaryText = const Color(0xFF9E9E9E);
 
   // DARK THEME
@@ -26,6 +29,10 @@ class StyleManager {
 class MyAppThemes {
   static final lightTheme = ThemeData(
     primaryColor: StyleManager.instance.primary,
+    colorScheme: ColorScheme.light(
+      primary: StyleManager.instance.primary,
+      secondary: StyleManager.instance.secondary,
+    ),
     brightness: Brightness.light,
   );
 

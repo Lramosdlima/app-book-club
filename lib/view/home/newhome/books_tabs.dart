@@ -26,7 +26,7 @@ class BookTabs extends StatelessWidget {
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Colors.grey.shade900,
+            color: StyleManager.instance.backgroundColor,
             child: const TabBarView(children: [
               BookListPage(),
               CollectionPage(),

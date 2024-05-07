@@ -2,6 +2,7 @@ import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class _CollectionPageState extends State<CollectionPage> {
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.grey[850],
+                  fillColor: StyleManager.instance.primary.withOpacity(0.10),
                   contentPadding: const EdgeInsets.all(0),
                   prefixIcon: Icon(
                     Icons.search,

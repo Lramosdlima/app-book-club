@@ -28,13 +28,13 @@ class CollectionCard extends StatelessWidget {
               Row(
                 children: [
                   // Text(collection.image),
-                  const Icon(Icons.book_outlined,
-                      color: Colors.white, size: 22),
+                  Icon(Icons.book_outlined,
+                      color: StyleManager.instance.primaryText, size: 22),
                   const SizedBox(width: 10),
                   Text(
                     collection.title ?? '',
-                    style: const TextStyle(
-                        color: Colors.white,
+                    style: TextStyle(
+                        color: StyleManager.instance.primaryText,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -43,14 +43,14 @@ class CollectionCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 collection.description ?? '',
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: StyleManager.instance.primaryText),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
                   Text(
                     'Por: ${collection.owner ?? ''}',
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: StyleManager.instance.primaryText),
                   ),
                   const Spacer(),
                   const Icon(Icons.swipe_outlined)
