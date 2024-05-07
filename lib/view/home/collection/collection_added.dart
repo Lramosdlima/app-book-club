@@ -1,20 +1,19 @@
 import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
-import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class CollectionPage extends StatefulWidget {
-  const CollectionPage({Key? key}) : super(key: key);
+class CollectionAddedPage extends StatefulWidget {
+  const CollectionAddedPage({Key? key}) : super(key: key);
 
   @override
-  _CollectionPageState createState() => _CollectionPageState();
+  _CollectionAddedPageState createState() => _CollectionAddedPageState();
 }
 
-class _CollectionPageState extends State<CollectionPage> {
+class _CollectionAddedPageState extends State<CollectionAddedPage> {
   bool _isLoading = false;
   Loader loader = Loader();
 
@@ -85,13 +84,13 @@ class _CollectionPageState extends State<CollectionPage> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16)),
                               onPressed: (context) {
-                                _addCollection(
+                                _removeCollection(
                                     context, _foundedCollections[index].id);
                               },
-                              backgroundColor: const Color(0xFF0392CF),
+                              backgroundColor: const Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
-                              icon: Icons.add,
-                              label: 'Adicionar a coleção',
+                              icon: Icons.delete,
+                              label: 'Remover a coleção',
                             ),
                           ],
                         ),
@@ -108,7 +107,7 @@ class _CollectionPageState extends State<CollectionPage> {
 
   _getCollections() async {
     setState(() => _isLoading = true);
-    final response = await CollectionRepository().getCollections();
+    final response = await CollectionRepository().getAddedCollections();
 
     if (response.status == true) {
       setState(() {
@@ -124,24 +123,30 @@ class _CollectionPageState extends State<CollectionPage> {
     setState(() => _isLoading = false);
   }
 
-  _addCollection(context, id) async {
-    final response = await CollectionRepository().addCollectionToUser(id);
-    var modalSuccess = Modal(
-            title: "Coleção adicionada com sucesso!",
-            message: "Você pode conferir suas coleções no seu perfil.")
-        .setAlert(context);
+  _removeCollection(context, id) async {
+      var modalSuccess = Modal(
+              title: "Coleção removida com sucesso!",
+              message: "Você pode conferir novas coleções na aba \"Coleções\".")
+          .setAlert(context);
 
-    var modalError = Modal(
-            title: "Erro ao remover a coleção",
-            message: "Tente novamente mais tarde.\n ${response.error}")
-        .setAlert(context);
+      var modalError = Modal(
+              title: "Erro ao remover a coleção",
+              message: "Tente novamente mais tarde.")
+          .setAlert(context);
+    try {
+      final response =
+          await CollectionRepository().removeCollectionFromUser(id);
 
-    if (response.status == true) {
-      modalSuccess.show(context);
-    } else {
+      if (response.status == true) {
+        modalSuccess.show(context);
+      } else {
+        // ignore: avoid_print
+        modalError.show(context);
+        print(response.error);
+      }
+    } catch (e) {
       modalError.show(context);
-      // ignore: avoid_print
-      print(response.error);
+      print(e);
     }
   }
 }

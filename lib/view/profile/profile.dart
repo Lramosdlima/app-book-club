@@ -6,6 +6,7 @@ import 'package:bookclub/common/text.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
+import 'package:bookclub/view/home/collection/collection_added.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 
@@ -69,7 +70,12 @@ class _ProfilePageState extends State<ProfilePage> {
               AppCard(
                   title: 'Coleções Adicionadas',
                   icon: Icons.local_library,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CollectionAddedPage()),
+                    );
+                  }),
               AppCard(
                   title: 'Favoritos', icon: Icons.favorite, onPressed: () {}),
               AppCard(
