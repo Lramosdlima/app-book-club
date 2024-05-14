@@ -1,7 +1,10 @@
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
-import 'package:bookclub/view/home/discontinued_pages/edit_book.dart';
+import 'package:bookclub/routes/app_routes.dart';
+import 'package:bookclub/view/home/collection/collection_add_book.dart';
+import 'package:bookclub/view/home/collection/create_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -121,7 +124,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
   _goToEditBook() {
     Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => EditBookPage()),
+            MaterialPageRoute(builder: (context) => CreateCollectionPage()),
           );
   }
 
