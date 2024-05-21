@@ -25,35 +25,67 @@ class BookDetail extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            floating: false,
             expandedHeight: 550,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 book.title ?? '',
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: StyleManager.instance.primary),
               ),
               centerTitle: false,
-              expandedTitleScale: 1,
-              background: Hero(
-                tag: book.title ?? '',
-                child: Image.network(
+              expandedTitleScale: 1.5,
+              background: Stack(fit: StackFit.expand, children: [
+                Image.network(
                   book.url_image ?? urlDefault,
                   height: 220,
                   width: 100,
                   fit: BoxFit.cover,
                 ),
-              ),
+                Container(
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                    Color.fromARGB(0, 0, 0, 0),
+                    Color.fromARGB(245, 15, 9, 0)
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                ),
+              ]),
             ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return const CommentsPage();
+                if (index == 0) {
+                  return _synopsis();
+                } else {
+                  return const CommentsPage();
+                }
               },
-              childCount: 2, // Apenas um item (os comentários)
+              childCount: 2,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  _synopsis() {
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      color: StyleManager.instance.backgroundColor,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: ReadMoreText(
+          book.synopsis ?? '',
+          trimLines: 4,
+          trimMode: TrimMode.Line,
+          trimExpandedText: 'mostra menos',
+          trimCollapsedText: 'mostrar mais',
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }
