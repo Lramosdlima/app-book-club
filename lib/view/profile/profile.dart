@@ -259,6 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
       title: "Poxa... 😟",
       message: "Para acessar essa função é necessário ter uma conta e efetuar o login!",
       type: BottomSheetType.info,
+      onTap:_goToLogin()
     ).show(context);
   }
 }
