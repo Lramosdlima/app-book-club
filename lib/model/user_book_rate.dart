@@ -9,6 +9,7 @@ class UserBookRate {
   final User? user;
   final String? comment;
   final int? rate; 
+  final DateTime? created_at;
 
   UserBookRate({
     this.id,
@@ -16,6 +17,7 @@ class UserBookRate {
     this.user,
     this.comment,
     this.rate,
+    this.created_at
   });
 
   factory UserBookRate.fromMap(Map<String, dynamic> map) {
@@ -25,6 +27,7 @@ class UserBookRate {
       rate: map["rate"] as int?,
       book: Book.fromMap(map["book"]),
       user: User.fromMap(map["user"]),
+      created_at: DateTime.parse(map["created_at"]),
     );
   }
 }

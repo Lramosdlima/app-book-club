@@ -1,3 +1,4 @@
+import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
@@ -17,9 +18,26 @@ class BookDetail extends StatelessWidget {
         'https://ayine.com.br/wp-content/uploads/2022/03/Miolo-diagonal-O-livro-dos-amigos-site.png';
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add_comment, color: Colors.white),
+      floatingActionButton: ExpandableFab(
+        distance: 112,
+        children: [
+          ActionButton(
+            onPressed: () => _showAction(context, 0),
+            icon: const Icon(Icons.add_comment_outlined),
+          ),
+          ActionButton(
+            onPressed: () => _showAction(context, 1),
+            icon: const Icon(Icons.event_available_outlined),
+          ),
+          ActionButton(
+            onPressed: () => _showAction(context, 2),
+            icon: const Icon(Icons.add_task),
+          ),
+          ActionButton(
+            onPressed: () => _showAction(context, 3),
+            icon: const Icon(Icons.favorite_border_outlined),
+          ),
+        ],
       ),
       body: CustomScrollView(
         slivers: [
@@ -59,7 +77,7 @@ class BookDetail extends StatelessWidget {
                 if (index == 0) {
                   return _synopsis();
                 } else {
-                  return const CommentsPage();
+                  return CommentsPage(bookId: book.id);
                 }
               },
               childCount: 2,
@@ -68,6 +86,113 @@ class BookDetail extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _showAction(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        _addCommentPage(context);
+        break;
+      case 1:
+        _dialogWantRead(context);
+        break;
+      case 2:
+        _dialogAlreadyRead(context);
+        break;
+      case 3:
+        _dialogLike(context);
+        break;
+    }
+  }
+
+  _addCommentPage(context) {
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CreateCommentPage(bookId: book.id),
+    //   ),
+    // );
+  }
+
+  _dialogWantRead(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Quero Ler'),
+            content: const Text(
+                'Isso significa que você quer ler esse livro. Deseja marcar esse livro como quero ler?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _dialogLike(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Gostei'),
+            content: const Text(
+                'Isso significa que deseja salvar esse livro nos seus favoritos. Deseja marcar esse livro como gostei?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _dialogAlreadyRead(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Já Lido'),
+            content: const Text(
+                'Isso significa que você terminou de ler esse livro. Deseja marcar esse livro como já lido?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   _synopsis() {
