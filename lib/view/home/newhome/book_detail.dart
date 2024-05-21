@@ -48,29 +48,7 @@ class BookDetail extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                if (index == 0) {
-                  // Primeiro item é o container
-                  return Container(
-                    padding: const EdgeInsets.all(20.0),
-                    color: StyleManager.instance.backgroundColor,
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: ReadMoreText(
-                        book.synopsis ?? '',
-                        trimLines: 4,
-                        trimMode: TrimMode.Line,
-                        trimExpandedText: 'mostra menos',
-                        trimCollapsedText: 'mostrar mais',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  // Outros itens da lista são comentários
-                  return const CommentsPage();
-                }
+                return const CommentsPage();
               },
               childCount: 2, // Apenas um item (os comentários)
             ),
