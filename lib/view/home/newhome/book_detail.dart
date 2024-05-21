@@ -46,7 +46,7 @@ class BookDetail extends StatelessWidget {
                 Container(
                   decoration: const BoxDecoration(
                       gradient: LinearGradient(colors: [
-                    Color.fromARGB(0, 0, 0, 0),
+                    Color.fromARGB(80, 0, 0, 0),
                     Color.fromARGB(245, 15, 9, 0)
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 ),
@@ -80,8 +80,8 @@ class BookDetail extends StatelessWidget {
           book.synopsis ?? '',
           trimLines: 4,
           trimMode: TrimMode.Line,
-          trimExpandedText: 'mostra menos',
-          trimCollapsedText: 'mostrar mais',
+          trimExpandedText: '  mostra menos',
+          trimCollapsedText: '  mostrar mais',
           style: const TextStyle(
             fontSize: 16,
           ),
