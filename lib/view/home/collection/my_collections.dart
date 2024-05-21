@@ -76,7 +76,6 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
         child: Icon(Icons.add),
       ),
       body: Container(
-          color: Colors.grey.shade900,
           child: _isLoading
               ? Loader().pageLoading()
               : _foundedMyCollections.isNotEmpty
