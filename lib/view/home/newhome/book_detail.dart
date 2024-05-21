@@ -13,7 +13,14 @@ class BookDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const urlDefault =
+        'https://ayine.com.br/wp-content/uploads/2022/03/Miolo-diagonal-O-livro-dos-amigos-site.png';
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add_comment, color: Colors.white),
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -30,11 +37,11 @@ class BookDetail extends StatelessWidget {
               background: Hero(
                 tag: book.title ?? '',
                 child: Image.network(
-                    book.url_image ?? '',
-                    height: 220,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  book.url_image ?? urlDefault,
+                  height: 220,
+                  width: 100,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -50,7 +57,7 @@ class BookDetail extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       child: ReadMoreText(
                         book.synopsis ?? '',
-                        trimLines: 4, 
+                        trimLines: 4,
                         trimMode: TrimMode.Line,
                         trimExpandedText: 'mostra menos',
                         trimCollapsedText: 'mostrar mais',
@@ -72,5 +79,4 @@ class BookDetail extends StatelessWidget {
       ),
     );
   }
-
 }
