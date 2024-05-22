@@ -55,7 +55,7 @@ class _CommentsPageState extends State<CommentsPage> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(backgroundImage: NetworkImage(comment.user?.profilePicture ?? '')),
+                  CircleAvatar(backgroundImage: NetworkImage(comment.user?.profile_picture ?? '')),
                   const SizedBox(width: 16.0),
                   Text(comment.user?.name ?? ''),
                 ],

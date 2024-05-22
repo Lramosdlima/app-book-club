@@ -35,7 +35,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
               padding: const EdgeInsets.all(10.0),
               child: Column(children: [
                 const SizedBox(height: 10),
-                _photo(userStore.user.profilePicture),
+                _photo(userStore.user.profile_picture),
                 const SizedBox(height: 20),
                 Text('Dados pessoais',
                     style: TextStyle(color: StyleManager.instance.primary)),

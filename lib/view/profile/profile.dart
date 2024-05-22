@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _myProfile() {
     return Column(children: [
-      _photo(userStore.user.profilePicture),
+      _photo(userStore.user.profile_picture),
       const SizedBox(height: 20),
       Text('Dados da Conta',
           style: TextStyle(color: StyleManager.instance.primary)),
