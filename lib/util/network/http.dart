@@ -57,7 +57,7 @@ class HttpHelper {
   static Future<Response> delete(String url,
       {Map<String, dynamic>? body, Map<String, dynamic>? headers}) async {
     final instance = await _getInstance(headers: headers);
-    return instance!.delete(url);
+    return instance!.delete(url, data: body);
   }
 
   static String? getError(dynamic e) {

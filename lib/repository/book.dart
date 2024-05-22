@@ -98,6 +98,33 @@ class BookRepository {
     }
   }
 
+    Future<ApiResponse> getBookByTitle(String title) async {
+    ApiResponse response = ApiResponse();
+    try {
+      final request = HttpHelper.get('/book/search/with/title?title=$title');
+
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          var book = Book.fromMap(result.data["data"]);
+
+          response.data = book;
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
   Future<ApiResponse> getFavoritesBooks() async {
     ApiResponse response = ApiResponse();
     List books = [];

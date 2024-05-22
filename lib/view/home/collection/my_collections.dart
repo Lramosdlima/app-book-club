@@ -1,3 +1,5 @@
+import 'package:bookclub/common/collection_card.dart';
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
@@ -76,7 +78,6 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
         child: Icon(Icons.add),
       ),
       body: Container(
-          color: Colors.grey.shade900,
           child: _isLoading
               ? Loader().pageLoading()
               : _foundedMyCollections.isNotEmpty
@@ -98,26 +99,25 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                                 backgroundColor: Color(0xFFFE4A49),
                                 foregroundColor: Colors.white,
                                 icon: Icons.delete,
-                                label: 'Tirar da Coleção',
+                                label: 'Excluir',
                               ),
                               SlidableAction(
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20)),
                                 onPressed: doNothing,
-                                backgroundColor: Color(0xFF0392CF),
+                                backgroundColor: Color.fromARGB(255, 70, 163, 62),
                                 foregroundColor: Colors.white,
-                                icon: Icons.add,
-                                label: 'Adicionar a coleção',
+                                icon: Icons.edit,
+                                label: 'Editar',
                               ),
                             ],
                           ),
-                          child: collectionComponent(
-                              collection: _foundedMyCollections[index],
-                              context: context),
-                        );
+                          child: CollectionCard(
+                            collection: _foundedMyCollections[index]),
+                      );
                       })
-                  : const Center(child: Text("Nenhuma coleção sua foi encontrada"))),
+                  : const EmptyPage(text: "Nenhuma coleção sua foi encontrada...")),
     );
   }
 
@@ -145,50 +145,6 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
     }
     setState(() => _isLoading = false);
   }
-}
-
-collectionComponent({required Collection collection, context}) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.pushNamed(context, AppRoutes.COLLECTION_BOOKS,
-          arguments: collection);
-    },
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        //color: Colors.amber,
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                //Text(collection.image),
-                //const Icon(Icons.book_outlined, color: Colors.white, size: 50),
-                //SizedBox(width: 10),
-                Text(
-                  collection.title ?? '',
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              collection.description ?? '',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
 }
 
 void doNothing(BuildContext context) {}

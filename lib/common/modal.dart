@@ -55,13 +55,13 @@ class Modal {
   }
 
   Future<void> errorAlert(String? error, BuildContext context) async {
-    var modal = Modal(title: 'Ops...', message: error).setAlert(context);
+    var modal = Modal(title: 'Ops...', message: '$error!').setAlert(context);
     modal.show(context);
   }
 
   Future<void> successAlert(String? data, BuildContext context) async {
     var message = data ?? 'Realizado com sucesso!';
-    var modal = Modal(title: 'Pronto!', message: message).setAlert(context);
+    var modal = Modal(title: 'Pronto!', message: '$message!').setAlert(context);
     modal.show(context);
   }
 }
