@@ -91,7 +91,7 @@ class RateRepository {
     params["comment"] = comment;
 
     try {
-      final request = HttpHelper.post('/collection/create', body: params);
+      final request = HttpHelper.post('/rate/create', body: params);
 
       await request.then((result) {
         response.status = result.data["status"];
