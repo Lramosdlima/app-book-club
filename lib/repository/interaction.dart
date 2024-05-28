@@ -11,7 +11,7 @@ class InteractionRepository {
   ) async {
     ApiResponse response = ApiResponse();
 
-    List interactions = [];
+    List<Interaction> interactions = [];
 
     try {
       final request = HttpHelper.get('/interaction/book/$bookId');
@@ -42,27 +42,21 @@ class InteractionRepository {
     }
   }
 
-  Future<ApiResponse> getAllInteractionsByUserId() async {
+  Future<ApiResponse> getAllInteractionsByUserId(int bookId) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
     var userId = userStore.user.id;
 
-    List interactions = [];
-
     try {
-      final request = HttpHelper.get('/interaction/user/$userId');
+      final request = HttpHelper.get('/interaction/user/especific/$userId?book_id=$bookId');
 
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-          var objects = result.data["data"];
+          var interaction = result.data["data"];
 
-          for (var interaction in objects) {
-            interactions.add(Interaction.fromMap(interaction));
-          }
-
-          response.data = interactions;
+          response.data = Interaction.fromMap(interaction);
         } else {
           response.error = result.data["error"];
         }
@@ -80,7 +74,7 @@ class InteractionRepository {
   }
 
   Future<ApiResponse> addInteraction(
-      int bookId, bool? alreadyRead, bool? wantToRead, bool? liked) async {
+      int bookId, { bool? alreadyRead, bool? wantToRead, bool? liked }) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
