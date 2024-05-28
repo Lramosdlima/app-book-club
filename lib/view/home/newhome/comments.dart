@@ -56,7 +56,7 @@ class CommentsPage extends StatelessWidget {
                 width: 16.0,
               ),
               Text(
-                '${comment.created_at?.day.toString()}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
+                '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
               ),
             ],
           ),
