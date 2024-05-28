@@ -29,7 +29,9 @@ class CommentsPage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(backgroundImage: NetworkImage(comment.user?.profilePicture ?? '')),
+                  comment.user?.profile_picture != null
+                  ? CircleAvatar(backgroundImage:  NetworkImage(comment.user?.profile_picture ?? ''))
+                  : const CircleAvatar(child: Icon(Icons.person, color: Colors.white, size: 30)),
                   const SizedBox(width: 16.0),
                   Text(comment.user?.name ?? ''),
                 ],

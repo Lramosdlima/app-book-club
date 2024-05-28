@@ -3,7 +3,6 @@ import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
-import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
 
 class BookListPage extends StatefulWidget {
@@ -20,16 +19,9 @@ class _BookListPageState extends State<BookListPage> {
   late List<Book> booksPopular = [];
   late List<Book> booksRecent = [];
 
-  List<NavigationItem> navigationItems = getNavigationItemList();
-  NavigationItem? selectedItem;
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      // selectedFilter = filters[0];
-      selectedItem = navigationItems[0];
-    });
     Future.delayed(Duration.zero, () {
       _getBooksRecent();
       _getBooksPopular();

@@ -1,9 +1,12 @@
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
+import 'package:bookclub/model/interaction.dart';
 import 'package:bookclub/model/user_book_rate.dart';
+import 'package:bookclub/repository/interaction.dart';
 import 'package:bookclub/repository/rate.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +24,17 @@ class BookDetail extends StatefulWidget {
 class _BookDetailState extends State<BookDetail> {
   List<UserBookRate> _comments = [];
   bool _isLoading = false;
-
+  Interaction interaction = Interaction();
+  bool alreadyRead = false;
+  bool wantToRead = false;
+  bool liked = false;
 
   @override
   void initState() {
     super.initState();
      Future.delayed(Duration.zero, () {
       _fetchComments();
+      _getBookInteraction(widget.book.id!);
     });
   }
 
@@ -46,15 +53,21 @@ class _BookDetailState extends State<BookDetail> {
           ),
           ActionButton(
             onPressed: () => _dialogWantRead(context),
-            icon: const Icon(Icons.event_available_outlined),
+            icon: wantToRead
+                ? const Icon(Icons.event_available, color: Colors.green)
+                : const Icon(Icons.event_available_outlined),
           ),
           ActionButton(
             onPressed: () => _dialogAlreadyRead(context),
-            icon: const Icon(Icons.add_task),
+            icon: alreadyRead
+                ? const Icon(Icons.add_task, color: Colors.green)
+                : const Icon(Icons.add_task),
           ),
           ActionButton(
             onPressed: () => _dialogLike(context),
-            icon: const Icon(Icons.favorite_border_outlined),
+            icon: liked
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_border_outlined),
           ),
         ],
       ),
@@ -183,15 +196,132 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   _dialogWantRead(context) {
-    // ... (existing code for the dialog)
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Quero Ler'),
+            content: const Text(
+                'Isso significa que você quer ler esse livro. Deseja marcar esse livro como quero ler?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  _addInteraction(context, widget.book.id!, wantToRead: true);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   _dialogLike(context) {
-    // ... (existing code for the dialog)
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Gostei'),
+            content: const Text(
+                'Isso significa que deseja salvar esse livro nos seus favoritos. Deseja marcar esse livro como gostei?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  _addInteraction(context, widget.book.id!, liked: true);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   _dialogAlreadyRead(context) {
-    // ... (existing code for the dialog)
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Já Lido'),
+            content: const Text(
+                'Isso significa que você terminou de ler esse livro. Deseja marcar esse livro como já lido?'),
+            actions: [
+              TextButton(
+                child: const Text('Cancelar',
+                    style: TextStyle(color: Colors.grey)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Sim!'),
+                onPressed: () {
+                  _addInteraction(context, widget.book.id!, alreadyRead: true);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _addInteraction(
+    context,
+    int bookId, {
+    bool? alreadyRead,
+    bool? wantToRead,
+    bool? liked,
+  }) async {
+    try {
+      final response = await InteractionRepository().addInteraction(
+        bookId,
+        alreadyRead: alreadyRead,
+        wantToRead: wantToRead,
+        liked: liked,
+      );
+
+      if (response.status == true) {
+        Modal().successAlert(response.data.toString(), context);
+      } else {
+        // ignore: avoid_print
+        print(response.error);
+        Modal().errorAlert(response.error.toString(), context);
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      Modal().errorAlert(e.toString(), context);
+    }
+  }
+
+  Future<void> _getBookInteraction(int bookId) async {
+    final response =
+        await InteractionRepository().getAllInteractionsByUserId(bookId);
+    if (response.status == true) {
+      setState(() {
+        interaction = response.data;
+        alreadyRead = interaction.already_read == true;
+        wantToRead = interaction.want_to_read == true;
+        liked = interaction.liked == true;
+      });
+    } else {
+      // ignore: avoid_print
+      print(response.error);
+    }
   }
 
   _synopsis() {
