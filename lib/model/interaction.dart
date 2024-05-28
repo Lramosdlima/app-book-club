@@ -1,12 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:bookclub/model/book.dart';
-import 'package:bookclub/model/user.dart';
 
 class Interaction {
   final int? id;
   final Book? book;
-  final User? user;
+  final int? user_id;
   final bool? already_read;
   final bool? want_to_read;
   final bool? liked;
@@ -14,7 +13,7 @@ class Interaction {
   Interaction({
     this.id,
     this.book,
-    this.user,
+    this.user_id,
     this.already_read,
     this.want_to_read,
     this.liked,
@@ -27,7 +26,7 @@ class Interaction {
       want_to_read: map["want_to_read"] as bool?,
       liked: map["liked"] as bool?,
       book: Book.fromMap(map["book"]),
-      user: User.fromMap(map["user"]),
+      user_id: map["user_id"] as int?,
     );
   }
 }
