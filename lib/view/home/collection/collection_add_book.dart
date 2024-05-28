@@ -1,8 +1,12 @@
+import 'dart:js';
+
 import 'package:bookclub/common/book_card.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
+import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
@@ -67,7 +71,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
       });
     } else {
        Navigator.push(
-                      context,
+                      context as BuildContext,
                       MaterialPageRoute(
                           builder: (context) => BookDetail(book: books[index])),
                     );
@@ -78,7 +82,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
     if (isSelectionMode) {
       return Icon(
         isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context as BuildContext).primaryColor,
       );
     } else {
    
@@ -154,7 +158,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
              AppButton(
           text: "Criar Coleção",
           onPressed: () {
-            _goToMyCollections() ;
+            _goToMyCollections() ; _createCollection() ;
           },
             )
       ],);
@@ -192,3 +196,23 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           );
   }
 }
+_createCollection() async {
+     if (collectionName == null || collectionName.isEmpty) return;
+
+  try {
+    final response = await CollectionRepository().createCollection(collectionName);
+
+    if (response.status == true) {
+      Modal().successAlert(response.data.toString(), context);
+    } else {
+      // ignore: avoid_print
+      print(response.error);
+      Modal().errorAlert(response.error.toString(), context);
+    }
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+    Modal().errorAlert(e.toString(), context);
+  }
+}
+
