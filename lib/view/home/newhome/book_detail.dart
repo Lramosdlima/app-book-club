@@ -32,7 +32,7 @@ class _BookDetailState extends State<BookDetail> {
   @override
   void initState() {
     super.initState();
-     Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () {
       _fetchComments();
       _getBookInteraction(widget.book.id!);
     });
@@ -175,14 +175,8 @@ class _BookDetailState extends State<BookDetail> {
     if (response.status == true) {
       print(response.data);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Comentário enviado com sucesso!'),
-          action: SnackBarAction(
-            label: 'Desfazer',
-            onPressed: () {
-              // Código para desfazer a ação
-            },
-          ),
+        const SnackBar(
+          content: Text('Comentário enviado com sucesso!'),
         ),
       );
     } else {
@@ -213,8 +207,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, wantToRead: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, wantToRead: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -241,8 +235,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, liked: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, liked: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -269,8 +263,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, alreadyRead: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, alreadyRead: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -280,7 +274,6 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   Future<void> _addInteraction(
-    context,
     int bookId, {
     bool? alreadyRead,
     bool? wantToRead,
@@ -295,16 +288,30 @@ class _BookDetailState extends State<BookDetail> {
       );
 
       if (response.status == true) {
-        Modal().successAlert(response.data.toString(), context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Comentário enviado com sucesso!\n${response.data.toString()}'),
+          ),
+        );
       } else {
         // ignore: avoid_print
         print(response.error);
-        Modal().errorAlert(response.error.toString(), context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Falha ao adicionar a interação:\n${response.error.toString()}'),
+          ),
+        );
       }
     } catch (e) {
       // ignore: avoid_print
       print(e);
-      Modal().errorAlert(e.toString(), context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Falha ao adicionar a interação.'),
+        ),
+      );
     }
   }
 
@@ -359,5 +366,4 @@ class _BookDetailState extends State<BookDetail> {
     }
     setState(() => _isLoading = false);
   }
-
 }
