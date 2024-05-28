@@ -2,15 +2,13 @@ import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
-import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
 class BookDetail extends StatelessWidget {
   final Book book;
-  final List<Comment> comments;
 
-  BookDetail({super.key, required this.book}) : comments = getCommentList();
+  const BookDetail({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
