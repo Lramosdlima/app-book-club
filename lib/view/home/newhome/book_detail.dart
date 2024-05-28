@@ -1,9 +1,13 @@
+import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/expandable_fab.dart';
+import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/interaction.dart';
+import 'package:bookclub/model/user_book_rate.dart';
 import 'package:bookclub/repository/interaction.dart';
+import 'package:bookclub/repository/rate.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
@@ -18,6 +22,8 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  List<UserBookRate> _comments = [];
+  bool _isLoading = false;
   Interaction interaction = Interaction();
   bool alreadyRead = false;
   bool wantToRead = false;
@@ -27,6 +33,7 @@ class _BookDetailState extends State<BookDetail> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
+      _fetchComments();
       _getBookInteraction(widget.book.id!);
     });
   }
@@ -41,23 +48,23 @@ class _BookDetailState extends State<BookDetail> {
         distance: 112,
         children: [
           ActionButton(
-            onPressed: () => _showAction(context, 0),
+            onPressed: () => _addCommentPage(context, widget.book.id ?? 0),
             icon: const Icon(Icons.add_comment_outlined),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 1),
+            onPressed: () => _dialogWantRead(context),
             icon: wantToRead
                 ? const Icon(Icons.event_available, color: Colors.green)
                 : const Icon(Icons.event_available_outlined),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 2),
+            onPressed: () => _dialogAlreadyRead(context),
             icon: alreadyRead
                 ? const Icon(Icons.add_task, color: Colors.green)
                 : const Icon(Icons.add_task),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 3),
+            onPressed: () => _dialogLike(context),
             icon: liked
                 ? const Icon(Icons.favorite, color: Colors.red)
                 : const Icon(Icons.favorite_border_outlined),
@@ -102,7 +109,11 @@ class _BookDetailState extends State<BookDetail> {
                 if (index == 0) {
                   return _synopsis();
                 } else {
-                  return CommentsPage(bookId: widget.book.id);
+                  return _isLoading
+                      ? Loader().pageLoading()
+                      : _comments.isEmpty
+                          ? const EmptyPage(text: "Sem comentários")
+                          : CommentsPage(comments: _comments);
                 }
               },
               childCount: 2,
@@ -113,30 +124,69 @@ class _BookDetailState extends State<BookDetail> {
     );
   }
 
-  _showAction(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        _addCommentPage(context);
-        break;
-      case 1:
-        _dialogWantRead(context);
-        break;
-      case 2:
-        _dialogAlreadyRead(context);
-        break;
-      case 3:
-        _dialogLike(context);
-        break;
-    }
+  _addCommentPage(BuildContext context, int bookId) {
+    final TextEditingController _controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sua Avaliação'),
+          content: Container(
+            child: TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                hintText: "Faça um comentário",
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+              maxLines: 3,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child:
+                  const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Enviar'),
+              onPressed: () async {
+                final comment = _controller.text;
+                if (comment.isNotEmpty) {
+                  await _postComment(bookId, 0, comment);
+                  Navigator.of(context).pop();
+                  await _fetchComments(); // Refresh the comments
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  _addCommentPage(context) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => CreateCommentPage(bookId: book.id),
-    //   ),
-    // );
+  Future<void> _postComment(int bookId, int rate, String? comment) async {
+    final response = await RateRepository().createRate(bookId, rate, comment);
+
+    if (response.status == true) {
+      print(response.data);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Comentário enviado com sucesso!'),
+        ),
+      );
+    } else {
+      print(response.error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Falha ao enviar o comentário.'),
+        ),
+      );
+    }
   }
 
   _dialogWantRead(context) {
@@ -157,8 +207,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, wantToRead: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, wantToRead: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -185,8 +235,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, liked: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, liked: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -213,8 +263,8 @@ class _BookDetailState extends State<BookDetail> {
               ),
               TextButton(
                 child: const Text('Sim!'),
-                onPressed: () {
-                  _addInteraction(context, widget.book.id!, alreadyRead: true);
+                onPressed: () async {
+                  _addInteraction(widget.book.id!, alreadyRead: true);
                   Navigator.of(context).pop();
                 },
               ),
@@ -224,7 +274,6 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   Future<void> _addInteraction(
-    context,
     int bookId, {
     bool? alreadyRead,
     bool? wantToRead,
@@ -239,16 +288,30 @@ class _BookDetailState extends State<BookDetail> {
       );
 
       if (response.status == true) {
-        Modal().successAlert(response.data.toString(), context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Comentário enviado com sucesso!\n${response.data.toString()}'),
+          ),
+        );
       } else {
         // ignore: avoid_print
         print(response.error);
-        Modal().errorAlert(response.error.toString(), context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Falha ao adicionar a interação:\n${response.error.toString()}'),
+          ),
+        );
       }
     } catch (e) {
       // ignore: avoid_print
       print(e);
-      Modal().errorAlert(e.toString(), context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Falha ao adicionar a interação.'),
+        ),
+      );
     }
   }
 
@@ -286,5 +349,21 @@ class _BookDetailState extends State<BookDetail> {
         ),
       ),
     );
+  }
+
+  Future<void> _fetchComments() async {
+    setState(() => _isLoading = true);
+    final response =
+        await RateRepository().getRateByBookId(widget.book.id ?? 0);
+
+    if (response.status == true) {
+      setState(() {
+        _comments = List<UserBookRate>.from(response.data);
+      });
+    } else {
+      // ignore: avoid_print
+      print(response.error);
+    }
+    setState(() => _isLoading = false);
   }
 }
