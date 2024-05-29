@@ -24,6 +24,9 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   Loader loader = Loader();
   late List<Book> books = [];
 
+
+  final Collection? collection = ModalRoute.of(context)!.settings.arguments as Collection?;
+
   List<Book> foundedBooks = [];
 
   Map<int, bool> selectedFlag = {};
@@ -195,8 +198,8 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
             MaterialPageRoute(builder: (context) => const MyCollectionPage()),
           );
   }
-}
-_createCollection() async {
+
+  _createCollection() async {
      if (collectionName == null || collectionName.isEmpty) return;
 
   try {
@@ -214,5 +217,7 @@ _createCollection() async {
     print(e);
     Modal().errorAlert(e.toString(), context);
   }
+}
+
 }
 

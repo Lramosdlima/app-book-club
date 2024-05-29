@@ -48,7 +48,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Collection? collection = ModalRoute.of(context)!.settings.arguments as Collection?;
+    
 
     _loadCollectionData(collection);
 
@@ -179,11 +179,8 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       ),
     );
   }*/
-  _goToCollectionAddBook() {
-    Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CollectionAddBook()),
-          );
+  _goToCollectionAddBook(collection) {
+    Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK, arguments: collection);
   }
 
   void _loadCollectionData(Collection? collection) {
