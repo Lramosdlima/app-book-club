@@ -115,7 +115,7 @@ class CollectionRepository {
   }
 
   Future<ApiResponse> createCollection(
-      String title, String description, List<int>? books) async {
+      String title, String description, List<int>? books, selectedBooks) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 

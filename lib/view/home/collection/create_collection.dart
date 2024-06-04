@@ -1,6 +1,7 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/model/collection.dart';
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,10 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  
+  
+  
+ 
  
 
   @override
@@ -48,8 +53,8 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    
 
+   final Collection? collection = ModalRoute.of(context)!.settings.arguments as Collection?; 
     _loadCollectionData(collection);
 
     return SafeArea(
@@ -118,7 +123,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
         AppButton(
           text: "Adicionar Livros",
           onPressed: () {
-            _goToCollectionAddBook() ;
+            _goToCollectionAddBook(collection);
           },
           
         ),
@@ -126,60 +131,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     );
   }
 
-  /*Widget _dropDownButtonGenre() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedGenre,
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedGenre = newValue!;
-            });
-          },
-          items: genres.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }*/
-
-  /*_dropDownButtonAuthor() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedAuthor,
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedAuthor = newValue!;
-            });
-          },
-          items: authors.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }*/
-  _goToCollectionAddBook(collection) {
+  _goToCollectionAddBook(Collection? collection) {
     Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK, arguments: collection);
   }
 
