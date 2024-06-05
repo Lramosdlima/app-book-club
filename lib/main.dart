@@ -5,6 +5,7 @@ import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/home/collection/collection.dart';
+import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/discontinued_pages/book.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.COLLECTION: (_) => const CollectionPage(),
         AppRoutes.COLLECTION_BOOKS: (_) => const CollectionBooksPage(),
         AppRoutes.MY_COLLECTION: (_) => const MyCollectionPage(),
+        AppRoutes.COLLECTION_ADD_BOOK: (_) => const CollectionAddBook(),
       },
       debugShowCheckedModeBanner: false,
     );

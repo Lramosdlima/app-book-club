@@ -2,7 +2,6 @@ import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
-import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:flutter/material.dart';
 
 class CreateCollectionPage extends StatefulWidget {
@@ -17,11 +16,6 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  
-  
-  
- 
- 
 
   @override
   void initState() {
@@ -31,7 +25,6 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   _fillFields() {
     titleController.text = _collectionData['title'] ?? '';
-   
     descriptionController.text = _collectionData['description'] ?? '';
  
     /*selectedGenre = _collectionData['genre'] ?? 'Ação';*/
@@ -59,7 +52,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Painel da Coleção ')),
+        appBar: AppBar(title: const Text('Painel da Coleção')),
         backgroundColor: Colors.grey.shade900,
         body: SingleChildScrollView(
           child: Padding(
@@ -100,13 +93,13 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       children: [
         AppTextField(
           controller: titleController,
-          hintText: "Título da coleção",
+          hintText: "Título da Coleção",
           icon: Icons.book_outlined,
         ),
         const SizedBox(height: 10),
         AppTextField(
           controller: descriptionController,
-          hintText: 'Descrição da coleção',
+          hintText: 'Descrição da Coleção',
           icon: Icons.border_color_outlined,
         ),
         const SizedBox(height: 40),
@@ -123,7 +116,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
         AppButton(
           text: "Adicionar Livros",
           onPressed: () {
-            _goToCollectionAddBook(collection);
+            _goToCollectionAddBook(_collectionData);
           },
           
         ),
@@ -131,7 +124,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     );
   }
 
-  _goToCollectionAddBook(Collection? collection) {
+  _goToCollectionAddBook(Map<String, String> collection) {
     Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK, arguments: collection);
   }
 

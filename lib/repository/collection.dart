@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/model/response.dart';
 import 'package:bookclub/store/user.dart';
@@ -115,15 +116,23 @@ class CollectionRepository {
   }
 
   Future<ApiResponse> createCollection(
-      String title, String description, List<int>? books, selectedBooks) async {
+      String title, String description, List<Book>? selectedBooks) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
+
+    List<int> bookIds = [];
+
+    if (selectedBooks != null) {
+      for (var bookObject in selectedBooks) {
+        bookIds.add(bookObject.id!);
+      }
+    }
 
     var params = <String, dynamic>{};
     params["owner_id"] = userStore.user.id;
     params["title"] = title;
     params["description"] = description;
-    params["books"] = books;
+    params["books"] = bookIds;
 
     try {
       final request = HttpHelper.post('/collection/create', body: params);
@@ -148,7 +157,7 @@ class CollectionRepository {
     }
   }
 
-   Future<ApiResponse> removeCollection(
+  Future<ApiResponse> removeCollection(
     int collectionId,
   ) async {
     ApiResponse response = ApiResponse();
@@ -219,7 +228,8 @@ class CollectionRepository {
     params["user_id"] = userStore.user.id;
 
     try {
-      final request = HttpHelper.delete('/collection/user/remove/$collectionId', body: params);
+      final request = HttpHelper.delete('/collection/user/remove/$collectionId',
+          body: params);
 
       await request.then((result) {
         response.status = result.data["status"];
