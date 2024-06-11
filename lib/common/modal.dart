@@ -33,7 +33,7 @@ class Modal {
         TextButton(
           child: const Text("OK"),
           onPressed: () {
-            Navigator.pop(context);
+            
             if (onDismiss != null) {
               onDismiss!();
             }

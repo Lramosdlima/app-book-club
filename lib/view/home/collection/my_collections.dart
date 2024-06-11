@@ -1,14 +1,15 @@
 import 'package:bookclub/common/collection_card.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
-import 'package:bookclub/routes/app_routes.dart';
-import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:bookclub/view/home/collection/create_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ndialog/ndialog.dart';
 
 class MyCollectionPage extends StatefulWidget {
   const MyCollectionPage({Key? key}) : super(key: key);
@@ -22,6 +23,8 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
   Loader loader = Loader();
 
   late List<Collection> _collections = [];
+
+  late Collection collection;
 
   List<Collection> _foundedMyCollections = [];
 
@@ -72,7 +75,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _goToEditBook();
+          _goToCreateCollection();
         },
         backgroundColor: StyleManager.instance.primary,
         child: Icon(Icons.add),
@@ -86,27 +89,33 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                       itemBuilder: (context, index) {
                         return Slidable(
                           //key: const ValueKey(0),
-                          endActionPane: const ActionPane(
+                          endActionPane: ActionPane(
                             motion: ScrollMotion(),
                             //dismissible: DismissiblePane(onDismissed: () {}),
                             children: [
                               // A SlidableAction can have an icon and/or a label.
                               SlidableAction(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     bottomLeft: Radius.circular(20)),
-                                onPressed: doNothing,
+                                onPressed: (context) {
+                                  _confirmDeleteCollection();
+                                },
                                 backgroundColor: Color(0xFFFE4A49),
                                 foregroundColor: Colors.white,
                                 icon: Icons.delete,
                                 label: 'Excluir',
                               ),
                               SlidableAction(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20)),
-                                onPressed: doNothing,
-                                backgroundColor: Color.fromARGB(255, 70, 163, 62),
+                                onPressed: (context) {
+                                  _goToEditCollection(
+                                      _foundedMyCollections[index]);
+                                },
+                                backgroundColor:
+                                    Color.fromARGB(255, 70, 163, 62),
                                 foregroundColor: Colors.white,
                                 icon: Icons.edit,
                                 label: 'Editar',
@@ -114,18 +123,29 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                             ],
                           ),
                           child: CollectionCard(
-                            collection: _foundedMyCollections[index]),
-                      );
+                              collection: _foundedMyCollections[index]),
+                        );
                       })
-                  : const EmptyPage(text: "Nenhuma coleção sua foi encontrada...")),
+                  : const EmptyPage(
+                      text: "Nenhuma coleção sua foi encontrada...")),
     );
   }
 
-  _goToEditBook() {
+  _goToCreateCollection() {
     Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateCollectionPage()),
-          );
+      context,
+      MaterialPageRoute(builder: (context) => CreateCollectionPage()),
+    );
+  }
+
+  _goToEditCollection(Collection collection) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CreateCollectionPage(
+                collection: collection,
+              )),
+    );
   }
 
   _getMyCollections() async {
@@ -145,6 +165,45 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
     }
     setState(() => _isLoading = false);
   }
-}
 
-void doNothing(BuildContext context) {}
+  _confirmDeleteCollection() async {
+    AlertDialog(
+      title: const AppText("Apagar coleção", type: TextType.subtitle),
+      content: const AppText(
+          "Deseja realmente apagar a coleção? Essa operação não poderá ser desfeita."),
+      actions: [
+        TextButton(
+          child: const AppText("Cancelar"),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          child: const AppText("Sim, apagar", textColor: Colors.red),
+          onPressed: () async {
+            Navigator.pop(context);
+            _deleteCollection(collection.id);
+          },
+        ),
+      ],
+    ).show(context);
+  }
+
+  _deleteCollection(int? id) async {
+    try {
+      final response = await CollectionRepository().removeCollection(id!);
+
+      if (response.status == true) {
+        Modal().successAlert(response.data.toString(), context);
+        setState(() {});
+      } else {
+        // ignore: avoid_print
+        print(response.error);
+        Modal().errorAlert(response.error.toString(), context);
+      }
+    } catch (e) {
+      print(e);
+      Modal().errorAlert(e.toString(), context);
+    }
+  }
+}

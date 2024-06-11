@@ -5,7 +5,6 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/repository/collection.dart';
-import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +79,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
       });
     } else {
       Navigator.push(
-        context as BuildContext,
+        context,
         MaterialPageRoute(
           builder: (context) => BookDetail(book: books[index]),
         ),
@@ -92,7 +91,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
     if (isSelectionMode) {
       return Icon(
         isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-        color: Theme.of(context as BuildContext).primaryColor,
+        color: Theme.of(context).primaryColor,
       );
     } else {
       return null;
@@ -128,45 +127,49 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: books.length,
-              itemBuilder: (BuildContext context, int index) {
-                selectedFlag[index] = selectedFlag[index] ?? false;
-                bool? isSelected = selectedFlag[index];
-                return Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    ListTile(
-                      onLongPress: () => onLongPress(isSelected, index),
-                      onTap: () => onTap(isSelected, index),
-                      title: Text(books[index].title ?? ''),
-                      subtitle: Text(books[index].author?.name ?? ''),
-                      leading: _buildSelectIcon(isSelected!, Book()),
-                      tileColor: Colors.grey.shade800,
-                    ),
-                    const SizedBox(height: 15),
-                  ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const SizedBox(height: 15),
+            const Text(
+                'Aperte e segure para adicionar livros ou apenas aperte para ver a informação dos livros.'),
+            Expanded(
+              child: ListView.builder(
+                itemCount: books.length,
+                itemBuilder: (BuildContext context, int index) {
+                  selectedFlag[index] = selectedFlag[index] ?? false;
+                  bool? isSelected = selectedFlag[index];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      ListTile(
+                        onLongPress: () => onLongPress(isSelected, index),
+                        onTap: () => onTap(isSelected, index),
+                        title: Text(books[index].title ?? ''),
+                        subtitle: Text(books[index].author?.name ?? ''),
+                        leading: _buildSelectIcon(isSelected!, Book()),
+                        tileColor: Colors.grey.shade800,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 10),
+            AppButton(
+              text: "Criar Coleção",
+              onPressed: () {
+                _createCollection(
+                  collection["title"] ?? '',
+                  collection["description"] ?? '',
+                  selectedBooks,
                 );
               },
             ),
-          ),
-          const SizedBox(height: 10),
-          AppButton(
-            text: "Criar Coleção",
-            onPressed: () {
-              _goToMyCollections();
-              _createCollection(
-                collection["title"] ?? '',
-                collection["description"] ?? '',
-                selectedBooks,
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
@@ -195,10 +198,9 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   }
 
   _goToMyCollections() {
-    Navigator.push(
-      context as BuildContext,
-      MaterialPageRoute(builder: (context) => const MyCollectionPage()),
-    );
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   _createCollection(
@@ -208,11 +210,12 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           .createCollection(title, description, selectedBooks);
 
       if (response.status == true) {
-        Modal().successAlert(response.data.toString(), context as BuildContext);
+          Modal().successAlert(response.data.toString(), context);
+          _goToMyCollections();
       } else {
         // ignore: avoid_print
         print(response.error);
-        Modal().errorAlert(response.error.toString(), context as BuildContext);
+        Modal().errorAlert(response.error.toString(), context);
       }
     } catch (e) {
       // ignore: avoid_print

@@ -1,11 +1,14 @@
 import 'package:bookclub/common/button.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/model/collection.dart';
+import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class CreateCollectionPage extends StatefulWidget {
-  const CreateCollectionPage({Key? key}) : super(key: key);
+  final Collection? collection;
+  const CreateCollectionPage({Key? key, this.collection}) : super(key: key);
 
   @override
   State<CreateCollectionPage> createState() => _CreateCollectionPageState();
@@ -17,38 +20,36 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-  @override
+ @override
   void initState() {
     super.initState();
+    if (widget.collection != null) {
+      _collectionData['id'] = widget.collection!.id.toString();
+      _collectionData['title'] = widget.collection!.title.toString();
+      _collectionData['description'] = widget.collection!.description != null
+          ? widget.collection!.description.toString()
+          : '';
+          }
+
     _fillFields();
   }
+
 
   _fillFields() {
     titleController.text = _collectionData['title'] ?? '';
     descriptionController.text = _collectionData['description'] ?? '';
- 
-    /*selectedGenre = _collectionData['genre'] ?? 'Ação';*/
   }
 
-  /*List<String> authors = ['Autor', 'Autor 2', 'Autor 3', 'Outro Autor'];
-  String selectedAuthor = 'Autor';
-  List<String> genres = [
-    'Ação',
-    'Terror',
-    'Aventura',
-    'Comédia',
-    'Ficção Científica',
-    'Drama',
-    'Romance',
-    'Outro'
-  ];
-  String selectedGenre = 'Ação';*/
+  _fillCollectionData() {
+    _collectionData['title'] = titleController.text;
+    _collectionData['description'] = descriptionController.text;
+  }
 
   @override
   Widget build(BuildContext context) {
-
-   final Collection? collection = ModalRoute.of(context)!.settings.arguments as Collection?; 
-    _loadCollectionData(collection);
+    // final Collection? collection =
+    //     ModalRoute.of(context)!.settings.arguments as Collection?;
+    // _loadCollectionData(collection);
 
     return SafeArea(
       child: Scaffold(
@@ -103,40 +104,66 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
           icon: Icons.border_color_outlined,
         ),
         const SizedBox(height: 40),
-        /*AppTextField(
-          controller: imageController,
-          hintText: 'Url da Imagem',
-          icon: Icons.image_outlined,
-        ),
-        const SizedBox(height: 10),
-        _dropDownButtonGenre(),
-        const SizedBox(height: 10),
-        _dropDownButtonAuthor(),
-        const SizedBox(height: 30),*/
-        AppButton(
-          text: "Adicionar Livros",
-          onPressed: () {
-            _goToCollectionAddBook(_collectionData);
-          },
-          
-        ),
+        _showButton()
       ],
     );
   }
 
-  _goToCollectionAddBook(Map<String, String> collection) {
-    Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK, arguments: collection);
+  _showButton() {
+    return _collectionData['id'] == null
+        ? AppButton(
+            text: "Adicionar Livros",
+            onPressed: () {
+              _fillCollectionData();
+              _goToCollectionAddBook(_collectionData);
+            },
+          )
+        : AppButton(
+            text: "Alterar coleção",
+            onPressed: () {
+              _fillCollectionData();
+              _updateCollection(
+                  _collectionData['id']!,
+                  _collectionData['title'] ?? '',
+                  _collectionData['description'] ?? '');
+            },
+          );
   }
 
-  void _loadCollectionData(Collection? collection) {
-    if (collection != null) {
-      _collectionData['id'] = collection.id.toString();
-      _collectionData['title'] = collection.title.toString();
-      _collectionData['description'] =
-          collection.description != null ? collection.description.toString() : '';
+  _goToCollectionAddBook(Map<String, String> collection) {
+    Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK,
+        arguments: collection);
+  }
+
+  // void _loadCollectionData(Collection? collection) {
+  //   if (collection != null) {
+  //     _collectionData['id'] = collection.id.toString();
+  //     _collectionData['title'] = collection.title.toString();
+  //     _collectionData['description'] = collection.description != null
+  //         ? collection.description.toString()
+  //         : '';
+  //     setState(() {
+  //       _fillFields();
+  //     });
+  //   }
+  // }
+
+  _updateCollection(String id, String title, String description) async {
+    try {
+      final response =
+          await CollectionRepository().updateCollection(id, title, description);
+
+      if (response.status == true) {
+        Modal().successAlert(response.data.toString(), context);
+        setState(() {});
+      } else {
+        // ignore: avoid_print
+        print(response.error);
+        Modal().errorAlert(response.error.toString(), context);
+      }
+    } catch (e) {
+      print(e);
+      Modal().errorAlert(e.toString(), context);
     }
-    setState(() {
-      _fillFields();
-    });
   }
 }
