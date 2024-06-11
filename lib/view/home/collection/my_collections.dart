@@ -99,7 +99,9 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                                     topLeft: Radius.circular(20),
                                     bottomLeft: Radius.circular(20)),
                                 onPressed: (context) {
-                                  _confirmDeleteCollection();
+                                  _confirmDeleteCollection(
+                                    _foundedMyCollections[index]
+                                  );
                                 },
                                 backgroundColor: Color(0xFFFE4A49),
                                 foregroundColor: Colors.white,
@@ -166,7 +168,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
     setState(() => _isLoading = false);
   }
 
-  _confirmDeleteCollection() async {
+  _confirmDeleteCollection(Collection collection) async {
     AlertDialog(
       title: const AppText("Apagar coleção", type: TextType.subtitle),
       content: const AppText(
@@ -183,6 +185,9 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
           onPressed: () async {
             Navigator.pop(context);
             _deleteCollection(collection.id);
+            setState(() {
+              _getMyCollections();
+            });
           },
         ),
       ],
