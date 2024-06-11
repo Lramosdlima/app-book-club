@@ -1,6 +1,7 @@
 import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/common/validator.dart';
@@ -201,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response.status == true) {
         _goToHome();
       } else {
-        AppBottomSheet().errorAlert(response.error, context);
+        Modal().errorAlert(response.error, context);
       }
     }
   }
