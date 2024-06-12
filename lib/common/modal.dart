@@ -83,6 +83,7 @@ class Modal {
       showCloseIcon: true,
       title: 'Sucesso!',
       desc: message,
+      autoHide: const Duration(seconds: 2),
       btnOkOnPress: () {
         debugPrint('OnClcik');
       },
