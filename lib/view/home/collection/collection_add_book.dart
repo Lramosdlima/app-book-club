@@ -47,11 +47,11 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
     setState(() {
       selectedFlag[index] = !isSelected;
       if (selectedFlag[index]!) {
-        if (!selectedBooks.contains(books[index])) {
-          selectedBooks.add(books[index]);
+        if (!selectedBooks.contains(foundedBooks[index])) {
+          selectedBooks.add(foundedBooks[index]);
         }
       } else {
-        selectedBooks.remove(books[index]);
+        selectedBooks.remove(foundedBooks[index]);
       }
       isSelectionMode = selectedFlag.containsValue(true);
     });
@@ -62,11 +62,11 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
       setState(() {
         selectedFlag[index] = !isSelected;
         if (selectedFlag[index]!) {
-          if (!selectedBooks.contains(books[index])) {
-            selectedBooks.add(books[index]);
+          if (!selectedBooks.contains(foundedBooks[index])) {
+            selectedBooks.add(foundedBooks[index]);
           }
         } else {
-          selectedBooks.remove(books[index]);
+          selectedBooks.remove(foundedBooks[index]);
         }
         isSelectionMode = selectedFlag.containsValue(true);
       });
@@ -74,7 +74,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BookDetail(book: books[index]),
+          builder: (context) => BookDetail(book: foundedBooks[index]),
         ),
       );
     }
@@ -130,7 +130,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: books.length,
+              itemCount: foundedBooks.length,
               itemBuilder: (BuildContext context, int index) {
                 selectedFlag[index] = selectedFlag[index] ?? false;
                 bool? isSelected = selectedFlag[index];
@@ -140,8 +140,8 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
                     ListTile(
                       onLongPress: () => onLongPress(isSelected, index),
                       onTap: () => onTap(isSelected, index),
-                      title: Text(books[index].title ?? ''),
-                      subtitle: Text(books[index].author?.name ?? ''),
+                      title: Text(foundedBooks[index].title ?? ''),
+                      subtitle: Text(foundedBooks[index].author?.name ?? ''),
                       leading: _buildSelectIcon(isSelected!, Book()),
                       tileColor: Colors.grey.shade800,
                     ),
