@@ -132,7 +132,9 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
 
       if (response.status == true) {
         Modal().successAlert(response.data.toString(), context);
-        setState(() {});
+        setState(() {
+          _getCollections();
+        });
       } else {
         // ignore: avoid_print
         print(response.error);
