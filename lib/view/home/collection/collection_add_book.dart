@@ -7,7 +7,6 @@ import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
-import 'package:bookclub/view/home/newhome/data.dart';
 import 'package:flutter/material.dart';
 
 class CollectionAddBook extends StatefulWidget {
@@ -28,15 +27,8 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   Map<int, bool> selectedFlag = {};
   bool isSelectionMode = false;
 
-  List<NavigationItem> navigationItems = getNavigationItemList();
-  NavigationItem? selectedItem;
-
   void initState() {
     super.initState();
-    setState(() {
-      // selectedFilter = filters[0];
-      selectedItem = navigationItems[0];
-    });
     Future.delayed(Duration.zero, () {
       _getBooks();
     });
