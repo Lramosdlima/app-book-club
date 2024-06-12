@@ -1,5 +1,6 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/modal.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
@@ -20,7 +21,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
- @override
+  @override
   void initState() {
     super.initState();
     if (widget.collection != null) {
@@ -29,11 +30,10 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       _collectionData['description'] = widget.collection!.description != null
           ? widget.collection!.description.toString()
           : '';
-          }
+    }
 
     _fillFields();
   }
-
 
   _fillFields() {
     titleController.text = _collectionData['title'] ?? '';
@@ -55,21 +55,19 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       child: Scaffold(
         appBar: AppBar(title: const Text('Painel da Coleção')),
         backgroundColor: Colors.grey.shade900,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  _header(),
-                  const SizedBox(height: 20),
-                  const Divider(),
-                  const SizedBox(height: 20),
-                  _body(),
-                ],
-              ),
+        body: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                _header(),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 20),
+                _body(),
+              ],
             ),
           ),
         ),
@@ -90,22 +88,32 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
   }
 
   Widget _body() {
-    return Column(
-      children: [
-        AppTextField(
-          controller: titleController,
-          hintText: "Título da Coleção",
-          icon: Icons.book_outlined,
-        ),
-        const SizedBox(height: 10),
-        AppTextField(
-          controller: descriptionController,
-          hintText: 'Descrição da Coleção',
-          icon: Icons.border_color_outlined,
-        ),
-        const SizedBox(height: 40),
-        _showButton()
-      ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              AppTextField(
+                controller: titleController,
+                label: "Título",
+                maxLength: 40,
+                icon: Icons.book_outlined,
+              ),
+              const SizedBox(height: 10),
+              AppTextField(
+                controller: descriptionController,
+                label: "Descrição",
+                maxLength: 200,
+                icon: Icons.border_color_outlined,
+              ),
+            ],
+          ),
+          _showButton(),
+        ],
+      ),
     );
   }
 
