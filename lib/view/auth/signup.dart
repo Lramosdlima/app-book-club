@@ -196,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   _register() async {
     if (_passwordController.text != _confirmPasswordController.text) {
-      AppBottomSheet().errorAlert("As senhas não estão iguais!", context);
+      Modal().alertAlert("As senhas não estão iguais!", context);
       return;
     }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ndialog/ndialog.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 typedef OnDismissCallback = void Function();
@@ -11,7 +10,6 @@ class Modal {
   final String? title;
   final String? message;
   final bool dismissable;
-  late NAlertDialog dialog;
 
   Modal(
       {this.onDismiss,
@@ -21,40 +19,6 @@ class Modal {
       this.message,
       this.dismissable = false});
 
-  // NAlertDialog setAlert(BuildContext context) {
-  //   return NAlertDialog(
-  //     onDismiss: onDismiss,
-  //     backgroundColor: Colors.black.withOpacity(.80),
-  //     blur: 2,
-  //     dismissable: dismissable,
-  //     dialogStyle: DialogStyle(
-  //         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-  //         elevation: 10.0),
-  //     actions: <Widget>[
-  //       TextButton(
-  //         child: const Text("OK"),
-  //         onPressed: () {
-
-  //           if (onDismiss != null) {
-  //             onDismiss!();
-  //           }
-  //         },
-  //       )
-  //     ],
-  //     title: Text(title ?? '',
-  //         textAlign: TextAlign.center,
-  //         style: const TextStyle(
-  //             color: Colors.white,
-  //             fontFamily: 'Manrope',
-  //             fontWeight: FontWeight.w700,
-  //             fontSize: 18)),
-  //     content: Text(message ?? '',
-  //         textAlign: TextAlign.center,
-  //         style: const TextStyle(
-  //             color: Colors.white, fontFamily: 'Manrope', fontSize: 12)),
-  //   );
-  // }
-
   setAlert(BuildContext context) {
     return AwesomeDialog(
       context: context,
@@ -63,7 +27,11 @@ class Modal {
       animType: AnimType.bottomSlide,
       title: title,
       reverseBtnOrder: true,
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+        if (onDismiss != null) {
+          onDismiss!();
+        }
+      },
       btnCancelOnPress: () {},
       desc: message,
     ).show();
@@ -77,7 +45,11 @@ class Modal {
       headerAnimationLoop: false,
       title: 'Error',
       desc: '$error!',
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+        if (onDismiss != null) {
+          onDismiss!();
+        }
+      },
       btnOkIcon: Icons.cancel,
       btnOkColor: Colors.red,
     ).show();
@@ -91,7 +63,11 @@ class Modal {
       headerAnimationLoop: false,
       title: 'Alerta',
       desc: '$error!',
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+        if (onDismiss != null) {
+          onDismiss!();
+        }
+      },
       btnOkIcon: Icons.cancel,
       btnOkColor: Colors.orange,
     ).show();
