@@ -2,6 +2,7 @@ import 'package:bookclub/common/book_card.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
+import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/repository/book.dart';
 import 'package:bookclub/repository/collection.dart';
@@ -127,49 +128,49 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 15),
-            const Text(
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            color: StyleManager.instance.backgroundColor,
+            child: const Text(
                 'Aperte e segure para adicionar livros ou apenas aperte para ver a informação dos livros.'),
-            Expanded(
-              child: ListView.builder(
-                itemCount: books.length,
-                itemBuilder: (BuildContext context, int index) {
-                  selectedFlag[index] = selectedFlag[index] ?? false;
-                  bool? isSelected = selectedFlag[index];
-                  return Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      ListTile(
-                        onLongPress: () => onLongPress(isSelected, index),
-                        onTap: () => onTap(isSelected, index),
-                        title: Text(books[index].title ?? ''),
-                        subtitle: Text(books[index].author?.name ?? ''),
-                        leading: _buildSelectIcon(isSelected!, Book()),
-                        tileColor: Colors.grey.shade800,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-            AppButton(
-              text: "Criar Coleção",
-              onPressed: () {
-                _createCollection(
-                  collection["title"] ?? '',
-                  collection["description"] ?? '',
-                  selectedBooks,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: books.length,
+              itemBuilder: (BuildContext context, int index) {
+                selectedFlag[index] = selectedFlag[index] ?? false;
+                bool? isSelected = selectedFlag[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    ListTile(
+                      onLongPress: () => onLongPress(isSelected, index),
+                      onTap: () => onTap(isSelected, index),
+                      title: Text(books[index].title ?? ''),
+                      subtitle: Text(books[index].author?.name ?? ''),
+                      leading: _buildSelectIcon(isSelected!, Book()),
+                      tileColor: Colors.grey.shade800,
+                    ),
+                  ],
                 );
               },
             ),
-            const SizedBox(height: 10),
-          ],
-        ),
+          ),
+          const SizedBox(height: 10),
+          AppButton(
+            text: "Criar Coleção",
+            onPressed: () {
+              _createCollection(
+                collection["title"] ?? '',
+                collection["description"] ?? '',
+                selectedBooks,
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
     );
   }
