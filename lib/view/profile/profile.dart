@@ -7,6 +7,8 @@ import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/collection/collection_added.dart';
+import 'package:bookclub/view/profile/favorite_added.dart';
+import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 
@@ -77,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Favoritos',
                   icon: Icons.favorite,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToFavoriteAdded();
                   }),
               AppCard(
                   title: 'Já Lidos',
@@ -89,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Quero Ler',
                   icon: Icons.book,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToWantToReadAdded();
                   }),
               const SizedBox(height: 30),
               userStore.user.id == null ? const SizedBox() : _yourAccount(),
@@ -178,6 +180,20 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const CollectionAddedPage()),
+    );
+  }
+
+  _goToFavoriteAdded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FavoriteAddedPage()),
+    );
+  }
+
+  _goToWantToReadAdded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WantToReadPage()),
     );
   }
 

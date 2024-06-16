@@ -73,6 +73,99 @@ class InteractionRepository {
     }
   }
 
+  Future<ApiResponse> getAllLikedBooks () async {
+    ApiResponse response = ApiResponse();
+    UserStore userStore = UserStore();
+
+    var userId = userStore.user.id;
+
+    try {
+      final request = HttpHelper.get('/interaction/user/liked/$userId');
+
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          var interaction = result.data["data"];
+
+          response.data = Interaction.fromMap(interaction);
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
+  Future<ApiResponse> getAllWantToRead () async {
+    ApiResponse response = ApiResponse();
+    UserStore userStore = UserStore();
+
+    var userId = userStore.user.id;
+
+    try {
+      final request = HttpHelper.get('/interaction/user/want-to-read/$userId');
+
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          var interaction = result.data["data"];
+
+          response.data = Interaction.fromMap(interaction);
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
+  Future<ApiResponse> getAllAlreadyRead () async {
+    ApiResponse response = ApiResponse();
+    UserStore userStore = UserStore();
+
+    var userId = userStore.user.id;
+
+    try {
+      final request = HttpHelper.get('/interaction/user/already-readed/$userId');
+
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          var interaction = result.data["data"];
+
+          response.data = Interaction.fromMap(interaction);
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
+
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
+  }
+
   Future<ApiResponse> addInteraction(
       int bookId, { bool? alreadyRead, bool? wantToRead, bool? liked }) async {
     ApiResponse response = ApiResponse();
