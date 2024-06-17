@@ -1,4 +1,3 @@
-import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
@@ -90,7 +89,8 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
           border: Border.all(color: StyleManager.instance.primary, width: 4),
           shape: BoxShape.circle),
-      child: Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110),
+      child: Icon(Icons.auto_stories,
+          color: StyleManager.instance.primary, size: 110),
     );
   }
 
@@ -162,9 +162,11 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: Row(
             children: [
-              Text("Criar nova conta", style: TextStyle(color: StyleManager.instance.tertiary)),
+              Text("Criar nova conta",
+                  style: TextStyle(color: StyleManager.instance.tertiary)),
               const SizedBox(width: 6),
-              Icon(Icons.person, size: 16, color: StyleManager.instance.tertiary)
+              Icon(Icons.person,
+                  size: 16, color: StyleManager.instance.tertiary)
             ],
           ),
         )
