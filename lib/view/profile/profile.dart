@@ -1,6 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/repository/auth.dart';
@@ -170,7 +172,8 @@ class _ProfilePageState extends State<ProfilePage> {
           border: Border.all(color: StyleManager.instance.primary, width: 4),
           shape: BoxShape.circle),
       child: userImage == null
-          ? Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110)
+          ? Icon(Icons.auto_stories,
+              color: StyleManager.instance.primary, size: 110)
           : ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.network(userImage)),
@@ -178,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _goToLogin() {
-    Navigator.pushNamed(context, AppRoutes.LOGIN);
+    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
   _goToMyComments() {
@@ -248,26 +251,24 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _confirmDeleteUserData() async {
-    AlertDialog(
-      title: const AppText("Apagar conta", type: TextType.subtitle),
-      content: const AppText(
-          "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita."),
-      actions: [
-        TextButton(
-          child: const AppText("Cancelar"),
-          onPressed: () async {
-            Navigator.pop(context);
-          },
-        ),
-        TextButton(
-          child: const AppText("Sim, apagar", textColor: Colors.red),
-          onPressed: () async {
-            Navigator.pop(context);
-            _deleteUserData();
-          },
-        ),
-      ],
-    ).show(context);
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.question,
+      headerAnimationLoop: true,
+      animType: AnimType.bottomSlide,
+      title: "Apagar conta?",
+      desc:
+          "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita.",
+      reverseBtnOrder: true,
+      btnOkText: "Apagar",
+      btnOkColor: Colors.red,
+      btnCancelText: "Não",
+      btnCancelColor: Colors.grey,
+      btnOkOnPress: () {
+        _deleteUserData();
+      },
+      btnCancelOnPress: () {},
+    ).show();
   }
 
   _deleteUserData() async {
@@ -278,12 +279,6 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: if (response.status == true) {
     _logOut();
 
-    AppBottomSheet(
-      title: "Conta apagada",
-      message: "Sua conta foi apagada com sucesso.",
-      type: BottomSheetType.success,
-    ).show(context);
-
     // } else {
     //   // ignore: avoid_print
     //   print(response);
@@ -291,12 +286,19 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _showNecessaryLogin() {
-    AppBottomSheet(
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.infoReverse,
+      headerAnimationLoop: true,
+      animType: AnimType.bottomSlide,
       title: "Poxa... 😟",
-      message: "Para acessar essa função é necessário ter uma conta e efetuar o login!",
-      type: BottomSheetType.info,
-      onTap:_goToLogin()
-    ).show(context);
+      desc:
+          "Para acessar essa função é necessário ter uma conta e efetuar o login!",
+      reverseBtnOrder: true,
+      btnOkOnPress: () {
+        _goToLogin();
+      },
+    ).show();
   }
 }
 

@@ -47,7 +47,7 @@ class _CollectionPageState extends State<CollectionPage> {
       children: [
         _searchBar(),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.65,
           width: MediaQuery.of(context).size.width,
           child: _isLoading
               ? Loader().pageLoading()
@@ -145,7 +145,7 @@ class _CollectionPageState extends State<CollectionPage> {
       } else {
         // ignore: avoid_print
         print(response.error);
-        Modal().errorAlert(response.error.toString(), context);
+        Modal().alertAlert(response.error.toString(), context);
       }
     } catch (e) {
       // ignore: avoid_print

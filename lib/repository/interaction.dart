@@ -191,9 +191,19 @@ class InteractionRepository {
     UserStore userStore = UserStore();
 
     var params = <String, dynamic>{};
-    params["already_read"] = alreadyRead;
-    params["want_to_read"] = wantToRead;
-    params["liked"] = liked;
+    
+    if (alreadyRead != null) {
+        params["already_read"] = alreadyRead;
+    }
+
+    if (wantToRead != null) {
+        params["want_to_read"] = wantToRead;
+    }
+    
+    if (liked != null) {
+        params["liked"] = liked;
+    }
+    
     params["book_id"] = bookId;
     params["user_id"] = userStore.user.id;
 
