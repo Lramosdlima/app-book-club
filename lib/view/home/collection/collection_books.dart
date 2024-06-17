@@ -26,19 +26,28 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
         body: ListView.builder(
           itemCount: foundedbooks.length,
           itemBuilder: (BuildContext context, int index) {
+            final book = foundedbooks[index];
             return Column(
               children: [
                 const SizedBox(height: 15),
                 ListTile(
-                  title: Text(foundedbooks[index].title ?? ''),
-                  subtitle: Text(foundedbooks[index].author?.name ?? ''),
-                  leading: const Icon(Icons.book),
+                  title: Text(book.title ?? ''),
+                  subtitle: Text(book.author?.name ?? ''),
+                  leading: book.url_image != null
+                              ? ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                  child: Image.network(
+                                    book.url_image!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : const Icon(Icons.book),
                   tileColor: Colors.grey.shade800,
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BookDetail(book: foundedbooks[index])),
+                          builder: (context) => BookDetail(book: book)),
                     );
                   },
                 ),

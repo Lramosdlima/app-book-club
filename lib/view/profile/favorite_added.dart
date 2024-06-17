@@ -1,5 +1,6 @@
 import 'package:bookclub/model/interaction.dart';
 import 'package:bookclub/repository/interaction.dart';
+import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:flutter/material.dart';
 // Importando o repositório
 import 'package:bookclub/model/book.dart'; // Importando o modelo de livro
@@ -37,9 +38,10 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
     final response = await _interactionRepository.getAllLikedBooks();
 
     if (response.status == true && response.data != null) {
-      List<Interaction> interactions = List<Interaction>.from(response.data);
+      List<Interaction> interactions = response.data;
 
-      List<Book> books = interactions.map((interaction) => interaction.book!).toList();
+      List<Book> books =
+          interactions.map((interaction) => interaction.book!).toList();
 
       setState(() {
         favoriteBooks = books;
@@ -121,11 +123,25 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
                         ),
                         child: ListTile(
                           leading: book.url_image != null
-                              ? Image.network(book.url_image!)
+                              ? ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
+                                  child: Image.network(
+                                    book.url_image!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
                               : const Icon(Icons.book),
                           title: Text(book.title ?? 'Título não disponível'),
                           subtitle:
                               Text(book.synopsis ?? 'Sinopse não disponível'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookDetail(book: book)),
+                            );
+                          },
                         ),
                       );
                     },
