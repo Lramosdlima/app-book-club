@@ -8,6 +8,7 @@ import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/collection/collection_added.dart';
 import 'package:bookclub/view/profile/favorite_added.dart';
+import 'package:bookclub/view/profile/my_comments.dart';
 import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
@@ -65,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Avaliações',
                   icon: Icons.star,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToMyComments();
                   }),
               AppCard(
                   title: 'Coleções Adicionadas',
@@ -174,6 +175,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _goToLogin() {
     Navigator.pushNamed(context, AppRoutes.LOGIN);
+  }
+
+  _goToMyComments() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MyCommentsPage()),
+    );
   }
 
   _goToCollectionAdded() {
