@@ -8,23 +8,27 @@ class EmptyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                fontFamily: StyleManager.instance.secondaryFontFamily,
-                color: StyleManager.instance.secondaryText),
-          ),
-          const SizedBox(height: 10),
-          Icon(Icons.cancel, size: 40, color: StyleManager.instance.secondaryText),
-        ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StyleManager.instance.secondaryFontFamily,
+                  color: StyleManager.instance.secondaryText),
+            ),
+            const SizedBox(height: 10),
+            Icon(Icons.cancel, size: 40, color: StyleManager.instance.secondaryText),
+          ],
+        ),
       ),
     );
   }
