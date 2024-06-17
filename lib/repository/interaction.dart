@@ -79,15 +79,21 @@ class InteractionRepository {
 
     var userId = userStore.user.id;
 
+    List<Interaction> interactions = [];
+
     try {
       final request = HttpHelper.get('/interaction/user/liked/$userId');
 
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-          var interaction = result.data["data"];
 
-          response.data = Interaction.fromMap(interaction);
+        var objects = result.data["data"];
+          for (var item in objects) {
+            interactions.add(Interaction.fromMap(item));
+          }
+
+          response.data = interactions;
         } else {
           response.error = result.data["error"];
         }
