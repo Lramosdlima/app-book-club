@@ -1,7 +1,6 @@
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/loader.dart';
-import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/interaction.dart';
@@ -29,6 +28,7 @@ class _BookDetailState extends State<BookDetail> {
   bool alreadyRead = false;
   bool wantToRead = false;
   bool liked = false;
+  Loader loader = Loader();
 
   @override
   void initState() {
@@ -111,7 +111,10 @@ class _BookDetailState extends State<BookDetail> {
                   return _synopsis();
                 } else {
                   return _isLoading
-                      ? Loader().pageLoading()
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Loader().pageLoading(),
+                        )
                       : _comments.isEmpty
                           ? const EmptyPage(text: "Sem comentários")
                           : CommentsPage(comments: _comments);
@@ -126,101 +129,101 @@ class _BookDetailState extends State<BookDetail> {
   }
 
   void _addCommentPage(BuildContext context, int bookId) {
-  final TextEditingController _controller = TextEditingController();
-  double _rating = 3.0; // Valor inicial da avaliação
+    final TextEditingController controller = TextEditingController();
+    double rating = 3.0; // Valor inicial da avaliação
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Sua Avaliação'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            RatingBar.builder(
-              initialRating: _rating,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => const Icon(
-                Icons.star,
-                color: Colors.amber,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sua Avaliação'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RatingBar.builder(
+                initialRating: rating,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  rating = rating;
+                },
               ),
-              onRatingUpdate: (rating) {
-                _rating = rating;
+              const SizedBox(height: 16),
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: "Faça um comentário",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+                maxLines: 3,
+                maxLength: 100,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child:
+                  const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                hintText: "Faça um comentário",
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-              ),
-              maxLines: 3,
+            TextButton(
+              child: const Text('Enviar'),
+              onPressed: () async {
+                final comment = controller.text;
+                if (comment.isNotEmpty) {
+                  Navigator.of(context).pop();
+                  await _postComment(context, bookId, rating.toInt(), comment);
+                  await _fetchComments(); // Refresh the comments
+                }
+              },
             ),
           ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('Enviar'),
-            onPressed: () async {
-              final comment = _controller.text;
-              if (comment.isNotEmpty) {
-                await _postComment(bookId, _rating.toInt(), comment);
-                Navigator.of(context).pop();
-                await _fetchComments(); // Refresh the comments
-              }
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _postComment(int bookId, int rate, String? comment) async {
-  final response = await RateRepository().createRate(bookId, rate, comment);
-
-  if (response.status == true) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Comentário enviado com sucesso!'),
-        action: SnackBarAction(
-          label: 'Desfazer',
-          onPressed: () {
-            // Código para desfazer a ação
-          },
-        ),
-      ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Falha ao enviar o comentário.'),
-      ),
+        );
+      },
     );
   }
-}
+
+  Future<void> _postComment(
+      context, int bookId, int rate, String? comment) async {
+    final response = await RateRepository().createRate(bookId, rate, comment);
+
+    if (response.status == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Comentário enviado com sucesso!'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Falha ao enviar o comentário.'),
+        ),
+      );
+    }
+  }
 
   _dialogWantRead(context) {
+    var message = '';
+    wantToRead
+        ? message = 'Deseja desmarcar esse livro como quero ler?'
+        : message = 'Deseja marcar esse livro como quero ler?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Quero Ler'),
-            content: const Text(
-                'Isso significa que você quer ler esse livro. Deseja marcar esse livro como quero ler?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -232,8 +235,8 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, wantToRead: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!,
+                      wantToRead: true);
                 },
               ),
             ],
@@ -242,13 +245,16 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   _dialogLike(context) {
+    var message = '';
+    liked
+        ? message = 'Deseja desmarcar esse livro como gostei?'
+        : message = 'Deseja marcar esse livro como gostei?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Gostei'),
-            content: const Text(
-                'Isso significa que deseja salvar esse livro nos seus favoritos. Deseja marcar esse livro como gostei?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -260,8 +266,7 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, liked: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!, liked: true);
                 },
               ),
             ],
@@ -270,13 +275,16 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   _dialogAlreadyRead(context) {
+    var message = '';
+    alreadyRead
+        ? message = 'Deseja desmarcar esse livro como ja lido?'
+        : message = 'Deseja marcar esse livro como ja lido?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Já Lido'),
-            content: const Text(
-                'Isso significa que você terminou de ler esse livro. Deseja marcar esse livro como já lido?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -288,8 +296,8 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, alreadyRead: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!,
+                      alreadyRead: true);
                 },
               ),
             ],
@@ -298,11 +306,13 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   Future<void> _addInteraction(
+    context,
     int bookId, {
     bool? alreadyRead,
     bool? wantToRead,
     bool? liked,
   }) async {
+    loader.show(context);
     try {
       final response = await InteractionRepository().addInteraction(
         bookId,
@@ -311,11 +321,13 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
         liked: liked,
       );
 
+      loader.hide();
+
       if (response.status == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'Comentário enviado com sucesso!\n${response.data.toString()}'),
+                'Interação adicionada com sucesso!\n${response.data.toString()}'),
           ),
         );
       } else {
@@ -331,15 +343,19 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
     } catch (e) {
       // ignore: avoid_print
       print(e);
+      loader.hide();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Falha ao adicionar a interação.'),
         ),
       );
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 
   Future<void> _getBookInteraction(int bookId) async {
+    loader.show(context);
     final response =
         await InteractionRepository().getAllInteractionsByUserId(bookId);
     if (response.status == true) {
@@ -353,6 +369,7 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
       // ignore: avoid_print
       print(response.error);
     }
+    loader.hide();
   }
 
   _synopsis() {
