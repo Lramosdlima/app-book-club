@@ -9,9 +9,13 @@ import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/collection/collection_added.dart';
 import 'package:bookclub/view/profile/favorite_added.dart';
 import 'package:bookclub/view/profile/my_comments.dart';
+import 'package:bookclub/view/profile/readed.dart';
 import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
+
+
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -86,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Já Lidos',
                   icon: Icons.bookmark,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToReaded();
                   }),
               AppCard(
                   title: 'Quero Ler',
@@ -194,7 +198,14 @@ class _ProfilePageState extends State<ProfilePage> {
   _goToFavoriteAdded() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FavoriteAddedPage()),
+      MaterialPageRoute(builder: (context) => const FavoriteAddedPage()),
+    );
+  }
+  
+  _goToReaded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ReadedPage()),
     );
   }
 
@@ -204,6 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
       MaterialPageRoute(builder: (context) => const WantToReadPage()),
     );
   }
+
 
   _logOut() {
     AuthRepository().logout();
@@ -286,4 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
       onTap:_goToLogin()
     ).show(context);
   }
+}
+
+class AlreadyReadedPage {
 }

@@ -9,33 +9,33 @@ import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class FavoriteAddedPage extends StatefulWidget {
-  const FavoriteAddedPage({Key? key}) : super(key: key);
+class ReadedPage extends StatefulWidget {
+  const ReadedPage({super.key});
 
   @override
-  State<FavoriteAddedPage> createState() => _FavoriteAddedPageState();
+  State<ReadedPage> createState() => _ReadedPageState();
 }
 
-class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
+class _ReadedPageState extends State<ReadedPage> {
   final InteractionRepository _interactionRepository =
       InteractionRepository(); // Instância do repositório
-  List<Book> favoriteBooks = []; // Lista de livros favoritos
+  List<Book> readedBooks = []; // Lista de livros favoritos
   List<Book> _filteredBooks = []; // Lista filtrada para pesquisa
   bool _isLoading = false; // Estado de carregamento
 
   @override
   void initState() {
     super.initState();
-    _fetchFavoriteBooks(); // Chame a função para obter os livros favoritos ao iniciar a página
+    _fetchReadedBooks(); // Chame a função para obter os livros favoritos ao iniciar a página
   }
 
   // Função para obter os livros favoritos
-  void _fetchFavoriteBooks() async {
+  void _fetchReadedBooks() async {
     setState(() {
       _isLoading = true;
     });
 
-    final response = await _interactionRepository.getAllLikedBooks();
+    final response = await _interactionRepository.getAllAlreadyRead();
 
     if (response.status == true && response.data != null) {
       List<Interaction> interactions = response.data;
@@ -44,7 +44,7 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
           interactions.map((interaction) => interaction.book!).toList();
 
       setState(() {
-        favoriteBooks = books;
+        readedBooks = books;
         _filteredBooks = books;
         _isLoading = false;
       });
@@ -53,14 +53,14 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
         _isLoading = false;
       });
       // Handle error
-      print('Erro ao obter livros favoritos: ${response.error}');
+      print('Erro ao obter livros Lidos: ${response.error}');
     }
   }
 
   // Função para filtrar os livros favoritos com base na pesquisa
   void _onSearch(String search) {
     setState(() {
-      _filteredBooks = favoriteBooks
+      _filteredBooks = readedBooks
           .where((book) =>
               book.title!.toLowerCase().contains(search.toLowerCase()))
           .toList();
@@ -90,7 +90,7 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide.none),
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500),
-                hintText: "Procure livros favoritos"),
+                hintText: "Procure livros Lidos"),
           ),
         ),
       ),
@@ -99,7 +99,7 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
         child: _isLoading
             ? Loader().pageLoading()
             : _filteredBooks.isEmpty
-                ? const EmptyPage(text: "Nenhum livro favorito adicionado")
+                ? const EmptyPage(text: "Nenhum livro Lido adicionado")
                 : ListView.builder(
                     itemCount: _filteredBooks.length,
                     itemBuilder: (context, index) {
@@ -159,9 +159,9 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
 
     try {
       // Lógica para remover livro dos favoritos, se aplicável
-      print('Remover livro dos favoritos com ID: $id');
+      print('Remover livro lido com ID: $id');
     } catch (e) {
-      print('Erro ao remover livro dos favoritos: $e');
+      print('Erro ao remover livro dos lidos: $e');
     }
   }
 }

@@ -67,60 +67,51 @@ class _MyCommentsPageState extends State<MyCommentsPage> {
   }
 
   Widget buildComment(UserBookRate comment) {
-    return ListTile(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Row(
-                children: [
-                  comment.user?.profile_picture != null
-                      ? CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(comment.user?.profile_picture ?? ''))
-                      : const CircleAvatar(
-                          child: Icon(Icons.person,
-                              color: Colors.white, size: 30)),
-                  const SizedBox(width: 16.0),
-                  Text(comment.user?.name ?? ''),
-                ],
+  return ListTile(
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            comment.user?.profile_picture != null
+                ? CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(comment.user?.profile_picture ?? ''))
+                : const CircleAvatar(
+                    child: Icon(Icons.person, color: Colors.white, size: 30)),
+            const SizedBox(width: 16.0),
+            Text(comment.user?.name ?? ''),
+            const SizedBox(width: 8.0), // Espaço entre o nome e a data
+            Text(
+              '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
+            ),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        Row(
+          children: [
+            RatingBarIndicator(
+              rating: comment.rate?.toDouble() ?? 0.0,
+              itemSize: 13,
+              itemBuilder: (_, __) => Icon(
+                Icons.star,
+                color: StyleManager.instance.secondary,
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Row(
-            children: [
-              RatingBarIndicator(
-                rating: comment.rate?.toDouble() ?? 0.0,
-                itemSize: 13,
-                itemBuilder: (_, __) => Icon(
-                  Icons.star,
-                  color: StyleManager.instance.secondary,
-                ),
-              ),
-              const SizedBox(
-                width: 16.0,
-              ),
-              Text(
-                '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          ReadMoreText(
-            comment.comment ?? '',
-            trimLines: 2,
-            trimMode: TrimMode.Line,
-            trimExpandedText: 'mostrar menos',
-            trimCollapsedText: 'mostrar mais',
-          )
-        ],
-      ),
-    );
-  }
+            ),
+            const SizedBox(width: 16.0),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        ReadMoreText(
+          comment.comment ?? '',
+          trimLines: 2,
+          trimMode: TrimMode.Line,
+          trimExpandedText: 'mostrar menos',
+          trimCollapsedText: 'mostrar mais',
+        )
+      ],
+    ),
+  );
+}
+
 }

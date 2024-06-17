@@ -116,15 +116,21 @@ class InteractionRepository {
 
     var userId = userStore.user.id;
 
+    List<Interaction> interactions = [];
+
     try {
       final request = HttpHelper.get('/interaction/user/want-to-read/$userId');
 
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-          var interaction = result.data["data"];
 
-          response.data = Interaction.fromMap(interaction);
+        var objects = result.data["data"];
+          for (var item in objects) {
+            interactions.add(Interaction.fromMap(item));
+          }
+
+          response.data = interactions;
         } else {
           response.error = result.data["error"];
         }
@@ -141,11 +147,14 @@ class InteractionRepository {
     }
   }
 
+
   Future<ApiResponse> getAllAlreadyRead () async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
     var userId = userStore.user.id;
+
+    List<Interaction> interactions = [];
 
     try {
       final request = HttpHelper.get('/interaction/user/already-readed/$userId');
@@ -153,9 +162,13 @@ class InteractionRepository {
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-          var interaction = result.data["data"];
 
-          response.data = Interaction.fromMap(interaction);
+        var objects = result.data["data"];
+          for (var item in objects) {
+            interactions.add(Interaction.fromMap(item));
+          }
+
+          response.data = interactions;
         } else {
           response.error = result.data["error"];
         }
