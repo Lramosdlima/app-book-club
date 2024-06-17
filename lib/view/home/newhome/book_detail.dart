@@ -10,6 +10,7 @@ import 'package:bookclub/repository/interaction.dart';
 import 'package:bookclub/repository/rate.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 
 class BookDetail extends StatefulWidget {
@@ -124,16 +125,35 @@ class _BookDetailState extends State<BookDetail> {
     );
   }
 
-  _addCommentPage(BuildContext context, int bookId) {
-    final TextEditingController _controller = TextEditingController();
+  void _addCommentPage(BuildContext context, int bookId) {
+  final TextEditingController _controller = TextEditingController();
+  double _rating = 3.0; // Valor inicial da avaliação
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Sua Avaliação'),
-          content: Container(
-            child: TextField(
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Sua Avaliação'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RatingBar.builder(
+              initialRating: _rating,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              onRatingUpdate: (rating) {
+                _rating = rating;
+              },
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: _controller,
               decoration: const InputDecoration(
                 hintText: "Faça um comentário",
@@ -143,51 +163,55 @@ class _BookDetailState extends State<BookDetail> {
               ),
               maxLines: 3,
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child:
-                  const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Enviar'),
-              onPressed: () async {
-                final comment = _controller.text;
-                if (comment.isNotEmpty) {
-                  await _postComment(bookId, 0, comment);
-                  Navigator.of(context).pop();
-                  await _fetchComments(); // Refresh the comments
-                }
-              },
-            ),
           ],
-        );
-      },
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('Enviar'),
+            onPressed: () async {
+              final comment = _controller.text;
+              if (comment.isNotEmpty) {
+                await _postComment(bookId, _rating.toInt(), comment);
+                Navigator.of(context).pop();
+                await _fetchComments(); // Refresh the comments
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _postComment(int bookId, int rate, String? comment) async {
+  final response = await RateRepository().createRate(bookId, rate, comment);
+
+  if (response.status == true) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Comentário enviado com sucesso!'),
+        action: SnackBarAction(
+          label: 'Desfazer',
+          onPressed: () {
+            // Código para desfazer a ação
+          },
+        ),
+      ),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Falha ao enviar o comentário.'),
+      ),
     );
   }
-
-  Future<void> _postComment(int bookId, int rate, String? comment) async {
-    final response = await RateRepository().createRate(bookId, rate, comment);
-
-    if (response.status == true) {
-      print(response.data);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Comentário enviado com sucesso!'),
-        ),
-      );
-    } else {
-      print(response.error);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Falha ao enviar o comentário.'),
-        ),
-      );
-    }
-  }
+}
 
   _dialogWantRead(context) {
     showDialog(

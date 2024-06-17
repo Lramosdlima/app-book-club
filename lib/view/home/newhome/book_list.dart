@@ -73,7 +73,7 @@ class _BookListPageState extends State<BookListPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.43,
+              height: MediaQuery.of(context).size.height * 0.40,
               child: booksRecent.isNotEmpty
                   ? ListView(
                       physics: const BouncingScrollPhysics(),

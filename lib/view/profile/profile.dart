@@ -9,8 +9,15 @@ import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/collection/collection_added.dart';
+import 'package:bookclub/view/profile/favorite_added.dart';
+import 'package:bookclub/view/profile/my_comments.dart';
+import 'package:bookclub/view/profile/readed.dart';
+import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
+
+
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -65,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Avaliações',
                   icon: Icons.star,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToMyComments();
                   }),
               AppCard(
                   title: 'Coleções Adicionadas',
@@ -79,19 +86,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Favoritos',
                   icon: Icons.favorite,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToFavoriteAdded();
                   }),
               AppCard(
                   title: 'Já Lidos',
                   icon: Icons.bookmark,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToReaded();
                   }),
               AppCard(
                   title: 'Quero Ler',
                   icon: Icons.book,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : null;
+                    userStore.user.id == null ? _showNecessaryLogin() : _goToWantToReadAdded();
                   }),
               const SizedBox(height: 30),
               userStore.user.id == null ? const SizedBox() : _yourAccount(),
@@ -177,12 +184,41 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
+  _goToMyComments() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MyCommentsPage()),
+    );
+  }
+
   _goToCollectionAdded() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const CollectionAddedPage()),
     );
   }
+
+  _goToFavoriteAdded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const FavoriteAddedPage()),
+    );
+  }
+  
+  _goToReaded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ReadedPage()),
+    );
+  }
+
+  _goToWantToReadAdded() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WantToReadPage()),
+    );
+  }
+
 
   _logOut() {
     AuthRepository().logout();
@@ -264,4 +300,7 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     ).show();
   }
+}
+
+class AlreadyReadedPage {
 }
