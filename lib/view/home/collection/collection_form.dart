@@ -1,6 +1,7 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/text_field.dart';
+import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
@@ -100,6 +101,7 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
               children: [
                 AppTextField(
                   controller: titleController,
+                  validator: Validator().validateTitleCollection,
                   label: "Título",
                   maxLength: 40,
                   icon: Icons.book_outlined,
@@ -107,6 +109,7 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
                 const SizedBox(height: 10),
                 AppTextField(
                   controller: descriptionController,
+                  validator: Validator().validateDescriptionCollection,
                   label: "Descrição",
                   minLines: 3,
                   maxLength: 200,
@@ -133,7 +136,8 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
                 _fillCollectionData();
                 _goToCollectionAddBook(_collectionData);
               } else {
-                Modal().errorAlert("Preencha todos os campos", context);
+                Modal().errorAlert(
+                    "Você não preencheu os requisitos do cadastro", context);
               }
             },
           )

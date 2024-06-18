@@ -8,6 +8,7 @@ class AppTextField extends StatelessWidget {
   final String? label;
   final IconData? icon;
   final bool isPassword;
+  final String? Function(String?)? validator;
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
@@ -17,6 +18,7 @@ class AppTextField extends StatelessWidget {
       required this.controller,
       this.hintText,
       this.label,
+      this.validator,
       this.maxLines,
       this.minLines,
       this.maxLength,
@@ -34,7 +36,7 @@ class AppTextField extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       maxLength: maxLength,
-      validator: Validator().validateField,
+      validator: validator ?? Validator().validateField,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: StyleManager.instance.secondaryText),
