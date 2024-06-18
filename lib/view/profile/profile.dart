@@ -7,7 +7,7 @@ import 'package:bookclub/common/text.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
-import 'package:bookclub/view/home/collection/collection_added.dart';
+import 'package:bookclub/view/profile/collection_added.dart';
 import 'package:bookclub/view/profile/favorite_added.dart';
 import 'package:bookclub/view/profile/my_comments.dart';
 import 'package:bookclub/view/profile/readed.dart';
