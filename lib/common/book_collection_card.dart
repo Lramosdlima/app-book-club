@@ -29,7 +29,10 @@ class BookCollectionCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )
-            : const Icon(Icons.book),
+            : const Icon(
+                Icons.book,
+                size: 40,
+              ),
         tileColor: Colors.grey.shade800,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onTap: () {
