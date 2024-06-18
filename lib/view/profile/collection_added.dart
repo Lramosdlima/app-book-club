@@ -5,6 +5,7 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -16,6 +17,7 @@ class CollectionAddedPage extends StatefulWidget {
 }
 
 class _CollectionAddedPageState extends State<CollectionAddedPage> {
+  UserStore userStore = UserStore();
   bool _isLoading = false;
   Loader loader = Loader();
 
@@ -78,29 +80,33 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
                     itemBuilder: (context, index) {
                       return Slidable(
                         //key: const ValueKey(0),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          //dismissible: DismissiblePane(onDismissed: () {}),
-                          children: [
-                            SlidableAction(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16)),
-                              onPressed: (context) {
-                                _removeCollection(
-                                    _foundedCollections[index].id);
-                              },
-                              backgroundColor: const Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: 'Remover a coleção',
-                            ),
-                          ],
-                        ),
+                        endActionPane: userStore.user.id ==
+                                _foundedCollections[index].owner_id
+                            ? null
+                            : ActionPane(
+                                motion: const ScrollMotion(),
+                                //dismissible: DismissiblePane(onDismissed: () {}),
+                                children: [
+                                  SlidableAction(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(16)),
+                                    onPressed: (context) {
+                                      _removeCollection(
+                                          _foundedCollections[index].id);
+                                    },
+                                    backgroundColor: const Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Remover a coleção',
+                                  ),
+                                ],
+                              ),
                         child: CollectionCard(
                             collection: _foundedCollections[index]),
                       );
                     })
-                : const EmptyPage(text: "Nenhuma coleção adicionada a seu perfil"),
+                : const EmptyPage(
+                    text: "Nenhuma coleção adicionada a seu perfil"),
       ),
     );
   }
