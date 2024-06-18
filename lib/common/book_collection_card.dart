@@ -5,9 +5,17 @@ import 'package:flutter/material.dart';
 
 class BookCollectionCard extends StatelessWidget {
   final Book book;
-  final Function()? ontap;
+  final Function()? onTap;
+  final Function()? onLongPress;
 
-  const BookCollectionCard({Key? key, required this.book, this.ontap})
+  final Widget? leading;
+
+  const BookCollectionCard(
+      {Key? key,
+      required this.book,
+      this.onTap,
+      this.onLongPress,
+      this.leading})
       : super(key: key);
 
   @override
@@ -21,29 +29,31 @@ class BookCollectionCard extends StatelessWidget {
           book.author?.name ?? '',
           style: const TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
         ),
-        leading: book.url_image != null
-            ? ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                child: Image.network(
-                  book.url_image!,
-                  fit: BoxFit.cover,
-                ),
-              )
-            : const Icon(
-                Icons.book,
-                size: 40,
-              ),
+        leading: leading ??
+            (book.url_image != null
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    child: Image.network(
+                      book.url_image!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : const Icon(
+                    Icons.book,
+                    size: 40,
+                  )),
         tileColor: Colors.grey.shade800,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onTap: () {
-          ontap != null
-              ? ontap!()
-              : Navigator.push(
+        onTap: onTap != null
+            ? onTap!
+            : () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => BookDetail(book: book)),
                 );
-        },
+              },
+        onLongPress: onLongPress,
       ),
     );
   }

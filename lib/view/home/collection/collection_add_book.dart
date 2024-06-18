@@ -1,4 +1,5 @@
 import 'package:bookclub/common/book_card.dart';
+import 'package:bookclub/common/book_collection_card.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
@@ -17,7 +18,6 @@ class CollectionAddBook extends StatefulWidget {
 }
 
 class _CollectionAddBookState extends State<CollectionAddBook> {
-  bool _isLoading = false;
   Loader loader = Loader();
   late List<Book> books = [];
 
@@ -132,18 +132,17 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
             child: ListView.builder(
               itemCount: foundedBooks.length,
               itemBuilder: (BuildContext context, int index) {
+                Book book = foundedBooks[index];
                 selectedFlag[index] = selectedFlag[index] ?? false;
                 bool? isSelected = selectedFlag[index];
                 return Column(
                   children: [
-                    const SizedBox(height: 20),
-                    ListTile(
-                      onLongPress: () => onLongPress(isSelected, index),
+                    const SizedBox(height: 15),
+                    BookCollectionCard(
+                      book: book,
                       onTap: () => onTap(isSelected, index),
-                      title: Text(foundedBooks[index].title ?? ''),
-                      subtitle: Text(foundedBooks[index].author?.name ?? ''),
+                      onLongPress: () => onLongPress(isSelected, index),
                       leading: _buildSelectIcon(isSelected!, Book()),
-                      tileColor: Colors.grey.shade800,
                     ),
                   ],
                 );
@@ -153,6 +152,8 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           const SizedBox(height: 10),
           AppButton(
             text: "Criar Coleção",
+            icon: const Icon(Icons.check),
+            backgroundColor: Colors.green,
             onPressed: () {
               _createCollection(
                 collection["title"] ?? '',
@@ -176,19 +177,23 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   }
 
   _getBooks() async {
-    setState(() => _isLoading = true);
-    final response = await BookRepository().getBooks();
-    books = List<Book>.from(response.data);
+    loader.show(context);
+    try {
+      final response = await BookRepository().getBooks();
+      loader.hide();
+      books = List<Book>.from(response.data);
 
-    if (response.status == true) {
-      setState(() {
-        foundedBooks = books;
-      });
-    } else {
-      // ignore: avoid_print
-      print(response.error);
+      if (response.status == true) {
+        setState(() {
+          foundedBooks = books;
+        });
+      } else {
+        // ignore: avoid_print
+        print(response.error);
+      }
+    } catch (e) {
+      print(e);
     }
-    setState(() => _isLoading = false);
   }
 
   _goToMyCollections() {
@@ -200,12 +205,14 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   _createCollection(
       String title, String description, List<Book> selectedBooks) async {
     try {
+      loader.show(context);
       final response = await CollectionRepository()
           .createCollection(title, description, selectedBooks);
+      loader.hide();
 
       if (response.status == true) {
-        Modal().successAlert(response.data.toString(), context);
-        _goToMyCollections();
+        await Modal().successAlert(response.data.toString(), context);
+        await _goToMyCollections();
       } else {
         // ignore: avoid_print
         print(response.error);
