@@ -1,7 +1,6 @@
 import 'package:bookclub/common/book_collection_card.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/collection.dart';
-import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:flutter/material.dart';
 
 class CollectionBooksPage extends StatefulWidget {
