@@ -1,7 +1,7 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/newhome/books_tabs.dart';
-import 'package:bookclub/view/home/search.dart';
+// import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
