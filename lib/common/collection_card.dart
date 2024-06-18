@@ -1,4 +1,5 @@
 import 'package:bookclub/common/style_manager.dart';
+import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +32,12 @@ class CollectionCard extends StatelessWidget {
                   children: [
                     // Text(collection.image),
                     Icon(Icons.book_outlined,
-                        color: StyleManager.instance.primaryText, size: 22),
+                        color: StyleManager.instance.primary, size: 22),
                     const SizedBox(width: 10),
                     Text(
                       collection.title ?? '',
                       style: TextStyle(
-                          color: StyleManager.instance.primaryText,
+                          color: StyleManager.instance.primary,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
@@ -51,9 +52,14 @@ class CollectionCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Por: ${collection.owner ?? ''}',
-                      style:
-                          TextStyle(color: StyleManager.instance.primaryText),
+                      isOwner
+                          ? 'Sua Coleção'
+                          : 'Por: ${collection.owner ?? ''}',
+                      style: TextStyle(
+                          color: isOwner
+                              ? Colors.blue
+                              : StyleManager.instance.primaryText,
+                          fontStyle: FontStyle.italic),
                     ),
                     const Spacer(),
                     isOwner ? Container() : const Icon(Icons.swipe_outlined)
