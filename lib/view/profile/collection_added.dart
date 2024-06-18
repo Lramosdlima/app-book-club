@@ -78,10 +78,11 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
                 ? ListView.builder(
                     itemCount: _foundedCollections.length,
                     itemBuilder: (context, index) {
+                      bool isOwner = _foundedCollections[index].owner_id ==
+                          userStore.user.id;
                       return Slidable(
                         //key: const ValueKey(0),
-                        endActionPane: userStore.user.id ==
-                                _foundedCollections[index].owner_id
+                        endActionPane: isOwner
                             ? null
                             : ActionPane(
                                 motion: const ScrollMotion(),
@@ -102,7 +103,8 @@ class _CollectionAddedPageState extends State<CollectionAddedPage> {
                                 ],
                               ),
                         child: CollectionCard(
-                            collection: _foundedCollections[index]),
+                            collection: _foundedCollections[index],
+                            isOwner: isOwner),
                       );
                     })
                 : const EmptyPage(
