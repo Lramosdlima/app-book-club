@@ -1,6 +1,5 @@
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/modal.dart';
-import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text_field.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
@@ -49,10 +48,6 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final Collection? collection =
-    //     ModalRoute.of(context)!.settings.arguments as Collection?;
-    // _loadCollectionData(collection);
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text('Painel da Coleção')),
@@ -92,32 +87,36 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
   }
 
   Widget _body() {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.6,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              AppTextField(
-                controller: titleController,
-                label: "Título",
-                maxLength: 40,
-                icon: Icons.book_outlined,
-              ),
-              const SizedBox(height: 10),
-              AppTextField(
-                controller: descriptionController,
-                label: "Descrição",
-                minLines: 3,
-                maxLength: 200,
-                icon: Icons.edit,
-              ),
-            ],
-          ),
-          _showButton(),
-        ],
+    return Form(
+      key: _formkey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.6,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                AppTextField(
+                  controller: titleController,
+                  label: "Título",
+                  maxLength: 40,
+                  icon: Icons.book_outlined,
+                ),
+                const SizedBox(height: 10),
+                AppTextField(
+                  controller: descriptionController,
+                  label: "Descrição",
+                  minLines: 3,
+                  maxLength: 200,
+                  icon: Icons.edit,
+                ),
+              ],
+            ),
+            _showButton(),
+          ],
+        ),
       ),
     );
   }
@@ -128,19 +127,31 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
             text: "Adicionar Livros",
             icon: const Icon(Icons.add),
             onPressed: () {
-              _fillCollectionData();
-              _goToCollectionAddBook(_collectionData);
+              if (_formkey.currentState?.validate() == true &&
+                  _formkey.currentState != null) {
+                _formkey.currentState?.save();
+                _fillCollectionData();
+                _goToCollectionAddBook(_collectionData);
+              } else {
+                Modal().errorAlert("Preencha todos os campos", context);
+              }
             },
           )
         : AppButton(
             text: "Alterar Coleção",
             icon: const Icon(Icons.edit),
             onPressed: () {
-              _fillCollectionData();
-              _updateCollection(
-                  _collectionData['id']!,
-                  _collectionData['title'] ?? '',
-                  _collectionData['description'] ?? '');
+              if (_formkey.currentState?.validate() == true &&
+                  _formkey.currentState != null) {
+                _formkey.currentState?.save();
+                _fillCollectionData();
+                _updateCollection(
+                    _collectionData['id']!,
+                    _collectionData['title'] ?? '',
+                    _collectionData['description'] ?? '');
+              } else {
+                Modal().errorAlert("Preencha todos os campos", context);
+              }
             },
           );
   }
