@@ -1,25 +1,16 @@
 import 'package:bookclub/common/style_manager.dart';
-import 'package:bookclub/view/home/newhome/data.dart';
+import 'package:bookclub/model/user_book_rate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 
-class CommentsPage extends StatefulWidget {
-  const CommentsPage({super.key});
+class CommentsPage extends StatelessWidget {
+  final List<UserBookRate> comments;
 
-  @override
-  State<CommentsPage> createState() => _CommentsPageState();
-}
-
-class _CommentsPageState extends State<CommentsPage> {
-  List<Comment> comments = getCommentList();
+  const CommentsPage({super.key, required this.comments});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(child: buildComments());
-  }
-
-  Widget buildComments() {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -30,17 +21,20 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 
-  Widget buildComment(Comment comment) {
+  Widget buildComment(UserBookRate comment) {
     return ListTile(
       title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Row(
                 children: [
-                  CircleAvatar(backgroundImage: AssetImage(comment.userImage)),
+                  comment.user?.profile_picture != null
+                  ? CircleAvatar(backgroundImage:  NetworkImage(comment.user?.profile_picture ?? ''))
+                  : const CircleAvatar(child: Icon(Icons.person, color: Colors.white, size: 30)),
                   const SizedBox(width: 16.0),
-                  Text(comment.name)
+                  Text(comment.user?.name ?? ''),
                 ],
               ),
             ],
@@ -51,7 +45,7 @@ class _CommentsPageState extends State<CommentsPage> {
           Row(
             children: [
               RatingBarIndicator(
-                rating: 3.5,
+                rating: comment.rate?.toDouble() ?? 0.0,
                 itemSize: 13,
                 itemBuilder: (_, __) => Icon(
                   Icons.star,
@@ -62,7 +56,7 @@ class _CommentsPageState extends State<CommentsPage> {
                 width: 16.0,
               ),
               Text(
-                comment.date,
+                '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
               ),
             ],
           ),
@@ -70,10 +64,10 @@ class _CommentsPageState extends State<CommentsPage> {
             height: 16.0,
           ),
           ReadMoreText(
-            comment.commentText,
+            comment.comment ?? '',
             trimLines: 2,
             trimMode: TrimMode.Line,
-            trimExpandedText: 'mostra menos',
+            trimExpandedText: 'mostrar menos',
             trimCollapsedText: 'mostrar mais',
           )
         ],

@@ -1,6 +1,6 @@
-import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/button.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
@@ -154,7 +154,9 @@ class _SignUpPageState extends State<SignUpPage> {
         icon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           icon: Icon(
-            _confirmPasswordVisible == true ? Icons.visibility : Icons.visibility_off,
+            _confirmPasswordVisible == true
+                ? Icons.visibility
+                : Icons.visibility_off,
             color: StyleManager.instance.primaryText,
             size: 20,
           ),
@@ -173,7 +175,8 @@ class _SignUpPageState extends State<SignUpPage> {
       decoration: BoxDecoration(
           border: Border.all(color: StyleManager.instance.primary, width: 2),
           shape: BoxShape.circle),
-      child: Icon(Icons.person, color: StyleManager.instance.primary, size: 120),
+      child:
+          Icon(Icons.person, color: StyleManager.instance.primary, size: 120),
     );
   }
 
@@ -182,14 +185,17 @@ class _SignUpPageState extends State<SignUpPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text("Já tem uma conta?"),
-        TextButton(onPressed: _goToLogin, child: Text("Login", style: TextStyle(color: StyleManager.instance.tertiary)))
+        TextButton(
+            onPressed: _goToLogin,
+            child: Text("Login",
+                style: TextStyle(color: StyleManager.instance.tertiary)))
       ],
     );
   }
 
   _register() async {
     if (_passwordController.text != _confirmPasswordController.text) {
-      AppBottomSheet().errorAlert("As senhas não estão iguais!", context);
+      Modal().alertAlert("As senhas não estão iguais!", context);
       return;
     }
 
@@ -208,12 +214,13 @@ class _SignUpPageState extends State<SignUpPage> {
       loader.hide();
 
       if (response.status == true) {
-        AppBottomSheet().successAlert(
-            "Conta criada com sucesso! Faça login para continuar.",
-            context,
-            _goToLogin());
+        Modal().successAlert(
+          "Conta criada com sucesso! Faça login para continuar.",
+          context,
+        );
+        _goToLogin();
       } else {
-        AppBottomSheet().errorAlert(response.error, context);
+        Modal().errorAlert(response.error, context);
       }
     }
   }

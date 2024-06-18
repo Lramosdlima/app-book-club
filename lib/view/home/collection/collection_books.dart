@@ -1,6 +1,6 @@
+import 'package:bookclub/common/book_collection_card.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/collection.dart';
-import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:flutter/material.dart';
 
 class CollectionBooksPage extends StatefulWidget {
@@ -26,23 +26,11 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
         body: ListView.builder(
           itemCount: foundedbooks.length,
           itemBuilder: (BuildContext context, int index) {
+            final book = foundedbooks[index];
             return Column(
               children: [
                 const SizedBox(height: 15),
-                ListTile(
-                  title: Text(foundedbooks[index].title ?? ''),
-                  subtitle: Text(foundedbooks[index].author?.name ?? ''),
-                  leading: const Icon(Icons.book),
-                  tileColor: Colors.grey.shade800,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BookDetail(book: foundedbooks[index])),
-                    );
-                  },
-                ),
-                const SizedBox(height: 15),
+                BookCollectionCard(book: book),
               ],
             );
           },

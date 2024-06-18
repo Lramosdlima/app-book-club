@@ -1,7 +1,7 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/newhome/books_tabs.dart';
-import 'package:bookclub/view/home/search.dart';
+// import 'package:bookclub/view/home/search.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pageOptions = <Widget>[
     const BookTabs(),
-    const SearchPage(),
+    // const SearchPage(),
     const MyCollectionPage(),
     const ProfilePage(),
   ];
@@ -40,11 +40,11 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.home_outlined),
             label: 'Principal',
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.search),
-            icon: Icon(Icons.search_outlined),
-            label: 'Buscar',
-          ),
+          // NavigationDestination(
+          //   selectedIcon: Icon(Icons.search),
+          //   icon: Icon(Icons.search_outlined),
+          //   label: 'Buscar',
+          // ),
           NavigationDestination(
               selectedIcon: Icon(Icons.local_library),
               icon: Icon(Icons.local_library_outlined),

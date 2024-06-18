@@ -1,46 +1,52 @@
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/routes/app_routes.dart';
+import 'package:bookclub/util/storage/storage.dart';
 import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/home/collection/collection.dart';
+import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/discontinued_pages/book.dart';
-import 'package:bookclub/view/home/discontinued_pages/edit_book.dart';
+import 'package:bookclub/view/home/collection/collection_form.dart';
 import 'package:bookclub/view/home/discontinued_pages/favorite_books.dart';
 import 'package:bookclub/view/home/discontinued_pages/profile_detail.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
+import 'package:bookclub/view/profile/change_password.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  //TODO: refresh token config
-
-  // Widget firstPage = const OnboardPage();
+  WidgetsFlutterBinding.ensureInitialized();
+  // //TODO: refresh token config
   // var token = await StorageHelper.get('token');
+  var token = await StorageHelper.get('token');
 
-  // if (token != null) {
-  //   try {
-  //     var response = await AuthRepository().refreshToken();
-  //     if (response.status == true) {
-  //       // ignore: avoid_print
-  //       print('token refreshed');
+  if (token != null) {
+    try {
+      // var response = await AuthRepository().refreshToken();
+      // if (response.status == true) {
+      // ignore: avoid_print
+      // print('token refreshed');
 
-  //       await AuthRepository().getUserInfo();
-  //       firstPage = const HomePage();
-  //     }
-  //   } catch (e) {
-  //     StorageHelper.remove('token');
-  //   }
-  // }
+      // await AuthRepository().getUserInfo();
+      runApp(const MyApp(firstPage: AppRoutes.LOGIN));
 
-  runApp(const MyApp());
+      // }
+    } catch (e) {
+      // StorageHelper.remove('token');
+    }
+  }
+
+  runApp(const MyApp(firstPage: AppRoutes.ONBOARDING));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final String firstPage;
+
+  const MyApp({Key? key, required this.firstPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +55,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyAppThemes.darkTheme,
       themeMode: ThemeMode.dark,
       title: 'Book Club',
+      initialRoute: firstPage,
       routes: {
         // INICIAL ROUTES
         AppRoutes.ONBOARDING: (_) => const OnboardingPage(),
@@ -60,14 +67,16 @@ class MyApp extends StatelessWidget {
         AppRoutes.PROFILE: (_) => const ProfilePage(),
         // BOOK ROUTES
         AppRoutes.BOOK: (_) => const BookPage(),
-        AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
+        AppRoutes.COLLECTION_FORM: (_) => const CollectionFormPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         // PROFILE ROUTES
         AppRoutes.PROFILE_DETAIL: (_) => const ProfileDetailPage(),
+        AppRoutes.CHANGE_PASSWORD: (_) => const ChangePasswordPage(),
         // COLLECTION ROUTES
         AppRoutes.COLLECTION: (_) => const CollectionPage(),
         AppRoutes.COLLECTION_BOOKS: (_) => const CollectionBooksPage(),
         AppRoutes.MY_COLLECTION: (_) => const MyCollectionPage(),
+        AppRoutes.COLLECTION_ADD_BOOK: (_) => const CollectionAddBook(),
       },
       debugShowCheckedModeBanner: false,
     );
