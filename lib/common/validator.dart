@@ -51,7 +51,7 @@ class Validator {
 
     if (value!.isEmpty) {
       return "Campo obrigatório";
-    } else if (value.length >= 5) {
+    } else if (value.length <= 5) {
       return "O campo deve ter no mínimo 5 caracteres";
     } else if (regExp.hasMatch(value)) {
       return "O campo deve conter apenas letras";
@@ -62,7 +62,7 @@ class Validator {
   String? validateDescriptionCollection(String? value) {
     if (value!.isEmpty) {
       return "Campo obrigatório";
-    } else if (value.length >= 10) {
+    } else if (value.length <= 10) {
       return "O campo deve ter no mínimo 10 caracteres";
     }
     return null;
