@@ -49,7 +49,7 @@ class _CollectionPageState extends State<CollectionPage> {
       children: [
         _searchBar(),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.65,
+          height: MediaQuery.of(context).size.height * 0.60,
           width: MediaQuery.of(context).size.width,
           child: _isLoading
               ? Loader().pageLoading()
