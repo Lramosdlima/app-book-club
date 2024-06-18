@@ -1,3 +1,4 @@
+import 'package:bookclub/common/book_collection_card.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
@@ -30,28 +31,7 @@ class _CollectionBooksPageState extends State<CollectionBooksPage> {
             return Column(
               children: [
                 const SizedBox(height: 15),
-                ListTile(
-                  title: Text(book.title ?? ''),
-                  subtitle: Text(book.author?.name ?? ''),
-                  leading: book.url_image != null
-                              ? ClipRRect(
-                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                  child: Image.network(
-                                    book.url_image!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : const Icon(Icons.book),
-                  tileColor: Colors.grey.shade800,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BookDetail(book: book)),
-                    );
-                  },
-                ),
-                const SizedBox(height: 15),
+                BookCollectionCard(book: book),
               ],
             );
           },
