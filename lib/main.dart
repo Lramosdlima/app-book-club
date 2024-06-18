@@ -14,6 +14,7 @@ import 'package:bookclub/view/home/discontinued_pages/favorite_books.dart';
 import 'package:bookclub/view/home/discontinued_pages/profile_detail.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
+import 'package:bookclub/view/profile/change_password.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         // PROFILE ROUTES
         AppRoutes.PROFILE_DETAIL: (_) => const ProfileDetailPage(),
+        AppRoutes.CHANGE_PASSWORD: (_) => const ChangePasswordPage(),
         // COLLECTION ROUTES
         AppRoutes.COLLECTION: (_) => const CollectionPage(),
         AppRoutes.COLLECTION_BOOKS: (_) => const CollectionBooksPage(),
