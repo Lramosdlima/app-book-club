@@ -105,6 +105,7 @@ class Modal {
       desc:
           "Para acessar essa função é necessário ter uma conta e efetuar o login!",
       reverseBtnOrder: true,
+      btnOkText: 'Ir para Login',
       btnOkOnPress: () {
         Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
       },
