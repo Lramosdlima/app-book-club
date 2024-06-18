@@ -6,6 +6,7 @@ import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/collection/create_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,6 +20,7 @@ class MyCollectionPage extends StatefulWidget {
 }
 
 class _MyCollectionPageState extends State<MyCollectionPage> {
+  UserStore userStore = UserStore();
   bool _isLoading = false;
   Loader loader = Loader();
 
@@ -73,70 +75,80 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _goToCreateCollection();
-        },
-        backgroundColor: StyleManager.instance.primary,
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: userStore.user.id == null
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () {
+                _goToCreateCollection();
+              },
+              backgroundColor: StyleManager.instance.primary,
+              child: const Icon(Icons.add),
+            ),
       body: Container(
-          child: _isLoading
-              ? Loader().pageLoading()
-              : _foundedMyCollections.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: _foundedMyCollections.length,
-                      itemBuilder: (context, index) {
-                        return Slidable(
-                          //key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: ScrollMotion(),
-                            //dismissible: DismissiblePane(onDismissed: () {}),
-                            children: [
-                              // A SlidableAction can have an icon and/or a label.
-                              SlidableAction(
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20)),
-                                onPressed: (context) {
-                                  _confirmDeleteCollection(
-                                    _foundedMyCollections[index]
-                                  );
-                                },
-                                backgroundColor: Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Excluir',
+          child: userStore.user.id == null
+              ? _necessaryLogin()
+              : _isLoading
+                  ? Loader().pageLoading()
+                  : _foundedMyCollections.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _foundedMyCollections.length,
+                          itemBuilder: (context, index) {
+                            return Slidable(
+                              //key: const ValueKey(0),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                //dismissible: DismissiblePane(onDismissed: () {}),
+                                children: [
+                                  // A SlidableAction can have an icon and/or a label.
+                                  SlidableAction(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20)),
+                                    onPressed: (context) {
+                                      _confirmDeleteCollection(
+                                          _foundedMyCollections[index]);
+                                    },
+                                    backgroundColor: const Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Excluir',
+                                  ),
+                                  SlidableAction(
+                                    borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        bottomRight: Radius.circular(20)),
+                                    onPressed: (context) {
+                                      _goToEditCollection(
+                                          _foundedMyCollections[index]);
+                                    },
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 70, 163, 62),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.edit,
+                                    label: 'Editar',
+                                  ),
+                                ],
                               ),
-                              SlidableAction(
-                                borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    bottomRight: Radius.circular(20)),
-                                onPressed: (context) {
-                                  _goToEditCollection(
-                                      _foundedMyCollections[index]);
-                                },
-                                backgroundColor:
-                                    Color.fromARGB(255, 70, 163, 62),
-                                foregroundColor: Colors.white,
-                                icon: Icons.edit,
-                                label: 'Editar',
-                              ),
-                            ],
-                          ),
-                          child: CollectionCard(
-                              collection: _foundedMyCollections[index]),
-                        );
-                      })
-                  : const EmptyPage(
-                      text: "Nenhuma coleção sua foi encontrada...")),
+                              child: CollectionCard(
+                                  collection: _foundedMyCollections[index]),
+                            );
+                          })
+                      : const EmptyPage(
+                          text: "Nenhuma coleção sua foi encontrada...")),
     );
+  }
+
+  _necessaryLogin() {
+    return EmptyPage(
+        text: "Faça o login para criar uma Coleção !",
+        icon: Icon(Icons.login,
+            size: 40, color: StyleManager.instance.secondaryText));
   }
 
   _goToCreateCollection() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CreateCollectionPage()),
+      MaterialPageRoute(builder: (context) => const CreateCollectionPage()),
     );
   }
 
