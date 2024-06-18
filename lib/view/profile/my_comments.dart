@@ -87,68 +87,71 @@ class _MyCommentsPageState extends State<MyCommentsPage> {
   }
 
   Widget buildComment(UserBookRate comment) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _bookTitles[comment.book_id] ?? 'Carregando...',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: StyleManager.instance.primary,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                comment.user?.profile_picture != null
-                    ? CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(comment.user?.profile_picture ?? ''))
-                    : const CircleAvatar(
-                        child: Icon(Icons.person, color: Colors.white, size: 30)),
-                const SizedBox(width: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(comment.user?.name ?? '',
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        RatingBarIndicator(
-                          rating: comment.rate?.toDouble() ?? 0.0,
-                          itemSize: 20,
-                          itemBuilder: (_, __) => Icon(
-                            Icons.star,
-                            color: StyleManager.instance.secondary,
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        Text(
-                          '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _bookTitles[comment.book_id] ?? 'Carregando...',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: StyleManager.instance.primary,
                 ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            ReadMoreText(
-              comment.comment ?? '',
-              trimLines: 2,
-              trimMode: TrimMode.Line,
-              trimExpandedText: 'mostrar menos',
-              trimCollapsedText: 'mostrar mais',
-            ),
-          ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                children: [
+                  comment.user?.profile_picture != null
+                      ? CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(comment.user?.profile_picture ?? ''))
+                      : const CircleAvatar(
+                          child: Icon(Icons.person, color: Colors.white, size: 30)),
+                  const SizedBox(width: 16.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(comment.user?.name ?? '',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          RatingBarIndicator(
+                            rating: comment.rate?.toDouble() ?? 0.0,
+                            itemSize: 20,
+                            itemBuilder: (_, __) => Icon(
+                              Icons.star,
+                              color: StyleManager.instance.secondary,
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
+                          Text(
+                            '${comment.created_at?.day.toString() ?? '-'}/${comment.created_at?.month.toString() ?? '-'}/${comment.created_at?.year.toString() ?? '-'}',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              ReadMoreText(
+                comment.comment ?? '',
+                trimLines: 2,
+                trimMode: TrimMode.Line,
+                trimExpandedText: 'mostrar menos',
+                trimCollapsedText: 'mostrar mais',
+              ),
+            ],
+          ),
         ),
       ),
     );
