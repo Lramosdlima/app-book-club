@@ -20,7 +20,9 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
   final InteractionRepository _interactionRepository = InteractionRepository();
   List<Book> favoriteBooks = [];
   List<Book> _filteredBooks = [];
+  List<Interaction> interactions = [];
   bool _isLoading = false;
+  Loader loader = Loader();
 
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
     final response = await _interactionRepository.getAllLikedBooks();
 
     if (response.status == true && response.data != null) {
-      List<Interaction> interactions = response.data;
+      interactions = response.data;
 
       List<Book> books = interactions.map((interaction) => interaction.book!).toList();
 
@@ -107,7 +109,7 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
                             SlidableAction(
                               borderRadius: const BorderRadius.all(Radius.circular(16)),
                               onPressed: (context) {
-                                _removeBookFromLiked(book.id);
+                                _removeBookFromLiked(book.id!);
                               },
                               backgroundColor: const Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
@@ -155,17 +157,18 @@ class _FavoriteAddedPageState extends State<FavoriteAddedPage> {
     );
   }
 
-  void _removeBookFromLiked(int? id) async {
-    if (id == null) return;
-
+  void _removeBookFromLiked(int bookId) async {
     try {
-      final response = await _interactionRepository.removeBookFromLiked(id);
+      final findInteraction = interactions.firstWhere((book) => book.book!.id == bookId);
+      loader.show(context);
+      final response = await _interactionRepository.updateIteraction(findInteraction.id!, liked: false);
+      loader.hide();
 
       if (response.status == true) {
         Modal().successAlert('Livro removido dos favoritos com sucesso', context);
         setState(() {
-          favoriteBooks.removeWhere((book) => book.id == id);
-          _filteredBooks.removeWhere((book) => book.id == id);
+          favoriteBooks.removeWhere((book) => book.id == bookId);
+          _filteredBooks.removeWhere((book) => book.id == bookId);
         });
       } else {
         print(response.error);

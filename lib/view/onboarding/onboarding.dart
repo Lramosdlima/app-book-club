@@ -55,21 +55,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.03),
                     AppText(
                       pObj["title"].toString(),
                       type: TextType.title,
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.03),
                     AppText(
                       pObj["sub_title"].toString(),
                       type: TextType.normal,
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.03),
                     Image.asset(
                       pObj["img"].toString(),
-                      width: 350,
-                      height: 350,
+                      width: 320,
+                      height: 320,
                       fit: BoxFit.fitWidth,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.1),

@@ -49,7 +49,8 @@ class InteractionRepository {
     var userId = userStore.user.id;
 
     try {
-      final request = HttpHelper.get('/interaction/user/especific/$userId?book_id=$bookId');
+      final request =
+          HttpHelper.get('/interaction/user/especific/$userId?book_id=$bookId');
 
       await request.then((result) {
         response.status = result.data["status"];
@@ -73,7 +74,7 @@ class InteractionRepository {
     }
   }
 
-  Future<ApiResponse> getAllLikedBooks () async {
+  Future<ApiResponse> getAllLikedBooks() async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
@@ -87,8 +88,7 @@ class InteractionRepository {
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-
-        var objects = result.data["data"];
+          var objects = result.data["data"];
           for (var item in objects) {
             interactions.add(Interaction.fromMap(item));
           }
@@ -110,38 +110,36 @@ class InteractionRepository {
     }
   }
 
-  
-Future<ApiResponse> removeBookFromLiked(int bookId) async {
-  ApiResponse response = ApiResponse();
-  UserStore userStore = UserStore();
+  Future<ApiResponse> removeBookFromLiked(int bookId) async {
+    ApiResponse response = ApiResponse();
+    UserStore userStore = UserStore();
 
-  var userId = userStore.user.id;
+    var userId = userStore.user.id;
 
-  try {
-    final request = HttpHelper.delete('/interaction/user/liked/$userId');
+    try {
+      final request = HttpHelper.delete('/interaction/user/liked/$userId');
 
-    await request.then((result) {
-      response.status = result.data["status"];
-      if (response.status == true) {
-        response.data = result.data["data"];
-      } else {
-        response.error = result.data["error"];
-      }
-    }).catchError((e) {
-      response.status = false;
-      response.error = HttpHelper.getError(e);
-      print(e);
-    });
+      await request.then((result) {
+        response.status = result.data["status"];
+        if (response.status == true) {
+          response.data = result.data["data"];
+        } else {
+          response.error = result.data["error"];
+        }
+      }).catchError((e) {
+        response.status = false;
+        response.error = HttpHelper.getError(e);
+        print(e);
+      });
 
-    return response;
-  } catch (error) {
-    print(error);
-    return response;
+      return response;
+    } catch (error) {
+      print(error);
+      return response;
+    }
   }
-}
 
-
-  Future<ApiResponse> getAllWantToRead () async {
+  Future<ApiResponse> getAllWantToRead() async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
@@ -155,8 +153,7 @@ Future<ApiResponse> removeBookFromLiked(int bookId) async {
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-
-        var objects = result.data["data"];
+          var objects = result.data["data"];
           for (var item in objects) {
             interactions.add(Interaction.fromMap(item));
           }
@@ -178,8 +175,7 @@ Future<ApiResponse> removeBookFromLiked(int bookId) async {
     }
   }
 
-
-  Future<ApiResponse> getAllAlreadyRead () async {
+  Future<ApiResponse> getAllAlreadyRead() async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
@@ -188,13 +184,13 @@ Future<ApiResponse> removeBookFromLiked(int bookId) async {
     List<Interaction> interactions = [];
 
     try {
-      final request = HttpHelper.get('/interaction/user/already-readed/$userId');
+      final request =
+          HttpHelper.get('/interaction/user/already-readed/$userId');
 
       await request.then((result) {
         response.status = result.data["status"];
         if (response.status == true) {
-
-        var objects = result.data["data"];
+          var objects = result.data["data"];
           for (var item in objects) {
             interactions.add(Interaction.fromMap(item));
           }
@@ -216,25 +212,25 @@ Future<ApiResponse> removeBookFromLiked(int bookId) async {
     }
   }
 
-  Future<ApiResponse> addInteraction(
-      int bookId, { bool? alreadyRead, bool? wantToRead, bool? liked }) async {
+  Future<ApiResponse> addInteraction(int bookId,
+      {bool? alreadyRead, bool? wantToRead, bool? liked}) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
     var params = <String, dynamic>{};
-    
+
     if (alreadyRead != null) {
-        params["already_read"] = alreadyRead;
+      params["already_read"] = alreadyRead;
     }
 
     if (wantToRead != null) {
-        params["want_to_read"] = wantToRead;
+      params["want_to_read"] = wantToRead;
     }
-    
+
     if (liked != null) {
-        params["liked"] = liked;
+      params["liked"] = liked;
     }
-    
+
     params["book_id"] = bookId;
     params["user_id"] = userStore.user.id;
 
@@ -261,17 +257,26 @@ Future<ApiResponse> removeBookFromLiked(int bookId) async {
     }
   }
 
-  Future<ApiResponse> updateIteraction(
-      int interactionId, bool alreadyRead, bool wantToRead, bool liked) async {
+  Future<ApiResponse> updateIteraction(int interactionId,
+      {bool? alreadyRead, bool? wantToRead, bool? liked}) async {
     ApiResponse response = ApiResponse();
 
     var params = <String, dynamic>{};
-    params["already_read"] = alreadyRead;
-    params["want_to_read"] = wantToRead;
-    params["liked"] = liked;
+    if (alreadyRead != null) {
+      params["already_read"] = alreadyRead;
+    }
+
+    if (wantToRead != null) {
+      params["want_to_read"] = wantToRead;
+    }
+
+    if (liked != null) {
+      params["liked"] = liked;
+    }
 
     try {
-      final request = HttpHelper.put('/interaction/update/$interactionId', body: params);
+      final request =
+          HttpHelper.put('/interaction/update/$interactionId', body: params);
 
       await request.then((result) {
         response.status = result.data["status"];
