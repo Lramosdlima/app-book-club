@@ -79,8 +79,7 @@ class RateRepository {
     }
   }
 
-    Future<ApiResponse> createRate(
-      int bookId, int rate, String? comment) async {
+  Future<ApiResponse> createRate(int bookId, int rate, String? comment) async {
     ApiResponse response = ApiResponse();
     UserStore userStore = UserStore();
 
@@ -113,7 +112,40 @@ class RateRepository {
     }
   }
 
-   Future<ApiResponse> removeRate(
+  Future<ApiResponse> updateRate(int rateId, int rate, String? comment) async {
+  ApiResponse response = ApiResponse();
+  UserStore userStore = UserStore();
+
+  var params = <String, dynamic>{};
+  params["user_id"] = userStore.user.id;
+  params["rate"] = rate;
+  params["comment"] = comment;
+
+  try {
+    final request = HttpHelper.put('/update/$rateId', body: params);
+
+    await request.then((result) {
+      response.status = result.data["status"];
+      if (response.status == true) {
+        response.data = result.data["data"];
+      } else {
+        response.error = result.data["error"];
+      }
+    }).catchError((e) {
+      response.status = false;
+      response.error = HttpHelper.getError(e);
+      print(e);
+    });
+
+    return response;
+  } catch (error) {
+    print(error);
+    return response;
+  }
+}
+
+
+  Future<ApiResponse> removeRate(
     int rateId,
   ) async {
     ApiResponse response = ApiResponse();
@@ -140,5 +172,4 @@ class RateRepository {
       return response;
     }
   }
-
 }

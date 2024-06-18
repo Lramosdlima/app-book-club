@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
           "Criar conta",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
-        const Text("Coloque as informções para começar"),
+        const Text("Coloque as informações para começar"),
         const SizedBox(height: 20),
         _icon(),
       ],
