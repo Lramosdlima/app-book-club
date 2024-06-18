@@ -1,5 +1,4 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:bookclub/common/bottom_sheet.dart';
 import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/modal.dart';
@@ -14,10 +13,6 @@ import 'package:bookclub/view/profile/my_comments.dart';
 import 'package:bookclub/view/profile/readed.dart';
 import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ndialog/ndialog.dart';
-
-
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -29,7 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   UserStore userStore = UserStore();
   Loader loader = Loader();
-  bool _notification = true;
+  // bool _notification = true;
 
   @override
   Widget build(BuildContext context) {
@@ -72,36 +67,46 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Avaliações',
                   icon: Icons.star,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToMyComments();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToMyComments();
                   }),
               AppCard(
                   title: 'Coleções Adicionadas',
                   icon: Icons.local_library,
                   onPressed: () {
                     userStore.user.id == null
-                        ? _showNecessaryLogin()
+                        ? _showNecessaryLogin(context)
                         : _goToCollectionAdded();
                   }),
               AppCard(
                   title: 'Favoritos',
                   icon: Icons.favorite,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToFavoriteAdded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToFavoriteAdded();
                   }),
               AppCard(
                   title: 'Já Lidos',
                   icon: Icons.bookmark,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToReaded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToReaded();
                   }),
               AppCard(
                   title: 'Quero Ler',
                   icon: Icons.book,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToWantToReadAdded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToWantToReadAdded();
                   }),
               const SizedBox(height: 30),
-              userStore.user.id == null ? const SizedBox() : _yourAccount(),
+              userStore.user.id == null
+                  ? const SizedBox()
+                  : _yourAccount(context),
               userStore.user.id == null
                   ? const SizedBox()
                   : AppCard(
@@ -204,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
       MaterialPageRoute(builder: (context) => const FavoriteAddedPage()),
     );
   }
-  
+
   _goToReaded() {
     Navigator.push(
       context,
@@ -219,14 +224,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
   _logOut() {
     AuthRepository().logout();
     userStore.clearUserData();
     Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
-  _yourAccount() {
+  _yourAccount(context) {
     return Column(
       children: [
         Text('Sua Conta',
@@ -285,22 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // }
   }
 
-  _showNecessaryLogin() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.infoReverse,
-      headerAnimationLoop: true,
-      animType: AnimType.bottomSlide,
-      title: "Poxa... 😟",
-      desc:
-          "Para acessar essa função é necessário ter uma conta e efetuar o login!",
-      reverseBtnOrder: true,
-      btnOkOnPress: () {
-        _goToLogin();
-      },
-    ).show();
+  _showNecessaryLogin(context) {
+    Modal().showNecessaryLogin(context);
   }
-}
-
-class AlreadyReadedPage {
 }

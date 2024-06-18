@@ -1,3 +1,4 @@
+import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -90,6 +91,22 @@ class Modal {
       btnOkIcon: Icons.check_circle,
       onDismissCallback: (type) {
         debugPrint('Dialog Dissmiss from callback $type');
+      },
+    ).show();
+  }
+
+  showNecessaryLogin(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.infoReverse,
+      headerAnimationLoop: true,
+      animType: AnimType.bottomSlide,
+      title: "Poxa... 😟",
+      desc:
+          "Para acessar essa função é necessário ter uma conta e efetuar o login!",
+      reverseBtnOrder: true,
+      btnOkOnPress: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
       },
     ).show();
   }
