@@ -178,10 +178,11 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   _getBooks() async {
     setState(() => _isLoading = true);
     final response = await BookRepository().getBooks();
+    books = List<Book>.from(response.data);
 
     if (response.status == true) {
       setState(() {
-        books = List<Book>.from(response.data);
+        foundedBooks = books;
       });
     } else {
       // ignore: avoid_print
@@ -203,8 +204,8 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
           .createCollection(title, description, selectedBooks);
 
       if (response.status == true) {
-          Modal().successAlert(response.data.toString(), context);
-          _goToMyCollections();
+        Modal().successAlert(response.data.toString(), context);
+        _goToMyCollections();
       } else {
         // ignore: avoid_print
         print(response.error);
