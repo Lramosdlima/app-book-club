@@ -57,31 +57,37 @@ class _CollectionPageState extends State<CollectionPage> {
                   ? ListView.builder(
                       itemCount: _foundedCollections.length,
                       itemBuilder: (context, index) {
+                        bool isOwner = _foundedCollections[index].owner_id ==
+                            userStore.user.id;
                         return Slidable(
                           //key: const ValueKey(0),
                           endActionPane: userStore.user.id == null
                               ? null
-                              : ActionPane(
-                                  motion: const ScrollMotion(),
-                                  //dismissible: DismissiblePane(onDismissed: () {}),
-                                  children: [
-                                    SlidableAction(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16)),
-                                      onPressed: (context) {
-                                        _addCollection(
-                                            _foundedCollections[index].id);
-                                      },
-                                      backgroundColor: const Color(0xFF0392CF),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.add,
-                                      label: 'Adicionar a coleção',
-                                      autoClose: true,
+                              : isOwner
+                                  ? null
+                                  : ActionPane(
+                                      motion: const ScrollMotion(),
+                                      //dismissible: DismissiblePane(onDismissed: () {}),
+                                      children: [
+                                        SlidableAction(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(16)),
+                                          onPressed: (context) {
+                                            _addCollection(
+                                                _foundedCollections[index].id);
+                                          },
+                                          backgroundColor:
+                                              const Color(0xFF0392CF),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.add,
+                                          label: 'Adicionar a coleção',
+                                          autoClose: true,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
                           child: CollectionCard(
-                              collection: _foundedCollections[index]),
+                              collection: _foundedCollections[index],
+                              isOwner: isOwner),
                         );
                       })
                   : const EmptyPage(text: "Coleções não foram encontradas"),
