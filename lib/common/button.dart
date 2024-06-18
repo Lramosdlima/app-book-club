@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      width: 230,
       child: MaterialButton(
           onPressed: onPressed,
           color: backgroundColor ?? StyleManager.instance.primary,

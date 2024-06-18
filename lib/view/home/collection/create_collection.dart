@@ -18,6 +18,8 @@ class CreateCollectionPage extends StatefulWidget {
 class _CreateCollectionPageState extends State<CreateCollectionPage> {
   final Map<String, String> _collectionData = {};
 
+  final GlobalKey<FormState> _formkey = GlobalKey();
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -55,19 +57,21 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       child: Scaffold(
         appBar: AppBar(title: const Text('Painel da Coleção')),
         backgroundColor: Colors.grey.shade900,
-        body: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                _header(),
-                const SizedBox(height: 20),
-                const Divider(),
-                const SizedBox(height: 20),
-                _body(),
-              ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  _header(),
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  const SizedBox(height: 20),
+                  _body(),
+                ],
+              ),
             ),
           ),
         ),
@@ -80,7 +84,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       children: [
         Text(
           _collectionData['title'] ?? "Cadastro de Coleção",
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         const Text("Coloque as informações da coleção abaixo:"),
       ],
@@ -106,8 +110,9 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
               AppTextField(
                 controller: descriptionController,
                 label: "Descrição",
+                minLines: 3,
                 maxLength: 200,
-                icon: Icons.border_color_outlined,
+                icon: Icons.edit,
               ),
             ],
           ),
@@ -121,13 +126,15 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     return _collectionData['id'] == null
         ? AppButton(
             text: "Adicionar Livros",
+            icon: const Icon(Icons.add),
             onPressed: () {
               _fillCollectionData();
               _goToCollectionAddBook(_collectionData);
             },
           )
         : AppButton(
-            text: "Alterar coleção",
+            text: "Alterar Coleção",
+            icon: const Icon(Icons.edit),
             onPressed: () {
               _fillCollectionData();
               _updateCollection(
@@ -142,19 +149,6 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     Navigator.pushNamed(context, AppRoutes.COLLECTION_ADD_BOOK,
         arguments: collection);
   }
-
-  // void _loadCollectionData(Collection? collection) {
-  //   if (collection != null) {
-  //     _collectionData['id'] = collection.id.toString();
-  //     _collectionData['title'] = collection.title.toString();
-  //     _collectionData['description'] = collection.description != null
-  //         ? collection.description.toString()
-  //         : '';
-  //     setState(() {
-  //       _fillFields();
-  //     });
-  //   }
-  // }
 
   _updateCollection(String id, String title, String description) async {
     try {
