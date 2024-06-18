@@ -171,7 +171,7 @@ class _BookDetailState extends State<BookDetail> {
         child: Column(
           children: <Widget>[
             Text(
-              'Criar mensagem',
+              'Sua Avaliação',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
