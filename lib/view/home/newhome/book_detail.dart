@@ -9,6 +9,7 @@ import 'package:bookclub/model/interaction.dart';
 import 'package:bookclub/model/user_book_rate.dart';
 import 'package:bookclub/repository/interaction.dart';
 import 'package:bookclub/repository/rate.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -24,6 +25,7 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  UserStore userStore = UserStore();
   List<UserBookRate> _comments = [];
   bool _isLoading = false;
   Interaction interaction = Interaction();
@@ -51,23 +53,31 @@ class _BookDetailState extends State<BookDetail> {
         distance: 112,
         children: [
           ActionButton(
-            onPressed: () => _addCommentPage(context, widget.book.id ?? 0),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _addCommentPage(context, widget.book.id ?? 0),
             icon: const Icon(Icons.add_comment_outlined),
           ),
           ActionButton(
-            onPressed: () => _dialogWantRead(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogWantRead(context),
             icon: wantToRead
                 ? const Icon(Icons.event_available, color: Colors.green)
                 : const Icon(Icons.event_available_outlined),
           ),
           ActionButton(
-            onPressed: () => _dialogAlreadyRead(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogAlreadyRead(context),
             icon: alreadyRead
                 ? const Icon(Icons.add_task, color: Colors.green)
                 : const Icon(Icons.add_task),
           ),
           ActionButton(
-            onPressed: () => _dialogLike(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogLike(context),
             icon: liked
                 ? const Icon(Icons.favorite, color: Colors.red)
                 : const Icon(Icons.favorite_border_outlined),
@@ -125,6 +135,10 @@ class _BookDetailState extends State<BookDetail> {
         ],
       ),
     );
+  }
+
+  _showNecessaryLogin(context) {
+    Modal().showNecessaryLogin(context);
   }
 
   _addCommentPage(BuildContext context, int bookId) {
@@ -212,72 +226,6 @@ class _BookDetailState extends State<BookDetail> {
       ),
     ).show();
   }
-
-  // void _addCommentPage(BuildContext context, int bookId) {
-  //   final TextEditingController controller = TextEditingController();
-  //   double rating = 3.0; // Valor inicial da avaliação
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Sua Avaliação'),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             RatingBar.builder(
-  //               initialRating: rating,
-  //               minRating: 1,
-  //               direction: Axis.horizontal,
-  //               allowHalfRating: true,
-  //               itemCount: 5,
-  //               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-  //               itemBuilder: (context, _) => const Icon(
-  //                 Icons.star,
-  //                 color: Colors.amber,
-  //               ),
-  //               onRatingUpdate: (rating) {
-  //                 rating = rating;
-  //               },
-  //             ),
-  //             const SizedBox(height: 16),
-  //             TextField(
-  //               controller: controller,
-  //               decoration: const InputDecoration(
-  //                 hintText: "Faça um comentário",
-  //                 border: OutlineInputBorder(
-  //                   borderSide: BorderSide(color: Colors.grey),
-  //                 ),
-  //               ),
-  //               maxLines: 3,
-  //               maxLength: 100,
-  //             ),
-  //           ],
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child:
-  //                 const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: const Text('Enviar'),
-  // onPressed: () async {
-  //   final comment = controller.text;
-  //   if (comment.isNotEmpty) {
-  //     Navigator.of(context).pop();
-  //     await _postComment(context, bookId, rating.toInt(), comment);
-  //     await _fetchComments(); // Refresh the comments
-  //   }
-  // },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   Future<void> _postComment(
       context, int bookId, int rate, String? comment) async {
