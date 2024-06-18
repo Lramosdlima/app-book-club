@@ -5,6 +5,7 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -18,6 +19,7 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   bool _isLoading = false;
   Loader loader = Loader();
+  UserStore userStore = UserStore();
 
   late List<Collection> _collections = [];
 
@@ -57,24 +59,27 @@ class _CollectionPageState extends State<CollectionPage> {
                       itemBuilder: (context, index) {
                         return Slidable(
                           //key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            //dismissible: DismissiblePane(onDismissed: () {}),
-                            children: [
-                              SlidableAction(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(16)),
-                                onPressed: (context) {
-                                  _addCollection(_foundedCollections[index].id);
-                                },
-                                backgroundColor: const Color(0xFF0392CF),
-                                foregroundColor: Colors.white,
-                                icon: Icons.add,
-                                label: 'Adicionar a coleção',
-                                autoClose: true,
-                              ),
-                            ],
-                          ),
+                          endActionPane: userStore.user.id == null
+                              ? null
+                              : ActionPane(
+                                  motion: const ScrollMotion(),
+                                  //dismissible: DismissiblePane(onDismissed: () {}),
+                                  children: [
+                                    SlidableAction(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16)),
+                                      onPressed: (context) {
+                                        _addCollection(
+                                            _foundedCollections[index].id);
+                                      },
+                                      backgroundColor: const Color(0xFF0392CF),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.add,
+                                      label: 'Adicionar a coleção',
+                                      autoClose: true,
+                                    ),
+                                  ],
+                                ),
                           child: CollectionCard(
                               collection: _foundedCollections[index]),
                         );
