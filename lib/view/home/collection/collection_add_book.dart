@@ -27,6 +27,7 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
   Map<int, bool> selectedFlag = {};
   bool isSelectionMode = false;
 
+  @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
@@ -155,11 +156,15 @@ class _CollectionAddBookState extends State<CollectionAddBook> {
             icon: const Icon(Icons.check),
             backgroundColor: Colors.green,
             onPressed: () {
-              _createCollection(
-                collection["title"] ?? '',
-                collection["description"] ?? '',
-                selectedBooks,
-              );
+              if (selectedBooks.isNotEmpty) {
+                _createCollection(
+                  collection["title"] ?? '',
+                  collection["description"] ?? '',
+                  selectedBooks,
+                );
+              } else {
+                Modal().errorAlert("Selecione pelo menos 1 livro", context);
+              }
             },
           ),
           const SizedBox(height: 10),
