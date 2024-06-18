@@ -5,6 +5,7 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -18,6 +19,7 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   bool _isLoading = false;
   Loader loader = Loader();
+  UserStore userStore = UserStore();
 
   late List<Collection> _collections = [];
 
@@ -47,7 +49,7 @@ class _CollectionPageState extends State<CollectionPage> {
       children: [
         _searchBar(),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.60,
           width: MediaQuery.of(context).size.width,
           child: _isLoading
               ? Loader().pageLoading()
@@ -55,28 +57,37 @@ class _CollectionPageState extends State<CollectionPage> {
                   ? ListView.builder(
                       itemCount: _foundedCollections.length,
                       itemBuilder: (context, index) {
+                        bool isOwner = _foundedCollections[index].owner_id ==
+                            userStore.user.id;
                         return Slidable(
                           //key: const ValueKey(0),
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            //dismissible: DismissiblePane(onDismissed: () {}),
-                            children: [
-                              SlidableAction(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(16)),
-                                onPressed: (context) {
-                                  _addCollection(_foundedCollections[index].id);
-                                },
-                                backgroundColor: const Color(0xFF0392CF),
-                                foregroundColor: Colors.white,
-                                icon: Icons.add,
-                                label: 'Adicionar a coleção',
-                                autoClose: true,
-                              ),
-                            ],
-                          ),
+                          endActionPane: userStore.user.id == null
+                              ? null
+                              : isOwner
+                                  ? null
+                                  : ActionPane(
+                                      motion: const ScrollMotion(),
+                                      //dismissible: DismissiblePane(onDismissed: () {}),
+                                      children: [
+                                        SlidableAction(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(16)),
+                                          onPressed: (context) {
+                                            _addCollection(
+                                                _foundedCollections[index].id);
+                                          },
+                                          backgroundColor:
+                                              const Color(0xFF0392CF),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.add,
+                                          label: 'Adicionar a coleção',
+                                          autoClose: true,
+                                        ),
+                                      ],
+                                    ),
                           child: CollectionCard(
-                              collection: _foundedCollections[index]),
+                              collection: _foundedCollections[index],
+                              isOwner: isOwner),
                         );
                       })
                   : const EmptyPage(text: "Coleções não foram encontradas"),
@@ -145,7 +156,7 @@ class _CollectionPageState extends State<CollectionPage> {
       } else {
         // ignore: avoid_print
         print(response.error);
-        Modal().errorAlert(response.error.toString(), context);
+        Modal().alertAlert(response.error.toString(), context);
       }
     } catch (e) {
       // ignore: avoid_print

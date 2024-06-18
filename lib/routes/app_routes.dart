@@ -25,4 +25,7 @@ class AppRoutes {
   static const COLLECTION = '/collection';
   static const COLLECTION_BOOKS = '/collection/books';
   static const MY_COLLECTION = '/collection/user';
+  static const COLLECTION_FORM = '/collection/form';
+  static const COLLECTION_ADD_BOOK = '/collection/create';
+
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class EmptyPage extends StatelessWidget {
   final String text;
-  const EmptyPage({Key? key, this.text = "Nenhum dado disponível"})
+  final Icon? icon;
+  const EmptyPage({Key? key, this.text = "Nenhum dado disponível", this.icon})
       : super(key: key);
 
   @override
@@ -26,7 +27,9 @@ class EmptyPage extends StatelessWidget {
                   color: StyleManager.instance.secondaryText),
             ),
             const SizedBox(height: 10),
-            Icon(Icons.cancel, size: 40, color: StyleManager.instance.secondaryText),
+            icon ??
+                Icon(Icons.cancel,
+                    size: 40, color: StyleManager.instance.secondaryText),
           ],
         ),
       ),

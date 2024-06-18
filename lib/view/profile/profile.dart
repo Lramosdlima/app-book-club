@@ -1,21 +1,18 @@
-import 'package:bookclub/common/bottom_sheet.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bookclub/common/card.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/text.dart';
 import 'package:bookclub/repository/auth.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:bookclub/store/user.dart';
-import 'package:bookclub/view/home/collection/collection_added.dart';
+import 'package:bookclub/view/profile/collection_added.dart';
 import 'package:bookclub/view/profile/favorite_added.dart';
 import 'package:bookclub/view/profile/my_comments.dart';
 import 'package:bookclub/view/profile/readed.dart';
 import 'package:bookclub/view/profile/wanttoread_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ndialog/ndialog.dart';
-
-
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -27,7 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   UserStore userStore = UserStore();
   Loader loader = Loader();
-  bool _notification = true;
+  // bool _notification = true;
 
   @override
   Widget build(BuildContext context) {
@@ -70,36 +67,46 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: 'Avaliações',
                   icon: Icons.star,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToMyComments();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToMyComments();
                   }),
               AppCard(
                   title: 'Coleções Adicionadas',
                   icon: Icons.local_library,
                   onPressed: () {
                     userStore.user.id == null
-                        ? _showNecessaryLogin()
+                        ? _showNecessaryLogin(context)
                         : _goToCollectionAdded();
                   }),
               AppCard(
                   title: 'Favoritos',
                   icon: Icons.favorite,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToFavoriteAdded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToFavoriteAdded();
                   }),
               AppCard(
                   title: 'Já Lidos',
                   icon: Icons.bookmark,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToReaded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToReaded();
                   }),
               AppCard(
                   title: 'Quero Ler',
                   icon: Icons.book,
                   onPressed: () {
-                    userStore.user.id == null ? _showNecessaryLogin() : _goToWantToReadAdded();
+                    userStore.user.id == null
+                        ? _showNecessaryLogin(context)
+                        : _goToWantToReadAdded();
                   }),
               const SizedBox(height: 30),
-              userStore.user.id == null ? const SizedBox() : _yourAccount(),
+              userStore.user.id == null
+                  ? const SizedBox()
+                  : _yourAccount(context),
               userStore.user.id == null
                   ? const SizedBox()
                   : AppCard(
@@ -170,7 +177,8 @@ class _ProfilePageState extends State<ProfilePage> {
           border: Border.all(color: StyleManager.instance.primary, width: 4),
           shape: BoxShape.circle),
       child: userImage == null
-          ? Icon(Icons.auto_stories, color: StyleManager.instance.primary, size: 110)
+          ? Icon(Icons.auto_stories,
+              color: StyleManager.instance.primary, size: 110)
           : ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.network(userImage)),
@@ -178,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _goToLogin() {
-    Navigator.pushNamed(context, AppRoutes.LOGIN);
+    Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
   _goToMyComments() {
@@ -201,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
       MaterialPageRoute(builder: (context) => const FavoriteAddedPage()),
     );
   }
-  
+
   _goToReaded() {
     Navigator.push(
       context,
@@ -216,14 +224,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
   _logOut() {
     AuthRepository().logout();
     userStore.clearUserData();
     Navigator.pushReplacementNamed(context, AppRoutes.LOGIN);
   }
 
-  _yourAccount() {
+  _yourAccount(context) {
     return Column(
       children: [
         Text('Sua Conta',
@@ -248,26 +255,24 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _confirmDeleteUserData() async {
-    AlertDialog(
-      title: const AppText("Apagar conta", type: TextType.subtitle),
-      content: const AppText(
-          "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita."),
-      actions: [
-        TextButton(
-          child: const AppText("Cancelar"),
-          onPressed: () async {
-            Navigator.pop(context);
-          },
-        ),
-        TextButton(
-          child: const AppText("Sim, apagar", textColor: Colors.red),
-          onPressed: () async {
-            Navigator.pop(context);
-            _deleteUserData();
-          },
-        ),
-      ],
-    ).show(context);
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.question,
+      headerAnimationLoop: true,
+      animType: AnimType.bottomSlide,
+      title: "Apagar conta?",
+      desc:
+          "Deseja realmente apagar sua conta? Essa operação não poderá ser desfeita.",
+      reverseBtnOrder: true,
+      btnOkText: "Apagar",
+      btnOkColor: Colors.red,
+      btnCancelText: "Não",
+      btnCancelColor: Colors.grey,
+      btnOkOnPress: () {
+        _deleteUserData();
+      },
+      btnCancelOnPress: () {},
+    ).show();
   }
 
   _deleteUserData() async {
@@ -278,27 +283,13 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: if (response.status == true) {
     _logOut();
 
-    AppBottomSheet(
-      title: "Conta apagada",
-      message: "Sua conta foi apagada com sucesso.",
-      type: BottomSheetType.success,
-    ).show(context);
-
     // } else {
     //   // ignore: avoid_print
     //   print(response);
     // }
   }
 
-  _showNecessaryLogin() {
-    AppBottomSheet(
-      title: "Poxa... 😟",
-      message: "Para acessar essa função é necessário ter uma conta e efetuar o login!",
-      type: BottomSheetType.info,
-      onTap:_goToLogin()
-    ).show(context);
+  _showNecessaryLogin(context) {
+    Modal().showNecessaryLogin(context);
   }
-}
-
-class AlreadyReadedPage {
 }

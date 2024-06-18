@@ -33,13 +33,13 @@ class _BookListPageState extends State<BookListPage> {
     return _isLoading
         ? Loader().pageLoading()
         : SingleChildScrollView(
-          child: Column(
+            child: Column(
               children: [
                 _books("recent"),
                 _books("popular"),
               ],
             ),
-        );
+          );
   }
 
   _books(String type) {
@@ -73,7 +73,7 @@ class _BookListPageState extends State<BookListPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.40,
+              height: MediaQuery.of(context).size.height * 0.43,
               child: booksRecent.isNotEmpty
                   ? ListView(
                       physics: const BouncingScrollPhysics(),

@@ -4,22 +4,19 @@ import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/common/validator.dart';
 import 'package:bookclub/repository/auth.dart';
-import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final GlobalKey<FormState> _formkey = GlobalKey();
   Loader loader = Loader();
 
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -38,19 +35,17 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        title: const Text("Alterar Senha"),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Expanded(
-            // width: MediaQuery.of(context).size.width,
-            // height: MediaQuery.of(context).size.height,
-            // margin: const EdgeInsets.all(24),
             child: Column(children: [
               _header(),
               const SizedBox(height: 30),
               _inputFields(),
-              const SizedBox(height: 30),
-              _loginInfo(),
             ]),
           ),
         ),
@@ -59,15 +54,11 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _header() {
-    return Column(
+    return const Column(
       children: [
-        const Text(
-          "Criar conta",
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-        ),
-        const Text("Coloque as informações para começar"),
-        const SizedBox(height: 20),
-        _icon(),
+        Text(
+            "Digite abaixo as informações abaixo para alterar a sua senha. Use uma senha forte que contenha caracteres e números."),
+        SizedBox(height: 20),
       ],
     );
   }
@@ -79,41 +70,12 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _nameFormField(),
-          const SizedBox(height: 10),
-          _emailFormField(),
-          const SizedBox(height: 10),
           _passwordFormField(),
           const SizedBox(height: 10),
           _confirmPasswordFormField(),
-          const SizedBox(height: 30),
-          AppButton(text: "Criar conta", onPressed: _register),
+          const SizedBox(height: 50),
+          AppButton(text: "Alterar Senha", onPressed: _changePassword),
         ],
-      ),
-    );
-  }
-
-  _nameFormField() {
-    return TextFormField(
-      controller: _usernameController,
-      validator: Validator().validateName,
-      decoration: const InputDecoration(
-        hintText: "Digite seu nome de usuário...",
-        labelText: "Nome de usuário",
-        icon: Icon(Icons.person),
-      ),
-    );
-  }
-
-  _emailFormField() {
-    return TextFormField(
-      controller: _emailController,
-      validator: Validator().validateEmail,
-      keyboardType: TextInputType.emailAddress,
-      decoration: const InputDecoration(
-        hintText: "Digite seu email...",
-        labelText: "Email",
-        icon: Icon(Icons.email_outlined),
       ),
     );
   }
@@ -170,62 +132,33 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _icon() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: StyleManager.instance.primary, width: 2),
-          shape: BoxShape.circle),
-      child:
-          Icon(Icons.person, color: StyleManager.instance.primary, size: 120),
-    );
-  }
-
-  _loginInfo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Já tem uma conta?"),
-        TextButton(
-            onPressed: _goToLogin,
-            child: Text("Login",
-                style: TextStyle(color: StyleManager.instance.tertiary)))
-      ],
-    );
-  }
-
-  _register() async {
+  _changePassword() async {
     if (_passwordController.text != _confirmPasswordController.text) {
       Modal().alertAlert("As senhas não estão iguais!", context);
       return;
     }
 
-    if (_formkey.currentState?.validate() == true &&
-        _formkey.currentState != null) {
-      _formkey.currentState?.save();
+    // if (_formkey.currentState?.validate() == true &&
+    //     _formkey.currentState != null) {
+    //   _formkey.currentState?.save();
 
-      loader.show(context);
+    //   loader.show(context);
 
-      final response = await AuthRepository().register(
-        _usernameController.text,
-        _emailController.text,
-        _passwordController.text,
-      );
+    //   final response = await AuthRepository().changePassword(
+    //     _passwordController.text,
+    //   );
 
-      loader.hide();
+    //   loader.hide();
 
-      if (response.status == true) {
-        Modal().successAlert(
-          "Conta criada com sucesso! Faça login para continuar.",
-          context,
-        );
-        _goToLogin();
-      } else {
-        Modal().errorAlert(response.error, context);
-      }
-    }
-  }
-
-  _goToLogin() {
-    Navigator.pushNamed(context, AppRoutes.LOGIN);
+    //   if (response.status == true) {
+    //     Modal().successAlert(
+    //       "Conta criada com sucesso! Faça login para continuar.",
+    //       context,
+    //     );
+    //     Navigator.pop(context);
+    //   } else {
+    //     Modal().errorAlert(response.error, context);
+    //   }
+    // }
   }
 }

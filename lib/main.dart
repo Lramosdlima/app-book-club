@@ -5,14 +5,16 @@ import 'package:bookclub/view/admin/admin.dart';
 import 'package:bookclub/view/auth/login.dart';
 import 'package:bookclub/view/auth/signup.dart';
 import 'package:bookclub/view/home/collection/collection.dart';
+import 'package:bookclub/view/home/collection/collection_add_book.dart';
 import 'package:bookclub/view/home/collection/collection_books.dart';
 import 'package:bookclub/view/home/collection/my_collections.dart';
 import 'package:bookclub/view/home/discontinued_pages/book.dart';
-import 'package:bookclub/view/home/discontinued_pages/edit_book.dart';
+import 'package:bookclub/view/home/collection/collection_form.dart';
 import 'package:bookclub/view/home/discontinued_pages/favorite_books.dart';
 import 'package:bookclub/view/home/discontinued_pages/profile_detail.dart';
 import 'package:bookclub/view/home/home.dart';
 import 'package:bookclub/view/onboarding/onboarding.dart';
+import 'package:bookclub/view/profile/change_password.dart';
 import 'package:bookclub/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -65,14 +67,16 @@ class MyApp extends StatelessWidget {
         AppRoutes.PROFILE: (_) => const ProfilePage(),
         // BOOK ROUTES
         AppRoutes.BOOK: (_) => const BookPage(),
-        AppRoutes.BOOK_FORM: (_) => const EditBookPage(),
+        AppRoutes.COLLECTION_FORM: (_) => const CollectionFormPage(),
         AppRoutes.FAVORITE_BOOK: (_) => const FavoriteBook(),
         // PROFILE ROUTES
         AppRoutes.PROFILE_DETAIL: (_) => const ProfileDetailPage(),
+        AppRoutes.CHANGE_PASSWORD: (_) => const ChangePasswordPage(),
         // COLLECTION ROUTES
         AppRoutes.COLLECTION: (_) => const CollectionPage(),
         AppRoutes.COLLECTION_BOOKS: (_) => const CollectionBooksPage(),
         AppRoutes.MY_COLLECTION: (_) => const MyCollectionPage(),
+        AppRoutes.COLLECTION_ADD_BOOK: (_) => const CollectionAddBook(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/loader.dart';
@@ -8,6 +9,7 @@ import 'package:bookclub/model/interaction.dart';
 import 'package:bookclub/model/user_book_rate.dart';
 import 'package:bookclub/repository/interaction.dart';
 import 'package:bookclub/repository/rate.dart';
+import 'package:bookclub/store/user.dart';
 import 'package:bookclub/view/home/newhome/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -23,12 +25,14 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  UserStore userStore = UserStore();
   List<UserBookRate> _comments = [];
   bool _isLoading = false;
   Interaction interaction = Interaction();
   bool alreadyRead = false;
   bool wantToRead = false;
   bool liked = false;
+  Loader loader = Loader();
 
   @override
   void initState() {
@@ -49,23 +53,31 @@ class _BookDetailState extends State<BookDetail> {
         distance: 112,
         children: [
           ActionButton(
-            onPressed: () => _addCommentPage(context, widget.book.id ?? 0),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _addCommentPage(context, widget.book.id ?? 0),
             icon: const Icon(Icons.add_comment_outlined),
           ),
           ActionButton(
-            onPressed: () => _dialogWantRead(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogWantRead(context),
             icon: wantToRead
                 ? const Icon(Icons.event_available, color: Colors.green)
                 : const Icon(Icons.event_available_outlined),
           ),
           ActionButton(
-            onPressed: () => _dialogAlreadyRead(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogAlreadyRead(context),
             icon: alreadyRead
                 ? const Icon(Icons.add_task, color: Colors.green)
                 : const Icon(Icons.add_task),
           ),
           ActionButton(
-            onPressed: () => _dialogLike(context),
+            onPressed: () => userStore.user.id == null
+                ? _showNecessaryLogin(context)
+                : _dialogLike(context),
             icon: liked
                 ? const Icon(Icons.favorite, color: Colors.red)
                 : const Icon(Icons.favorite_border_outlined),
@@ -125,102 +137,126 @@ class _BookDetailState extends State<BookDetail> {
     );
   }
 
-  void _addCommentPage(BuildContext context, int bookId) {
-  final TextEditingController _controller = TextEditingController();
-  double _rating = 3.0; // Valor inicial da avaliação
+  _showNecessaryLogin(context) {
+    Modal().showNecessaryLogin(context);
+  }
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Sua Avaliação'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            RatingBar.builder(
-              initialRating: _rating,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => const Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating) {
-                _rating = rating;
-              },
+  _addCommentPage(BuildContext context, int bookId) {
+    final controllerComment = TextEditingController();
+
+    double rating = 3.0;
+
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.scale,
+      dialogType: DialogType.noHeader,
+      keyboardAware: true,
+      btnOkOnPress: () async {
+        final comment = controllerComment.text;
+        if (comment.isNotEmpty) {
+          await _postComment(context, bookId, rating.toInt(), comment);
+          await _fetchComments();
+        }
+      },
+      btnOkText: 'Publicar',
+      btnOkIcon: Icons.send,
+      onDismissCallback: (type) {
+        debugPrint('Dialog Dissmiss from callback $type');
+      },
+      btnCancelText: 'Cancelar',
+      btnCancelColor: Colors.grey,
+      btnCancelOnPress: () {},
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Sua Avaliação',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                hintText: "Faça um comentário",
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+            const SizedBox(height: 20),
+            Material(
+              borderRadius: BorderRadius.circular(10),
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    rating = rating;
+                  },
                 ),
               ),
-              maxLines: 3,
+            ),
+            const SizedBox(height: 20),
+            Material(
+              borderRadius: BorderRadius.circular(10),
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: controllerComment,
+                  autofocus: true,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 2,
+                  maxLength: 100,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Mensagem',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    prefixIcon: Icon(Icons.text_fields),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('Enviar'),
-            onPressed: () async {
-              final comment = _controller.text;
-              if (comment.isNotEmpty) {
-                await _postComment(bookId, _rating.toInt(), comment);
-                Navigator.of(context).pop();
-                await _fetchComments(); // Refresh the comments
-              }
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _postComment(int bookId, int rate, String? comment) async {
-  final response = await RateRepository().createRate(bookId, rate, comment);
-
-  if (response.status == true) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Comentário enviado com sucesso!'),
-        action: SnackBarAction(
-          label: 'Desfazer',
-          onPressed: () {
-            // Código para desfazer a ação
-          },
-        ),
       ),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Falha ao enviar o comentário.'),
-      ),
-    );
+    ).show();
   }
-}
+
+  Future<void> _postComment(
+      context, int bookId, int rate, String? comment) async {
+    final response = await RateRepository().createRate(bookId, rate, comment);
+
+    if (response.status == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Comentário enviado com sucesso!'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Falha ao enviar o comentário.'),
+        ),
+      );
+    }
+  }
 
   _dialogWantRead(context) {
+    var message = '';
+    wantToRead
+        ? message = 'Deseja desmarcar esse livro como quero ler?'
+        : message = 'Deseja marcar esse livro como quero ler?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Quero Ler'),
-            content: const Text(
-                'Isso significa que você quer ler esse livro. Deseja marcar esse livro como quero ler?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -232,8 +268,8 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, wantToRead: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!,
+                      wantToRead: true);
                 },
               ),
             ],
@@ -242,13 +278,16 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   _dialogLike(context) {
+    var message = '';
+    liked
+        ? message = 'Deseja desmarcar esse livro como gostei?'
+        : message = 'Deseja marcar esse livro como gostei?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Gostei'),
-            content: const Text(
-                'Isso significa que deseja salvar esse livro nos seus favoritos. Deseja marcar esse livro como gostei?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -260,8 +299,7 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, liked: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!, liked: true);
                 },
               ),
             ],
@@ -270,13 +308,16 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   _dialogAlreadyRead(context) {
+    var message = '';
+    alreadyRead
+        ? message = 'Deseja desmarcar esse livro como ja lido?'
+        : message = 'Deseja marcar esse livro como ja lido?';
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Já Lido'),
-            content: const Text(
-                'Isso significa que você terminou de ler esse livro. Deseja marcar esse livro como já lido?'),
+            content: Text(message),
             actions: [
               TextButton(
                 child: const Text('Cancelar',
@@ -288,8 +329,8 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
               TextButton(
                 child: const Text('Sim!'),
                 onPressed: () async {
-                  _addInteraction(widget.book.id!, alreadyRead: true);
-                  Navigator.of(context).pop();
+                  await _addInteraction(context, widget.book.id!,
+                      alreadyRead: true);
                 },
               ),
             ],
@@ -298,11 +339,13 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
   }
 
   Future<void> _addInteraction(
+    context,
     int bookId, {
     bool? alreadyRead,
     bool? wantToRead,
     bool? liked,
   }) async {
+    loader.show(context);
     try {
       final response = await InteractionRepository().addInteraction(
         bookId,
@@ -311,11 +354,13 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
         liked: liked,
       );
 
+      loader.hide();
+
       if (response.status == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'Comentário enviado com sucesso!\n${response.data.toString()}'),
+                'Interação adicionada com sucesso!\n${response.data.toString()}'),
           ),
         );
       } else {
@@ -331,15 +376,19 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
     } catch (e) {
       // ignore: avoid_print
       print(e);
+      loader.hide();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Falha ao adicionar a interação.'),
         ),
       );
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 
   Future<void> _getBookInteraction(int bookId) async {
+    loader.show(context);
     final response =
         await InteractionRepository().getAllInteractionsByUserId(bookId);
     if (response.status == true) {
@@ -353,6 +402,7 @@ Future<void> _postComment(int bookId, int rate, String? comment) async {
       // ignore: avoid_print
       print(response.error);
     }
+    loader.hide();
   }
 
   _synopsis() {

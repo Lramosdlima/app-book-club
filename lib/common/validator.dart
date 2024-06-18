@@ -45,6 +45,29 @@ class Validator {
     }
   }
 
+  String? validateTitleCollection(String? value) {
+    String caractersSpecials = r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]';
+    RegExp regExp = RegExp(caractersSpecials);
+
+    if (value!.isEmpty) {
+      return "Campo obrigatório";
+    } else if (value.length < 5) {
+      return "O campo deve ter no mínimo 5 caracteres";
+    } else if (regExp.hasMatch(value)) {
+      return "O campo deve conter apenas letras";
+    }
+    return null;
+  }
+
+  String? validateDescriptionCollection(String? value) {
+    if (value!.isEmpty) {
+      return "Campo obrigatório";
+    } else if (value.length < 10) {
+      return "O campo deve ter no mínimo 10 caracteres";
+    }
+    return null;
+  }
+
   String? validateField(String? value) {
     if (value!.isEmpty) {
       return "Campo obrigatório";
