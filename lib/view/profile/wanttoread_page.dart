@@ -2,8 +2,7 @@ import 'package:bookclub/model/interaction.dart';
 import 'package:bookclub/repository/interaction.dart';
 import 'package:bookclub/view/home/newhome/book_detail.dart';
 import 'package:flutter/material.dart';
-// Importando o repositório
-import 'package:bookclub/model/book.dart'; // Importando o modelo de livro
+import 'package:bookclub/model/book.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/loader.dart';
 import 'package:bookclub/common/style_manager.dart';
@@ -17,19 +16,17 @@ class WantToReadPage extends StatefulWidget {
 }
 
 class _WantToReadPageState extends State<WantToReadPage> {
-  final InteractionRepository _interactionRepository =
-      InteractionRepository(); // Instância do repositório
-  List<Book> wantToreadBooks = []; // Lista de livros favoritos
-  List<Book> _filteredBooks = []; // Lista filtrada para pesquisa
-  bool _isLoading = false; // Estado de carregamento
+  final InteractionRepository _interactionRepository = InteractionRepository();
+  List<Book> wantToreadBooks = [];
+  List<Book> _filteredBooks = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchWantToreadBooks(); // Chame a função para obter os livros favoritos ao iniciar a página
+    _fetchWantToreadBooks();
   }
 
-  // Função para obter os livros favoritos
   void _fetchWantToreadBooks() async {
     setState(() {
       _isLoading = true;
@@ -40,8 +37,7 @@ class _WantToReadPageState extends State<WantToReadPage> {
     if (response.status == true && response.data != null) {
       List<Interaction> interactions = response.data;
 
-      List<Book> books =
-          interactions.map((interaction) => interaction.book!).toList();
+      List<Book> books = interactions.map((interaction) => interaction.book!).toList();
 
       setState(() {
         wantToreadBooks = books;
@@ -52,17 +48,14 @@ class _WantToReadPageState extends State<WantToReadPage> {
       setState(() {
         _isLoading = false;
       });
-      // Handle error
       print('Erro ao obter livros que deseja ler: ${response.error}');
     }
   }
 
-  // Função para filtrar os livros favoritos com base na pesquisa
   void _onSearch(String search) {
     setState(() {
       _filteredBooks = wantToreadBooks
-          .where((book) =>
-              book.title!.toLowerCase().contains(search.toLowerCase()))
+          .where((book) => book.title!.toLowerCase().contains(search.toLowerCase()))
           .toList();
     });
   }
@@ -79,18 +72,20 @@ class _WantToReadPageState extends State<WantToReadPage> {
             onChanged: (value) => _onSearch(value),
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[850],
-                contentPadding: const EdgeInsets.all(0),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade500,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none),
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500),
-                hintText: "Procure livros que deseje ler"),
+              filled: true,
+              fillColor: Colors.grey[850],
+              contentPadding: const EdgeInsets.all(0),
+              prefixIcon: Icon(
+                Icons.search,
+                color: Colors.grey.shade500,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50),
+                borderSide: BorderSide.none,
+              ),
+              hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+              hintText: "Procure livros que deseje ler",
+            ),
           ),
         ),
       ),
@@ -109,8 +104,7 @@ class _WantToReadPageState extends State<WantToReadPage> {
                           motion: const ScrollMotion(),
                           children: [
                             SlidableAction(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16)),
+                              borderRadius: const BorderRadius.all(Radius.circular(16)),
                               onPressed: (context) {
                                 _removeBookFromFavorites(book.id);
                               },
@@ -121,30 +115,37 @@ class _WantToReadPageState extends State<WantToReadPage> {
                             ),
                           ],
                         ),
-                        child: ListTile(
-                          leading: book.url_image != null
-                              ? ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  child: Image.network(
-                                    book.url_image!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : const Icon(Icons.book),
-                          title: Text(book.title ?? 'Título não disponível'),
-                          subtitle: Text(
-                            book.synopsis ?? 'Sinopse não disponível',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BookDetail(book: book)),
-                            );
-                          },
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16.0),
+                            leading: book.url_image != null
+                                ? ClipRRect(
+                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                    child: Image.network(
+                                      book.url_image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : const Icon(Icons.book),
+                            title: Text(book.title ?? 'Título não disponível'),
+                            subtitle: Text(
+                              book.synopsis ?? 'Sinopse não disponível',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BookDetail(book: book),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       );
                     },
@@ -153,7 +154,6 @@ class _WantToReadPageState extends State<WantToReadPage> {
     );
   }
 
-  // Função para remover um livro dos favoritos (adapte para sua lógica específica)
   void _removeBookFromFavorites(int? id) async {
     if (id == null) return;
 
