@@ -6,15 +6,15 @@ import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
-class CreateCollectionPage extends StatefulWidget {
+class CollectionFormPage extends StatefulWidget {
   final Collection? collection;
-  const CreateCollectionPage({Key? key, this.collection}) : super(key: key);
+  const CollectionFormPage({Key? key, this.collection}) : super(key: key);
 
   @override
-  State<CreateCollectionPage> createState() => _CreateCollectionPageState();
+  State<CollectionFormPage> createState() => _CollectionFormPageState();
 }
 
-class _CreateCollectionPageState extends State<CreateCollectionPage> {
+class _CollectionFormPageState extends State<CollectionFormPage> {
   final Map<String, String> _collectionData = {};
 
   final GlobalKey<FormState> _formkey = GlobalKey();

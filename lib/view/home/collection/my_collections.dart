@@ -7,7 +7,7 @@ import 'package:bookclub/common/text.dart';
 import 'package:bookclub/model/collection.dart';
 import 'package:bookclub/repository/collection.dart';
 import 'package:bookclub/store/user.dart';
-import 'package:bookclub/view/home/collection/create_collection.dart';
+import 'package:bookclub/view/home/collection/collection_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ndialog/ndialog.dart';
@@ -148,7 +148,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
   _goToCreateCollection() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const CreateCollectionPage()),
+      MaterialPageRoute(builder: (context) => const CollectionFormPage()),
     );
   }
 
@@ -156,7 +156,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CreateCollectionPage(
+          builder: (context) => CollectionFormPage(
                 collection: collection,
               )),
     );
