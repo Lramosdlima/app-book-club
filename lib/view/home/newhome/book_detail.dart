@@ -1,6 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bookclub/common/empty_page.dart';
 import 'package:bookclub/common/expandable_fab.dart';
 import 'package:bookclub/common/loader.dart';
+import 'package:bookclub/common/modal.dart';
 import 'package:bookclub/common/style_manager.dart';
 import 'package:bookclub/model/book.dart';
 import 'package:bookclub/model/interaction.dart';
@@ -111,10 +113,7 @@ class _BookDetailState extends State<BookDetail> {
                   return _synopsis();
                 } else {
                   return _isLoading
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Loader().pageLoading(),
-                        )
+                      ? Loader().pageLoading()
                       : _comments.isEmpty
                           ? const EmptyPage(text: "Sem comentários")
                           : CommentsPage(comments: _comments);
@@ -128,71 +127,157 @@ class _BookDetailState extends State<BookDetail> {
     );
   }
 
-  void _addCommentPage(BuildContext context, int bookId) {
-    final TextEditingController controller = TextEditingController();
-    double rating = 3.0; // Valor inicial da avaliação
+  _addCommentPage(BuildContext context, int bookId) {
+    final controllerComment = TextEditingController();
 
-    showDialog(
+    double rating = 3.0;
+
+    AwesomeDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Sua Avaliação'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RatingBar.builder(
-                initialRating: rating,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
+      animType: AnimType.scale,
+      dialogType: DialogType.noHeader,
+      keyboardAware: true,
+      btnOkOnPress: () async {
+        final comment = controllerComment.text;
+        if (comment.isNotEmpty) {
+          await _postComment(context, bookId, rating.toInt(), comment);
+          await _fetchComments();
+        }
+      },
+      btnOkText: 'Publicar',
+      btnOkIcon: Icons.send,
+      onDismissCallback: (type) {
+        debugPrint('Dialog Dissmiss from callback $type');
+      },
+      btnCancelText: 'Cancelar',
+      btnCancelColor: Colors.grey,
+      btnCancelOnPress: () {},
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Criar mensagem',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 20),
+            Material(
+              borderRadius: BorderRadius.circular(10),
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    rating = rating;
+                  },
                 ),
-                onRatingUpdate: (rating) {
-                  rating = rating;
-                },
               ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: controller,
-                decoration: const InputDecoration(
-                  hintText: "Faça um comentário",
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+            ),
+            const SizedBox(height: 20),
+            Material(
+              borderRadius: BorderRadius.circular(10),
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: controllerComment,
+                  autofocus: true,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 2,
+                  maxLength: 100,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Mensagem',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    prefixIcon: Icon(Icons.text_fields),
                   ),
                 ),
-                maxLines: 3,
-                maxLength: 100,
               ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child:
-                  const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Enviar'),
-              onPressed: () async {
-                final comment = controller.text;
-                if (comment.isNotEmpty) {
-                  Navigator.of(context).pop();
-                  await _postComment(context, bookId, rating.toInt(), comment);
-                  await _fetchComments(); // Refresh the comments
-                }
-              },
             ),
           ],
-        );
-      },
-    );
+        ),
+      ),
+    ).show();
   }
+
+  // void _addCommentPage(BuildContext context, int bookId) {
+  //   final TextEditingController controller = TextEditingController();
+  //   double rating = 3.0; // Valor inicial da avaliação
+
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Sua Avaliação'),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             RatingBar.builder(
+  //               initialRating: rating,
+  //               minRating: 1,
+  //               direction: Axis.horizontal,
+  //               allowHalfRating: true,
+  //               itemCount: 5,
+  //               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+  //               itemBuilder: (context, _) => const Icon(
+  //                 Icons.star,
+  //                 color: Colors.amber,
+  //               ),
+  //               onRatingUpdate: (rating) {
+  //                 rating = rating;
+  //               },
+  //             ),
+  //             const SizedBox(height: 16),
+  //             TextField(
+  //               controller: controller,
+  //               decoration: const InputDecoration(
+  //                 hintText: "Faça um comentário",
+  //                 border: OutlineInputBorder(
+  //                   borderSide: BorderSide(color: Colors.grey),
+  //                 ),
+  //               ),
+  //               maxLines: 3,
+  //               maxLength: 100,
+  //             ),
+  //           ],
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child:
+  //                 const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: const Text('Enviar'),
+  // onPressed: () async {
+  //   final comment = controller.text;
+  //   if (comment.isNotEmpty) {
+  //     Navigator.of(context).pop();
+  //     await _postComment(context, bookId, rating.toInt(), comment);
+  //     await _fetchComments(); // Refresh the comments
+  //   }
+  // },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> _postComment(
       context, int bookId, int rate, String? comment) async {
