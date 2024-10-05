@@ -60,3 +60,5 @@ O projeto nasceu com a necessidade de unir pessoas que gostam de livros e seus u
 ## Anexos
 ![image](https://github.com/user-attachments/assets/df73543a-11c8-492d-9692-6640bb08fac4)
 ![image](https://github.com/user-attachments/assets/1d37422d-b02e-40c1-9d11-2a5efe6f53ef)
+![image](https://github.com/user-attachments/assets/7ba14a12-34d2-4ed7-b678-947c0e838db6)
+
