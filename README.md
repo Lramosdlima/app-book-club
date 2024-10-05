@@ -56,3 +56,7 @@ O projeto nasceu com a necessidade de unir pessoas que gostam de livros e seus u
 - Flutter + Dart
 - dio: utilizado para fazer requisições para [API Book Club](https://github.com/Lramosdlima/api-book-club).
 - ndialog: utilizado para poder expor uma modal para os erros de requisição da API.
+
+## Anexos
+![image](https://github.com/user-attachments/assets/df73543a-11c8-492d-9692-6640bb08fac4)
+![image](https://github.com/user-attachments/assets/1d37422d-b02e-40c1-9d11-2a5efe6f53ef)
