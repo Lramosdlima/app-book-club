@@ -31,7 +31,7 @@ O projeto nasceu com a necessidade de unir pessoas que gostam de livros e seus u
 ### Home
 - Na Home existe uma TabBar com 2 itens, sendo eles: "Livros" e "Coleções" na parte superior e na parte inferior temos um NavigationBar com "Principal", "Minhas Coleções" e "Perfil";
 - Na Tab de Livros tem uma listagem dos livros avaliados pelos usuários e os mais bem avaliados;
-- Na Tab de Coleção você vê todas as coleções feita pelo usuário, e se você arrastar o card para lado (pressionando e arrastando para esquerda), apareecerá um botão que permitirá você adicionar para as "Coleções Adicionadas". Essas poderão ser vistas posteriomente na aba Perfil;
+- Na Tab de Coleção você vê todas as coleções feita pelo usuário, e se você arrastar o card para lado (pressionando e arrastando para esquerda), aparecerá um botão que permitirá você adicionar para as "Coleções Adicionadas". Essas poderão ser vistas posteriomente na aba Perfil;
 
 ### Tela do Livro
 - Ao clicar na imagem ou card de qualquer Livro nas listagens, será redirecionado àquele livro clicado. Verá o título, imagem da capa e as informações do mesmo. Embaixo terá uma lista de comentários de outros usuários;
